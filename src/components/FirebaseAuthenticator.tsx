@@ -6,8 +6,8 @@ import { AppDispatch } from '../app/store';
 
 // Firebase config
 import firebase from 'firebase/app';
-import { SerializedError } from '@reduxjs/toolkit';
-import { Alert } from 'react-native';
+// import { SerializedError } from '@reduxjs/toolkit';
+// import { Alert } from 'react-native';
 require('firebase/auth');
 
 // Firebase configuration provided to us by the app creation process
@@ -33,18 +33,18 @@ try {
 }
 
 const FirebaseAuthentication: React.FC = () => {
-  const handleSession = () => {
-    dispatch(fetchSessionProfile()).catch((serializedError: SerializedError) => {
-      Alert.alert(
-        'Something went wrong :(',
-        JSON.stringify(serializedError),
-        // TODO: Remove cancel option
-        [{ text: 'Try Again', onPress: handleSession }, { text: 'Cancel (DEBUG ONLY)' }],
+  // const handleSession = () => {
+  //   dispatch(fetchSessionProfile()).catch((serializedError: SerializedError) => {
+  //     Alert.alert(
+  //       'Something went wrong :(',
+  //       JSON.stringify(serializedError),
+  //       // TODO: Remove cancel option
+  //       [{ text: 'Try Again', onPress: handleSession }, { text: 'Cancel (DEBUG ONLY)' }],
 
-        { cancelable: false }
-      );
-    });
-  };
+  //       { cancelable: false }
+  //     );
+  //   });
+  // };
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -52,10 +52,8 @@ const FirebaseAuthentication: React.FC = () => {
     const unsubscribe = firebase.auth().onAuthStateChanged(user => {
       // This block is only executed if we are authenticated with Firebase. As a result of authenticating, we will try to fetch/sign in to our server.
       if (user) {
-        user
-          .getIdToken()
-          .then(token => dispatch(setFirebaseToken(token)))
-          .then(handleSession);
+        user.getIdToken().then(token => dispatch(setFirebaseToken(token)));
+        // .then(handleSession);
       } else {
         dispatch(signedOut());
       }

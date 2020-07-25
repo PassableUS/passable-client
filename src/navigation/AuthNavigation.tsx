@@ -13,6 +13,7 @@ import ProfileStep from '../features/login/ProfileStep';
 import { Ionicons } from '@expo/vector-icons';
 import SchoolStep from '../features/login/SchoolStep';
 import PictureSetup from '../features/login/PictureSetup';
+import SchoolDistrictStep from '../features/login/SchoolDistrictStep';
 
 // PHONE INPUT / CAPTCHA
 type PhoneInputStackParamList = {
@@ -49,6 +50,7 @@ const PhoneInputNavigation: React.FC = () => (
 
 // MAIN AUTH
 type AuthStackParamList = {
+  SchoolDistrictStep: undefined;
   Login: undefined;
   PhoneStack: undefined;
   CodeInput: {
@@ -81,6 +83,7 @@ const AuthNavigation: React.FC = () => (
       headerShown: false,
     }}
     initialRouteName="Login">
+    <Stack.Screen name="SchoolDistrictStep" component={SchoolDistrictStep} />
     <Stack.Screen name="PhoneStack" component={PhoneInputNavigation} />
     <Stack.Screen name="CodeInput" component={CodeInputStep} />
     <Stack.Screen name="ProfileSetup" component={ProfileStep} />
