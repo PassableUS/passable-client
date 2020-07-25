@@ -16,7 +16,7 @@ const schoolDistricts = [
 ];
 
 const SchoolDistrictStep = () => {
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState('');
   const [data, setData] = React.useState(schoolDistricts);
 
   const filter = (item: any, query: any) => item.name.toLowerCase().includes(query.toLowerCase());
