@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Provider } from 'react-redux';
 
-import store from './store';
+import store, { persistor } from './store';
 
 import AppNavigation from '../navigation/AppNavigation';
 
@@ -15,21 +15,22 @@ import { StatusBar } from 'react-native';
 // UI Kitten
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const App = () => {
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      <Provider store={store}>
-        <StatusBar barStyle="dark-content" />
-
-        <FirebaseAuthentication />
-        <SafeAreaProvider>
-          <NavigationContainer>
-            <AppNavigation />
-          </NavigationContainer>
-        </SafeAreaProvider>
-      </Provider>
-    </ApplicationProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <FirebaseAuthentication />
+          <SafeAreaProvider>
+            <NavigationContainer>
+              <AppNavigation />
+            </NavigationContainer>
+          </SafeAreaProvider>
+        </ApplicationProvider>
+      </PersistGate>
+    </Provider>
   );
 };
 
