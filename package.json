@@ -22,6 +22,7 @@
     "@types/redux-persist": "^4.3.1",
     "@types/webpack-env": "^1.15.1",
     "@ui-kitten/components": "^5.0.0",
+    "@ui-kitten/eva-icons": "^5.0.0",
     "axios": "^0.19.2",
     "expo": "^37.0.0",
     "expo-constants": "~9.0.0",

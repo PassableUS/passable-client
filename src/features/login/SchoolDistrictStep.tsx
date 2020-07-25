@@ -38,6 +38,8 @@ const SchoolDistrictStep = () => {
     <Button style={{ marginTop: 5, width: '100%', paddingVertical: 25 }}>{item.name}</Button>
   );
 
+  // const AlertIcon = props => <Icon {...props} name="alert-circle-outline" />;
+
   return (
     <DefaultLayout>
       <Text category="h1" style={{ marginTop: 20 }}>
@@ -46,8 +48,10 @@ const SchoolDistrictStep = () => {
       <Text category="s1">Type in the name of the school district that you wish to join</Text>
 
       <Autocomplete
+        size="large"
         style={{ width: '100%', marginTop: 50 }}
         placeholder="Type your school district name..."
+        caption="Type the full name of your school district without abbreviation"
         value={value}
         onSelect={onSelect}
         onChangeText={onChangeText}
