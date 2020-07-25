@@ -12,14 +12,14 @@ require('firebase/auth');
 
 // Firebase configuration provided to us by the app creation process
 export const firebaseConfig = {
-  apiKey: 'AIzaSyDShcJTcdshbb7K4-nUo5_QPISL_nWwqQQ',
-  authDomain: 'nocap-d8f2e.firebaseapp.com',
-  databaseURL: 'https://nocap-d8f2e.firebaseio.com',
-  projectId: 'nocap-d8f2e',
-  storageBucket: 'nocap-d8f2e.appspot.com',
-  messagingSenderId: '597176381183',
-  appId: '1:597176381183:web:b87f0ab57db7cd92cf66ca',
-  measurementId: 'G-F6V3QGNVZV',
+  apiKey: 'AIzaSyCNndD1hMiAR-yRuuLxSjRvViQGwcvLO0U',
+  authDomain: 'safepass-76e29.firebaseapp.com',
+  databaseURL: 'https://safepass-76e29.firebaseio.com',
+  projectId: 'safepass-76e29',
+  storageBucket: 'safepass-76e29.appspot.com',
+  messagingSenderId: '1063383168752',
+  appId: '1:1063383168752:web:1a3cad3e80d7c3df877435',
+  measurementId: 'G-SS5PFW3G9L',
 };
 
 // Initializes Firebase and creates an app instance
