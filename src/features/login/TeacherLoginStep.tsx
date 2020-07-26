@@ -33,7 +33,7 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
   const dispatch = useDispatch();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleNext = () => {
     // Validation
