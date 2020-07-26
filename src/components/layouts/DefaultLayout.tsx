@@ -12,9 +12,9 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => (
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      paddingHorizontal: 20,
+      // paddingHorizontal: 20,
     }}>
-    <SafeAreaView style={{ width: '100%', height: '100%' }}>
+    <SafeAreaView style={{ width: '80%', height: '100%' }}>
       <KeyboardAvoidingView
         style={{ height: '100%', width: '100%' }}
         behavior={Platform.select({ ios: 'padding', android: null })}>

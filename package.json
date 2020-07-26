@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@eva-design/eva": "^2.0.0",
+    "@expo-google-fonts/inter": "^0.1.0",
     "@expo/vector-icons": "^10.0.6",
     "@react-native-community/datetimepicker": "2.2.2",
     "@react-native-community/masked-view": "0.1.6",
@@ -27,6 +28,7 @@
     "expo": "^37.0.0",
     "expo-constants": "~9.0.0",
     "expo-firebase-recaptcha": "^1.1.0",
+    "expo-font": "~8.1.0",
     "expo-image-picker": "~8.1.0",
     "expo-linear-gradient": "~8.1.0",
     "firebase": "^7.9.3",
