@@ -46,19 +46,26 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
 
     setIsLoading(true);
 
-    auth.signInWithEmailAndPassword(email, password).catch(err => {
-      const errorCode = err.code;
-      const errorMesage = err.message;
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(res => {
+        if (res.user) {
+          alert('Signed in!');
+        }
+      })
+      .catch(err => {
+        const errorCode = err.code;
+        const errorMesage = err.message;
 
-      alert(
-        err.message +
-          ' (Error Code: ' +
-          errorCode +
-          ') \n Please check your credentials and try again.'
-      );
-      setIsLoading(false);
-      return;
-    });
+        alert(
+          err.message +
+            ' (Error Code: ' +
+            errorCode +
+            ') \n Please check your credentials and try again.'
+        );
+        setIsLoading(false);
+        return;
+      });
 
     setIsLoading(false);
     navigation.navigate('TeacherLoginStep');
@@ -97,6 +104,7 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
         placeholder="Password"
         caption="Enter the password that you were provided or previously set."
         value={password}
+        secureTextEntry
         onChangeText={text => setPassword(text)}
       />
 
