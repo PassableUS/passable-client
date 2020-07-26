@@ -1,41 +1,52 @@
 import React from 'react';
 import { Layout, Text, Autocomplete, AutocompleteItem, Button, Icon } from '@ui-kitten/components';
 import { KeyboardAvoidingView, Platform, FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
+import { db } from '../../components/FirebaseAuthenticator';
+import LottieView from 'lottie-react-native';
 
-const schoolDistricts = [
-  {
-    id: 1,
-    name: 'Martin County School District',
-  },
-  {
-    id: 2,
-    name: 'Palm Beach School District',
-  },
-];
+interface District {
+  id: string;
+  name: string;
+}
 
 const SchoolDistrictStep = () => {
+  React.useEffect(() => {
+    const unsubscribe = db.collection('districts').onSnapshot(
+      querySnapshot => {
+        let districts: District[] = [];
+        querySnapshot.forEach(function(doc) {
+          districts.push({ id: doc.id, ...doc.data() } as District);
+        });
+        setDistrictData(districts);
+        setFilteredDistricts(districts);
+      },
+      error => alert(error)
+    );
+
+    return unsubscribe;
+  }, []);
+
   const [value, setValue] = React.useState('');
-  const [data, setData] = React.useState(schoolDistricts);
+  const [districtData, setDistrictData] = React.useState<District[]>();
+  const [filteredDistricts, setFilteredDistricts] = React.useState<District[]>();
 
-  const filter = (item: any, query: any) => item.name.toLowerCase().includes(query.toLowerCase());
+  const filter = (item: District, query: string) =>
+    item.name.toLowerCase().includes(query.toLowerCase());
 
-  const onSelect = (index: number) => {
-    setValue(schoolDistricts[index].name);
-  };
-
-  const onChangeText = (query: any) => {
+  const onChangeText = (query: string) => {
     setValue(query);
-    setData(schoolDistricts.filter(item => filter(item, query)));
+    setFilteredDistricts(districtData.filter(item => filter(item, query)) as District[]);
   };
 
-  const renderOption = (item: any, index: number) => (
-    <AutocompleteItem key={index} title={item.name} />
-  );
-
-  const schoolDistrictListItem = ({ item }: any) => (
-    <Button style={{ marginTop: 5, width: '100%', paddingVertical: 25 }}>{item.name}</Button>
+  const SchoolDistrictListItem = ({ item }: { item: District }) => (
+    <Button
+      appearance="outline"
+      size="large"
+      onPress={() => alert(item.id)}
+      style={{ marginTop: 5, width: '100%', paddingVertical: 30 }}>
+      {item.name}
+    </Button>
   );
 
   // const AlertIcon = props => <Icon {...props} name="alert-circle-outline" />;
@@ -49,20 +60,31 @@ const SchoolDistrictStep = () => {
 
       <Autocomplete
         size="large"
-        style={{ width: '100%', marginTop: 50 }}
+        style={{ width: '100%', marginTop: 50, marginBottom: 20 }}
         placeholder="Type your school district name..."
         caption="Type the full name of your school district without abbreviation"
         value={value}
-        onSelect={onSelect}
         onChangeText={onChangeText}
       />
 
+      {districtData == null && (
+        <LottieView source={require('../../assets/mainLoader.json')}></LottieView>
+      )}
+
       <FlatList
         style={{ width: '100%' }}
-        data={data}
-        renderItem={schoolDistrictListItem}
+        data={filteredDistricts}
+        renderItem={SchoolDistrictListItem}
         keyExtractor={item => String(item.id)}
       />
+      {/* <LottieView
+        autoPlay
+        style={{
+          width: 400,
+          height: 400,
+          backgroundColor: '#eee',
+        }}
+        source={require('../../assets/mainLoader.json')}></LottieView> */}
     </DefaultLayout>
   );
 };

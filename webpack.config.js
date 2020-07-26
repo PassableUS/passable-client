@@ -7,6 +7,11 @@ module.exports = async function(env, argv) {
       babel: {
         dangerouslyAddModulePathsToTranspile: ['@ui-kitten/components'],
       },
+      resolve: {
+        alias: {
+          'lottie-react-native': 'react-native-web-lottie',
+        },
+      },
     },
     argv
   );

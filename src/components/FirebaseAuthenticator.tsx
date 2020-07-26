@@ -9,6 +9,7 @@ import firebase from 'firebase/app';
 // import { SerializedError } from '@reduxjs/toolkit';
 // import { Alert } from 'react-native';
 require('firebase/auth');
+require('firebase/firestore');
 
 // Firebase configuration provided to us by the app creation process
 export const firebaseConfig = {
@@ -31,6 +32,8 @@ try {
     console.error('Firebase initialization error raised', err.stack);
   }
 }
+
+export const db = firebase.firestore();
 
 const FirebaseAuthentication: React.FC = () => {
   // const handleSession = () => {
