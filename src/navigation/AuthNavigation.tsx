@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import SchoolStep from '../features/login/SchoolStep';
 import PictureSetup from '../features/login/PictureSetup';
 import SchoolDistrictStep from '../features/login/SchoolDistrictStep';
+import TeacherLoginStep from '../features/login/TeacherLoginStep';
 
 // PHONE INPUT / CAPTCHA
 type PhoneInputStackParamList = {
@@ -51,6 +52,7 @@ const PhoneInputNavigation: React.FC = () => (
 // MAIN AUTH
 type AuthStackParamList = {
   SchoolDistrictStep: undefined;
+  TeacherLoginStep: undefined;
   Login: undefined;
   PhoneStack: undefined;
   CodeInput: {
@@ -65,6 +67,15 @@ type AuthStackParamList = {
 export type CodeInputScreenRouteProp = RouteProp<AuthStackParamList, 'CodeInput'>;
 
 // Main Auth Navigation Navigation Props
+export type SchoolDistrictScreenNavigationProp = StackNavigationProp<
+  AuthStackParamList,
+  'SchoolDistrictStep'
+>;
+export type TeacherLoginScreenNavigationProp = StackNavigationProp<
+  AuthStackParamList,
+  'TeacherLoginStep'
+>;
+
 export type CodeInputScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'CodeInput'>;
 export type ProfileSetupScreenNavigationProp = StackNavigationProp<
   AuthStackParamList,
@@ -84,6 +95,7 @@ const AuthNavigation: React.FC = () => (
     }}
     initialRouteName="Login">
     <Stack.Screen name="SchoolDistrictStep" component={SchoolDistrictStep} />
+    <Stack.Screen name="TeacherLoginStep" component={TeacherLoginStep} />
     <Stack.Screen name="PhoneStack" component={PhoneInputNavigation} />
     <Stack.Screen name="CodeInput" component={CodeInputStep} />
     <Stack.Screen name="ProfileSetup" component={ProfileStep} />

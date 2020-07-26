@@ -59,8 +59,9 @@ const App = () => {
     'text-label-font-family': 'Inter_600SemiBold',
   };
   const customMapping = {
-    ...eva.mapping,
-    strict: { ...eva.mapping.strict, ...strictTheme },
+    components: {},
+    strict: strictTheme,
+    test: '',
   };
 
   if (!fontsLoaded) {
@@ -71,7 +72,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <ApplicationProvider {...eva} theme={eva.light} mapping={customMapping}>
+        <ApplicationProvider {...eva} theme={eva.light} customMapping={customMapping}>
           <FirebaseAuthentication />
           <SafeAreaProvider>
             <NavigationContainer>

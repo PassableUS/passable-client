@@ -1,65 +1,29 @@
-import { UserProfile } from './../../app/sessionSlice';
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from '../../app/rootReducer';
 
-export interface School {
-  _id: string;
-  address: string;
-  city: string;
-  county: string;
-  countyFIPS: number;
-  districtID: number;
-  endingGrade: string;
-  enrollmentCount: string;
-  lat: number;
-  level: number;
-  long: number;
+export interface District {
+  id: string;
   name: string;
-  nationalSchoolID: number;
-  startingGrade: string;
-  state: string;
-  zipCode: number;
 }
 
-export interface UserProfileResponse {
-  registrationStep: string;
-  profile: UserProfile;
+export interface UserProfile {
+  district: District;
 }
 
 const initialState: UserProfile = {
-  username: null,
-  fullName: null,
-  biography: null,
-  profilePicture: null,
-  school: null,
-  gender: null,
+  district: null,
 };
 
-export const setupFullName = createAction<string>('setup/setupFullName');
-export const setupUsername = createAction<string>('setup/setupUsername');
-export const setupProfilePicture = createAction<string>('setup/setupProfilePicture');
-export const setupSchool = createAction<School>('setup/setupSchool');
+export const setupDistrict = createAction<District>('setup/setupDistrict');
 
 const setupSlice = createSlice({
   name: 'setup',
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(setupFullName, (state: UserProfile, action: PayloadAction<string>) => {
-      state.fullName = action.payload;
-    });
-
-    builder.addCase(setupUsername, (state: UserProfile, action: PayloadAction<string>) => {
-      state.username = action.payload;
-    });
-
-    builder.addCase(setupProfilePicture, (state: UserProfile, action: PayloadAction<string>) => {
-      state.profilePicture = action.payload;
-    });
-
-    builder.addCase(setupSchool, (state: UserProfile, action: PayloadAction<School>) => {
-      state.school = action.payload;
+    builder.addCase(setupDistrict, (state: UserProfile, action: PayloadAction<District>) => {
+      state.district = action.payload;
     });
   },
 });
