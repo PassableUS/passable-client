@@ -1,8 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-
-import HomeScreen from '../features/polls/PollsScreen';
+import HomeScreen from '../features/home/index';
 
 const Tab = createBottomTabNavigator();
 

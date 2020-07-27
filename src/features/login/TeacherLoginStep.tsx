@@ -117,7 +117,7 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
           appearance={isLoading ? 'outline' : 'primary'}
           onPress={handleNext}
           size="giant">
-          Next
+          Sign In
         </Button>
       </View>
     </DefaultLayout>
