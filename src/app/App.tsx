@@ -10,7 +10,7 @@ import AppNavigation from '../navigation/AppNavigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import FirebaseAuthentication from '../components/FirebaseAuthenticator';
-import { StatusBar } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 
 // UI Kitten
 import * as eva from '@eva-design/eva';
@@ -25,6 +25,25 @@ import {
   Inter_300Light,
 } from '@expo-google-fonts/inter';
 import LoadingScreen from '../features/loader/LoadingScreen';
+import { decode, encode } from 'base-64';
+
+// Firebase Fixdeclare global {const globalAny:any = global;
+if (Platform.OS !== 'web') {
+  const globalAny: any = global;
+
+  globalAny.crypto = require('@firebase/firestore');
+  globalAny.crypto.getRandomValues = (byteArray: any) => {
+    for (let i = 0; i < byteArray.length; i++) {
+      byteArray[i] = Math.floor(256 * Math.random());
+    }
+  };
+  if (!globalAny.btoa) {
+    globalAny.btoa = encode;
+  }
+  if (!globalAny.atob) {
+    globalAny.atob = decode;
+  }
+}
 
 const App = () => {
   // Begin Custom Font Loading and Override
