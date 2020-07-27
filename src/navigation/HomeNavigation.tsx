@@ -1,6 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AnimatedTabBar, { TabsConfig, FlashyTabBarItemConfig } from '@gorhom/animated-tabbar';
+import AnimatedTabBar, {
+  TabsConfig,
+  FlashyTabBarItemConfig,
+  BubbleTabBarItemConfig,
+} from '@gorhom/animated-tabbar';
 import HomeSVG from '../svg/HomeSVG';
 import LikeSVG from '../svg/LikeSVG';
 import SearchSVG from '../svg/SearchSVG';
@@ -54,7 +58,52 @@ if (Platform.OS !== 'web') {
     },
   };
 
-  tabBarFunction = (props: any) => <AnimatedTabBar preset="flashy" tabs={tabs} {...props} />;
+  const bubbleTabs: TabsConfig<BubbleTabBarItemConfig> = {
+    Home: {
+      labelStyle: {
+        color: '#5B37B7',
+      },
+      icon: {
+        component: HomeSVG,
+        activeColor: 'rgba(91,55,183,1)',
+        inactiveColor: 'rgba(0,0,0,1)',
+      },
+      background: {
+        activeColor: 'rgba(223,215,243,1)',
+        inactiveColor: 'rgba(223,215,243,0)',
+      },
+    },
+    Search: {
+      labelStyle: {
+        color: '#E6A919',
+      },
+      icon: {
+        component: SearchSVG,
+        activeColor: 'rgba(230,169,25,1)',
+        inactiveColor: 'rgba(0,0,0,1)',
+      },
+      background: {
+        activeColor: 'rgba(230,169,25,0.25)',
+        inactiveColor: 'rgba(207,235,239,0)',
+      },
+    },
+    Profile: {
+      labelStyle: {
+        color: '#1194AA',
+      },
+      icon: {
+        component: ProfileSVG,
+        activeColor: 'rgba(17,148,170,1)',
+        inactiveColor: 'rgba(0,0,0,1)',
+      },
+      background: {
+        activeColor: 'rgba(207,235,239,1)',
+        inactiveColor: 'rgba(207,235,239,0)',
+      },
+    },
+  };
+
+  tabBarFunction = (props: any) => <AnimatedTabBar preset="bubble" tabs={bubbleTabs} {...props} />;
 }
 
 const FlashyScreen = () => {
@@ -65,14 +114,6 @@ const FlashyScreen = () => {
         // initialParams={{
         //   backgroundColor: tabs.Home.labelStyle.color,
         //   nextScreen: 'Likes',
-        // }}
-        component={HomeScreen}
-      />
-      <Tab.Screen
-        name="Likes"
-        // initialParams={{
-        //   backgroundColor: tabs.Likes.labelStyle.color,
-        //   nextScreen: 'Search',
         // }}
         component={HomeScreen}
       />
