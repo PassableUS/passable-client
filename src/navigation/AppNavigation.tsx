@@ -10,7 +10,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 type AppStackParamList = {
   Auth: object;
-  Notes: object;
+  Main: object;
   Loading: object;
 };
 
@@ -42,7 +42,7 @@ const AppNavigation: React.FC = () => {
       ) : (
         <>
           {/* User is signed in and done */}
-          <Stack.Screen name="Notes" component={HomeNavigation} />
+          <Stack.Screen name="Main" component={HomeNavigation} />
         </>
       )}
     </Stack.Navigator>

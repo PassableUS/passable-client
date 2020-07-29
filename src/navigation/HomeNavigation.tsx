@@ -11,6 +11,7 @@ import SearchSVG from '../svg/SearchSVG';
 import ProfileSVG from '../svg/ProfileSVG';
 import HomeScreen from '../features/main/HomeScreen';
 import { Platform } from 'react-native';
+import ProfileScreen from '../features/main/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -108,7 +109,7 @@ if (Platform.OS !== 'web') {
 
 const FlashyScreen = () => {
   return (
-    <Tab.Navigator tabBar={tabBarFunction}>
+    <Tab.Navigator tabBar={tabBarFunction} initialRouteName="Home">
       <Tab.Screen
         name="Home"
         // initialParams={{
@@ -131,7 +132,7 @@ const FlashyScreen = () => {
         //   backgroundColor: tabs.Profile.labelStyle.color,
         //   nextScreen: 'Home',
         // }}
-        component={HomeScreen}
+        component={ProfileScreen}
       />
     </Tab.Navigator>
   );

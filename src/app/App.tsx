@@ -88,6 +88,10 @@ const App = () => {
   }
   // End Custom Font Loading and Override
 
+  // const linking = {
+  //   prefixes: ['https://safepass.com', 'safep://'],
+  // };
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
