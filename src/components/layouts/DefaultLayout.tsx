@@ -12,6 +12,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => (
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      paddingTop: 50,
       // paddingHorizontal: 20,
     }}>
     <SafeAreaView style={{ width: '80%', height: '100%' }}>
