@@ -9,31 +9,43 @@ export interface UserProfile {}
 
 const ProfileScreen = () => {
   const [user, isAuthLoading, authError] = useAuthState(auth);
-  const [schoolData, setSchoolData] = React.useState();
-
-  const [userDoc, isUserDocLoading, userDocError] = useDocumentData(
-    db.collection('users').doc(user.uid)
-  );
+  const [schoolData, setSchoolData] = React.useState<firebase.firestore.DocumentData>();
+  const [userData, setUserData] = React.useState<firebase.firestore.DocumentData>();
+  // const [userDoc, isUserDocLoading, userDocError] = useDocumentData(
+  //   db.collection('users').doc(user.uid)
+  // );
   React.useEffect(() => {
+    console.log('Fetching Firebase Data: User Profile Information');
     const unsubscribe = db
       .collection('users')
       .doc(user.uid)
-      .get();
+      .onSnapshot(doc => {
+        const profileData = doc.data();
+        setUserData(profileData);
+        profileData.school
+          .get()
+          .then((doc: firebase.firestore.DocumentSnapshot) => setSchoolData(doc.data()));
+      });
 
     return unsubscribe;
   }, []);
 
-  if (isAuthLoading || isUserDocLoading) return <Spinner />;
+  if (isAuthLoading || !userData || !schoolData)
+    return (
+      <DefaultLayout>
+        <Spinner />
+      </DefaultLayout>
+    );
 
   return (
     <DefaultLayout>
       <Text category="h1" style={{ marginBottom: 20 }}>
         Profile
       </Text>
-      <Text category="h3">{JSON.stringify(userDoc.role)} f</Text>
-      <Text category="h4">{JSON.stringify(schoolData)}</Text>
 
       <Text category="h2">{user.displayName}</Text>
+      <Text category="h3">{userData.role}</Text>
+      <Text category="p1">{schoolData.name}</Text>
       <Button onPress={() => auth.signOut()}>Sign out</Button>
     </DefaultLayout>
   );
