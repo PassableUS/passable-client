@@ -5,8 +5,6 @@ import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 
-export interface UserProfile {}
-
 const ProfileScreen = () => {
   const [user, isAuthLoading, authError] = useAuthState(auth);
   const [schoolData, setSchoolData] = React.useState<firebase.firestore.DocumentData>();
