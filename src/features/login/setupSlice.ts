@@ -9,13 +9,17 @@ export interface District {
 
 export interface UserProfile {
   district: District;
+  userUid: string;
 }
 
 const initialState: UserProfile = {
   district: null,
+  userUid: null,
 };
 
 export const setupDistrict = createAction<District>('setup/setupDistrict');
+export const signedOut = createAction('setup/signedOut');
+export const setupFirebaseUid = createAction<string>('setup/FirebaseUid');
 
 const setupSlice = createSlice({
   name: 'setup',
@@ -24,6 +28,14 @@ const setupSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(setupDistrict, (state: UserProfile, action: PayloadAction<District>) => {
       state.district = action.payload;
+    });
+
+    builder.addCase(setupFirebaseUid, (state: UserProfile, action: PayloadAction<string>) => {
+      state.userUid = action.payload;
+    });
+
+    builder.addCase(signedOut, (state: UserProfile, action: PayloadAction) => {
+      state.userUid = null;
     });
   },
 });

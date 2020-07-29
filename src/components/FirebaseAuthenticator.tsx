@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { setFirebaseToken, signedOut, fetchSessionProfile } from '../app/sessionSlice';
 import { AppDispatch } from '../app/store';
 
 // Firebase config
 import firebase from 'firebase/app';
 // import { SerializedError } from '@reduxjs/toolkit';
 // import { Alert } from 'react-native';
+import { setupFirebaseUid, signedOut } from '../features/login/setupSlice';
 require('firebase/auth');
 require('firebase/firestore');
 
@@ -56,7 +56,7 @@ const FirebaseAuthentication: React.FC = () => {
     const unsubscribe = firebase.auth().onAuthStateChanged(user => {
       // This block is only executed if we are authenticated with Firebase. As a result of authenticating, we will try to fetch/sign in to our server.
       if (user) {
-        user.getIdToken().then(token => dispatch(setFirebaseToken(token)));
+        dispatch(setupFirebaseUid(user.uid));
         // .then(handleSession);
       } else {
         dispatch(signedOut());

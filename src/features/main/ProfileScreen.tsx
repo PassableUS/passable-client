@@ -13,7 +13,7 @@ const ProfileScreen = () => {
   //   db.collection('users').doc(user.uid)
   // );
   React.useEffect(() => {
-    console.log('Fetching Firebase Data: User Profile Information');
+    console.log('Fetching Firebase Data: User Profile Information && School Data');
     const unsubscribe = db
       .collection('users')
       .doc(user.uid)
@@ -28,7 +28,7 @@ const ProfileScreen = () => {
     return unsubscribe;
   }, []);
 
-  if (isAuthLoading || !userData || !schoolData)
+  if (!userData || !schoolData)
     return (
       <DefaultLayout>
         <Spinner />
