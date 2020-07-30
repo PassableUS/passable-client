@@ -6,15 +6,17 @@ import { RootState } from '../../app/rootReducer';
 import { useSelector } from 'react-redux';
 import firebase from 'firebase';
 import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { HomeScreenNavigationProp } from '../../navigation/HomeNavigation';
 
 interface FirestorePassRepresenation {
   id: string;
-  endTime: string;
+  endTime: { seconds: string; nanoseconds: string };
   fromLocation: string;
   fromLocationName: string;
   issuingUserUid: string;
   passSchemaVersion: number;
-  startTime: string;
+  startTime: { seconds: string; nanoseconds: string };
   toLocation: string;
   toLocationName: string;
   type: string;
@@ -28,7 +30,7 @@ const HallPass = ({ passInformation }: { passInformation: FirestorePassRepresena
   const Header = (props: any) => (
     <View {...props}>
       <Text category="h6">{passInformation.toLocationName}</Text>
-      <Text category="s1">{JSON.stringify(passInformation.endTime)}</Text>
+      <Text category="s1">{passInformation.endTime.seconds}</Text>
     </View>
   );
 
@@ -39,7 +41,7 @@ const HallPass = ({ passInformation }: { passInformation: FirestorePassRepresena
   );
 };
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const userUid = useSelector((state: RootState) => state.setup.userUid);
 
   const [userPasses, setUserPasses] = React.useState<firebase.firestore.DocumentData[]>();
@@ -74,8 +76,27 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <DefaultLayout>
-      <Text category="h1">Your Passes</Text>
+    <DefaultLayout scrollable>
+      <Text category="h1" style={{ marginTop: 25, paddingBottom: 10 }}>
+        Create Passes
+      </Text>
+
+      <View style={{ flexDirection: 'row' }}>
+        <Button
+          onPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
+          style={{ flex: 1, height: 100 }}>
+          Scan
+        </Button>
+        <Button
+          onPress={() => navigation.navigate('CreatePass', { context: 'search' })}
+          style={{ marginLeft: 5, flex: 1, height: 100 }}>
+          Create Pass
+        </Button>
+      </View>
+
+      <Text category="h1" style={{ marginTop: 25, paddingBottom: 10 }}>
+        Your Passes
+      </Text>
       {userPasses &&
         userPasses.map((pass: FirestorePassRepresenation) => {
           return <HallPass key={pass.id} passInformation={pass} />;

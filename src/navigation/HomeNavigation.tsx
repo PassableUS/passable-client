@@ -12,6 +12,13 @@ import ProfileSVG from '../svg/ProfileSVG';
 import HomeScreen from '../features/main/HomeScreen';
 import { Platform } from 'react-native';
 import ProfileScreen from '../features/main/ProfileScreen';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+  StackNavigationProp,
+} from '@react-navigation/stack';
+import CreatePassScreen from '../features/main/CreatePassScreen';
+import { Button } from '@ui-kitten/components';
 
 const Tab = createBottomTabNavigator();
 
@@ -107,7 +114,38 @@ if (Platform.OS !== 'web') {
   tabBarFunction = (props: any) => <AnimatedTabBar preset="bubble" tabs={bubbleTabs} {...props} />;
 }
 
-const FlashyScreen = () => {
+// Start Home Screen Navigation
+type HomeScreenStackParamList = {
+  Home: undefined;
+  CreatePass: { context: string };
+};
+const HomeScreenStack = createStackNavigator<HomeScreenStackParamList>();
+
+// Navigation and route props
+export type HomeScreenNavigationProp = StackNavigationProp<HomeScreenStackParamList, 'Home'>;
+
+const HomeScreenNavigation: React.FC = () => (
+  <HomeScreenStack.Navigator
+    mode="modal"
+    screenOptions={{
+      headerShown: false,
+    }}
+    initialRouteName="Home">
+    <HomeScreenStack.Screen name="Home" component={HomeScreen} />
+    <HomeScreenStack.Screen
+      name="CreatePass"
+      component={CreatePassScreen}
+      options={{
+        cardStyle: { backgroundColor: 'rgba(0, 0, 0, 1)' },
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+      }}
+    />
+  </HomeScreenStack.Navigator>
+);
+// End Home Screen Navigation
+
+const HomeNavigation = () => {
   return (
     <Tab.Navigator tabBar={tabBarFunction} initialRouteName="Home">
       <Tab.Screen
@@ -116,7 +154,7 @@ const FlashyScreen = () => {
         //   backgroundColor: tabs.Home.labelStyle.color,
         //   nextScreen: 'Likes',
         // }}
-        component={HomeScreen}
+        component={HomeScreenNavigation}
       />
       <Tab.Screen
         name="Search"
@@ -138,4 +176,4 @@ const FlashyScreen = () => {
   );
 };
 
-export default FlashyScreen;
+export default HomeNavigation;
