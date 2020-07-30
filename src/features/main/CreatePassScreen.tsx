@@ -122,7 +122,7 @@ const CreatePassScreen = ({
   //     </DefaultLayout>
   //   );
 
-  if (Platform.OS === 'web') {
+  if (Platform.OS === 'web' && route.params.context === 'scan') {
     alert(
       'Barcode scanning on the web version is not supported yet. Please use the manual search to add passes on the web'
     );
