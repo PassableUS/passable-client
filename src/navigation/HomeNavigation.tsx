@@ -123,6 +123,10 @@ const HomeScreenStack = createStackNavigator<HomeScreenStackParamList>();
 
 // Navigation and route props
 export type HomeScreenNavigationProp = StackNavigationProp<HomeScreenStackParamList, 'Home'>;
+export type CreatePassScreenNavigationProp = StackNavigationProp<
+  HomeScreenStackParamList,
+  'CreatePass'
+>;
 
 const HomeScreenNavigation: React.FC = () => (
   <HomeScreenStack.Navigator
