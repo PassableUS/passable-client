@@ -68,7 +68,6 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
       });
 
     setIsLoading(false);
-    navigation.navigate('TeacherLoginStep');
 
     // dispatch(setupDistrict(district));
   };

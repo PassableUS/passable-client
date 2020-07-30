@@ -20,6 +20,7 @@ import {
 import CreatePassScreen from '../features/main/CreatePassScreen';
 import { Button } from '@ui-kitten/components';
 import { RouteProp } from '@react-navigation/native';
+import StudentInfoScreen from '../features/main/StudentInfoScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -119,6 +120,7 @@ if (Platform.OS !== 'web') {
 type HomeScreenStackParamList = {
   Home: undefined;
   CreatePass: { context: string };
+  StudentInfo: { id?: string };
 };
 const HomeScreenStack = createStackNavigator<HomeScreenStackParamList>();
 
@@ -128,8 +130,14 @@ export type CreatePassScreenNavigationProp = StackNavigationProp<
   HomeScreenStackParamList,
   'CreatePass'
 >;
+export type StudentInfoScreenNavigationProp = StackNavigationProp<
+  HomeScreenStackParamList,
+  'StudentInfo'
+>;
+
 // Route prop types
 export type CreatePassScreenRouteProp = RouteProp<HomeScreenStackParamList, 'CreatePass'>;
+export type StudentInfoScreenRouteProp = RouteProp<HomeScreenStackParamList, 'StudentInfo'>;
 
 const HomeScreenNavigation: React.FC = () => (
   <HomeScreenStack.Navigator
@@ -142,6 +150,15 @@ const HomeScreenNavigation: React.FC = () => (
     <HomeScreenStack.Screen
       name="CreatePass"
       component={CreatePassScreen}
+      options={{
+        cardStyle: { backgroundColor: 'rgba(0, 0, 0, 1)' },
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+      }}
+    />
+    <HomeScreenStack.Screen
+      name="StudentInfo"
+      component={StudentInfoScreen}
       options={{
         cardStyle: { backgroundColor: 'rgba(0, 0, 0, 1)' },
         cardOverlayEnabled: true,

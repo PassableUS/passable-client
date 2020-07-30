@@ -51,7 +51,6 @@ const SchoolDistrictStep = ({ navigation }: SchoolDistrictStepProps) => {
   };
 
   const handleSelectDistrict = (district: District) => {
-    console.log('CKicjked');
     // Validation
     if (!district.name || !district.id) {
       alert(

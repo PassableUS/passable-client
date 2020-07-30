@@ -16,76 +16,6 @@ import LottieView from 'lottie-react-native';
 
 const StudentSearch = () => {};
 
-const Scanner = () => {
-  const [hasPermission, setHasPermission] = React.useState(null);
-  const [scanned, setScanned] = React.useState(false);
-
-  React.useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
-
-  if (hasPermission === null) {
-    return <Text>Requesting camera access to initiate scanning...</Text>;
-  }
-  if (hasPermission === false) {
-    return (
-      <Text>
-        No access to camera. Please open your settings and allow this app to access your camera.
-      </Text>
-    );
-  }
-
-  const { width } = Dimensions.get('window');
-  const qrSize = width;
-
-  const handleBarCodeScanned = ({ type, data }: any) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-  };
-
-  return (
-    <View
-      style={{
-        display: 'flex',
-        height: '100%',
-        width: '100%',
-      }}>
-      <Text category="h6" style={{ marginBottom: 10 }}>
-        Position the ID's barcode in frame
-      </Text>
-      <View style={{ flex: 3, borderRadius: 20 }}>
-        <BarCodeScanner
-          style={[
-            StyleSheet.absoluteFillObject,
-            {
-              flex: 1,
-              width: '100%',
-              alignContent: 'center',
-              alignItems: 'center',
-              justifyContent: 'center',
-            },
-          ]}
-          onBarCodeScanned={handleBarCodeScanned}>
-          <LottieView
-            loop
-            autoPlay
-            style={{
-              width: '100%',
-            }}
-            source={require('../../assets/barcodeScanning.json')}
-          />
-        </BarCodeScanner>
-      </View>
-      <View style={{ flex: 1 }}></View>
-
-      {scanned && <Button onPress={() => setScanned(false)}>Scan Again?</Button>}
-    </View>
-  );
-};
-
 const CreatePassScreen = ({
   navigation,
   route,
@@ -93,6 +23,75 @@ const CreatePassScreen = ({
   navigation: CreatePassScreenNavigationProp;
   route: CreatePassScreenRouteProp;
 }) => {
+  const Scanner = () => {
+    // TODO: ONLY CAN BE USED INSIDE THE CREATEPASS SCREEN
+    const [hasPermission, setHasPermission] = React.useState(null);
+    const [scanned, setScanned] = React.useState(false);
+
+    React.useEffect(() => {
+      (async () => {
+        const { status } = await BarCodeScanner.requestPermissionsAsync();
+        setHasPermission(status === 'granted');
+      })();
+    }, []);
+
+    if (hasPermission === null) {
+      return <Text>Requesting camera access to initiate scanning...</Text>;
+    }
+    if (hasPermission === false) {
+      return (
+        <Text>
+          No access to camera. Please open your settings and allow this app to access your camera.
+        </Text>
+      );
+    }
+
+    const handleBarCodeScanned = ({ type, data }: any) => {
+      setScanned(true);
+      alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+      navigation.navigate('StudentInfo');
+    };
+
+    return (
+      <View
+        style={{
+          display: 'flex',
+          height: '100%',
+          width: '100%',
+        }}>
+        <Text category="h6" style={{ marginBottom: 10 }}>
+          Position the ID's barcode in frame
+        </Text>
+        <View style={{ flex: 3, borderRadius: 20 }}>
+          <BarCodeScanner
+            style={[
+              StyleSheet.absoluteFillObject,
+              {
+                flex: 1,
+                width: '100%',
+                alignContent: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+              },
+            ]}
+            onBarCodeScanned={handleBarCodeScanned}>
+            <LottieView
+              loop
+              autoPlay
+              style={{
+                width: '100%',
+              }}
+              source={require('../../assets/barcodeScanning.json')}
+            />
+          </BarCodeScanner>
+        </View>
+        <View style={{ flex: 1 }}></View>
+
+        {scanned && <Button onPress={() => setScanned(false)}>Scan Again?</Button>}
+      </View>
+    );
+  };
+
   const [user, isAuthLoading, authError] = useAuthState(auth);
   // const [schoolData, setSchoolData] = React.useState<firebase.firestore.DocumentData>();
   // const [userData, setUserData] = React.useState<firebase.firestore.DocumentData>();
