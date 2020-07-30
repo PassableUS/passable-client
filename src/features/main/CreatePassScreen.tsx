@@ -41,7 +41,7 @@ const Scanner = () => {
   const { width } = Dimensions.get('window');
   const qrSize = width;
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = ({ type, data }: any) => {
     setScanned(true);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
