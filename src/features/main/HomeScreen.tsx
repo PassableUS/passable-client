@@ -48,7 +48,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
 
   React.useEffect(() => {
     console.log('Fetching Firebase Data: User -> School -> User Passes');
-    let unsubscribePasses: any;
+    let unsubscribePasses: any = () =>
+      console.log('HomeScreen component unmounted Before unsubscribePasses could be set');
     const unsubscribe = db
       .collection('users')
       .doc(userUid)

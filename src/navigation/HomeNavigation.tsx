@@ -19,6 +19,7 @@ import {
 } from '@react-navigation/stack';
 import CreatePassScreen from '../features/main/CreatePassScreen';
 import { Button } from '@ui-kitten/components';
+import { RouteProp } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -121,12 +122,14 @@ type HomeScreenStackParamList = {
 };
 const HomeScreenStack = createStackNavigator<HomeScreenStackParamList>();
 
-// Navigation and route props
+// Navigation prop types
 export type HomeScreenNavigationProp = StackNavigationProp<HomeScreenStackParamList, 'Home'>;
 export type CreatePassScreenNavigationProp = StackNavigationProp<
   HomeScreenStackParamList,
   'CreatePass'
 >;
+// Route prop types
+export type CreatePassScreenRouteProp = RouteProp<HomeScreenStackParamList, 'CreatePass'>;
 
 const HomeScreenNavigation: React.FC = () => (
   <HomeScreenStack.Navigator
