@@ -13,6 +13,7 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Platform, View, StyleSheet, Image, Dimensions } from 'react-native';
 import LottieView from 'lottie-react-native';
+import { Camera } from 'expo-camera';
 
 const StudentSearch = () => {};
 
@@ -63,7 +64,7 @@ const CreatePassScreen = ({
           Position the ID's barcode in frame
         </Text>
         <View style={{ flex: 3, borderRadius: 20 }}>
-          <BarCodeScanner
+          {/* <BarCodeScanner
             style={[
               StyleSheet.absoluteFillObject,
               {
@@ -75,6 +76,23 @@ const CreatePassScreen = ({
               },
             ]}
             onBarCodeScanned={handleBarCodeScanned}>
+           
+          </BarCodeScanner> */}
+          <Camera
+            style={[
+              StyleSheet.absoluteFillObject,
+              {
+                flex: 1,
+                width: '100%',
+                alignContent: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+              },
+            ]}
+            barCodeScannerSettings={{
+              barCodeTypes: [BarCodeScanner.Constants.BarCodeType.code39],
+            }}
+            onBarCodeScanned={handleBarCodeScanned}>
             <LottieView
               loop
               autoPlay
@@ -83,7 +101,7 @@ const CreatePassScreen = ({
               }}
               source={require('../../assets/barcodeScanning.json')}
             />
-          </BarCodeScanner>
+          </Camera>
         </View>
         <View style={{ flex: 1 }}></View>
 
