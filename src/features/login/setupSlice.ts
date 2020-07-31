@@ -7,17 +7,27 @@ export interface District {
   name: string;
 }
 
+export interface SchoolProfileRepresentation {
+  schoolName: string;
+  documentPath: string;
+}
+
 export interface UserProfile {
   district: District;
   userUid: string;
+  school: SchoolProfileRepresentation;
 }
 
 const initialState: UserProfile = {
   district: null,
   userUid: null,
+  school: null,
 };
 
 export const setupDistrict = createAction<District>('setup/setupDistrict');
+export const setupSchool = createAction<SchoolProfileRepresentation>('setup/setupSchool');
+export const setupSchoolPath = createAction<string>('setup/setupSchoolPath');
+
 export const signedOut = createAction('setup/signedOut');
 export const setupFirebaseUid = createAction<string>('setup/FirebaseUid');
 
@@ -34,8 +44,17 @@ const setupSlice = createSlice({
       state.userUid = action.payload;
     });
 
+    builder.addCase(
+      setupSchool,
+      (state: UserProfile, action: PayloadAction<SchoolProfileRepresentation>) => {
+        state.school = action.payload;
+      }
+    );
+
     builder.addCase(signedOut, (state: UserProfile, action: PayloadAction) => {
       state.userUid = null;
+      state.district = null;
+      state.school = null;
     });
   },
 });

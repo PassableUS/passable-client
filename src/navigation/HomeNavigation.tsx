@@ -120,7 +120,7 @@ if (Platform.OS !== 'web') {
 type HomeScreenStackParamList = {
   Home: undefined;
   CreatePass: { context: string };
-  StudentInfo: { id?: string };
+  StudentInfo: { id?: string; name?: string };
 };
 const HomeScreenStack = createStackNavigator<HomeScreenStackParamList>();
 

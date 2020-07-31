@@ -13,7 +13,6 @@ import { KeyboardAvoidingView, Platform, FlatList, View, Alert } from 'react-nat
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { db, auth } from '../../components/FirebaseAuthenticator';
 import LottieView from 'lottie-react-native';
-import { District, setupDistrict } from './setupSlice';
 import { useDispatch } from 'react-redux';
 import {
   SchoolDistrictScreenNavigationProp,

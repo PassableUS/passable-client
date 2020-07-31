@@ -50,7 +50,7 @@ const CreatePassScreen = ({
     const handleBarCodeScanned = ({ type, data }: any) => {
       setScanned(true);
       alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-      navigation.navigate('StudentInfo');
+      navigation.navigate('StudentInfo', { id: data });
     };
 
     return (

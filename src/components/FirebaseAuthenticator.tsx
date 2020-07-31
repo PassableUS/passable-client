@@ -7,7 +7,9 @@ import { AppDispatch } from '../app/store';
 import firebase from 'firebase/app';
 // import { SerializedError } from '@reduxjs/toolkit';
 // import { Alert } from 'react-native';
-import { setupFirebaseUid, signedOut } from '../features/login/setupSlice';
+import { setupFirebaseUid, signedOut, setupSchool } from '../features/login/setupSlice';
+import { SerializedError } from '@reduxjs/toolkit';
+import { Alert } from 'react-native';
 require('firebase/auth');
 require('firebase/firestore');
 
@@ -37,18 +39,44 @@ export const auth = firebase.auth();
 export const db = firebase.firestore();
 
 const FirebaseAuthentication: React.FC = () => {
-  // const handleSession = () => {
-  //   dispatch(fetchSessionProfile()).catch((serializedError: SerializedError) => {
-  //     Alert.alert(
-  //       'Something went wrong :(',
-  //       JSON.stringify(serializedError),
-  //       // TODO: Remove cancel option
-  //       [{ text: 'Try Again', onPress: handleSession }, { text: 'Cancel (DEBUG ONLY)' }],
+  const getCircularReplacer = () => {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  };
 
-  //       { cancelable: false }
-  //     );
-  //   });
-  // };
+  const handleSession = (userUid: string) => {
+    console.log('Setting Session State from Firestore for Uid: ' + userUid + '...');
+    db.collection('users')
+      .doc(userUid)
+      .get()
+      .then(doc => {
+        // Fetch school info
+        const schoolPath = doc.data().school.path;
+        doc
+          .data()
+          .school.get()
+          .then((doc: firebase.firestore.DocumentSnapshot) =>
+            dispatch(
+              setupSchool({
+                documentPath: schoolPath,
+                schoolName: doc.data().name,
+              })
+            )
+          )
+          .catch((e: firebase.firestore.FirestoreError) =>
+            alert('Something went wrong during initialization. Error Message: ' + e.message)
+          );
+      })
+      .catch(e => alert('Something went wrong during initialization. Error Message: ' + e));
+  };
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -57,7 +85,7 @@ const FirebaseAuthentication: React.FC = () => {
       // This block is only executed if we are authenticated with Firebase. As a result of authenticating, we will try to fetch/sign in to our server.
       if (user) {
         dispatch(setupFirebaseUid(user.uid));
-        // .then(handleSession);
+        handleSession(user.uid);
       } else {
         dispatch(signedOut());
       }
