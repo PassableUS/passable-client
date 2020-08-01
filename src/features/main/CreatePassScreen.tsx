@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Button, Spinner, Card } from '@ui-kitten/components';
+import { Text, Button, Spinner, Card, Input } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -17,8 +17,80 @@ import { Camera } from 'expo-camera';
 import { Student } from './StudentInfoScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
+import useEffect from 'react';
 
-const StudentSearch = () => {};
+export const prepareNameSearch = (inputString: string) => {
+  const removedSpacesString = inputString.replace(/\s/g, '');
+  const lowercasedString = removedSpacesString.toLowerCase();
+  return lowercasedString;
+};
+
+const StudentSearch = () => {
+  const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
+
+  const [searchText, setSearchText] = React.useState('');
+  const [matchingUsers, setMatchingUsers] = React.useState<any>();
+
+  const fallbackText = prepareNameSearch(searchText) || 'placeholder';
+  const [
+    matchingUsersCollection,
+    isMatchingUsersCollectionLoading,
+    matchingUsersCollectionError,
+  ] = useCollectionData<Student>(
+    db
+      .doc(schoolPath)
+      .collection('students')
+      .orderBy('searchName')
+      .startAt(fallbackText)
+      .endAt(fallbackText + '\uf8ff')
+      .limit(5)
+  );
+
+  // React.useEffect(() => {
+  //   console.log('Updated text', fallbackText);
+  //   db.doc(schoolPath)
+  //     .collection('students')
+  //     .orderBy('displayName')
+  //     .startAt(fallbackText)
+  //     .endAt(fallbackText + '\uf8ff')
+  //     .get()
+  //     .then(querySnapshot => {
+  //       let collectionData: any[] = [];
+  //       querySnapshot.forEach(doc => collectionData.push(doc.data()));
+  //       setMatchingUsers(collectionData);
+  //       console.log('Query searched: ' + fallbackText);
+  //       console.log(collectionData);
+  //     });
+  // }, [searchText]);
+
+  // if (isMatchingUsersCollectionLoading) {
+  //   return (
+  //     <>
+  //       <Spinner />
+  //     </>
+  //   );
+  // }
+
+  return (
+    <>
+      {/* <Text>{matchingUsersCollectionError?.message}</Text> */}
+      <Input
+        placeholder="Search for a student"
+        value={searchText}
+        onChangeText={(nextValue: string) => setSearchText(nextValue)}
+      />
+
+      {isMatchingUsersCollectionLoading && <Spinner />}
+
+      {matchingUsersCollection &&
+        matchingUsersCollection.map(student => (
+          <Text category="h1" key={student.schoolIssuedStudentId}>
+            {student.displayName}
+          </Text>
+        ))}
+    </>
+  );
+};
 
 const CreatePassScreen = ({
   navigation,
@@ -142,42 +214,6 @@ const CreatePassScreen = ({
   //     </DefaultLayout>
   //   );
 
-  const Search = () => {
-    const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
-
-    const searchText = 'Jaso';
-    const [
-      matchingUsersCollection,
-      isMatchingUsersCollectionLoading,
-      matchingUsersCollectionError,
-    ] = useCollectionData<Student>(
-      db
-        .doc(schoolPath)
-        .collection('students')
-        .orderBy('displayName')
-        .startAt(searchText)
-        .endAt(searchText + '\uf8ff')
-    );
-
-    if (isMatchingUsersCollectionLoading) {
-      return (
-        <>
-          <Spinner />
-        </>
-      );
-    }
-
-    return (
-      <>
-        <Text>{matchingUsersCollectionError?.message}</Text>
-
-        {matchingUsersCollection.map(student => (
-          <Text key={student.schoolIssuedStudentId}>{student.displayName}</Text>
-        ))}
-      </>
-    );
-  };
-
   if (Platform.OS === 'web' && route.params.context === 'scan') {
     alert(
       'Barcode scanning on the web version is not supported yet. Please use the manual search to add passes on the web'
@@ -208,7 +244,7 @@ const CreatePassScreen = ({
         </Text>
 
         {route.params.context === 'scan' && <Scanner />}
-        {route.params.context === 'search' && <Search />}
+        {route.params.context === 'search' && <StudentSearch />}
 
         {/* <Text category="h2">{user.displayName}</Text>
       <Text category="h3">{userData.role}</Text>
