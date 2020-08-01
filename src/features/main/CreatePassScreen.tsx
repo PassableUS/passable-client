@@ -17,7 +17,6 @@ import { Camera } from 'expo-camera';
 import { Student } from './StudentInfoScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
-import useEffect from 'react';
 
 export const prepareNameSearch = (inputString: string) => {
   const removedSpacesString = inputString.replace(/\s/g, '');
@@ -105,10 +104,10 @@ const CreatePassScreen = ({
     const [scanned, setScanned] = React.useState(false);
 
     React.useEffect(() => {
-      (async () => {
-        const { status } = await BarCodeScanner.requestPermissionsAsync();
-        setHasPermission(status === 'granted');
-      })();
+      // Potential source of error, no-op memory leak
+      BarCodeScanner.requestPermissionsAsync().then(({ status }) =>
+        setHasPermission(status === 'granted')
+      );
     }, []);
 
     if (hasPermission === null) {
