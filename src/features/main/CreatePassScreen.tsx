@@ -3,7 +3,7 @@ import { Text, Button, Spinner, Card } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { useDocumentData, useCollectionData } from 'react-firebase-hooks/firestore';
 import Icon from 'react-native-dynamic-vector-icons';
 import {
   CreatePassScreenNavigationProp,
@@ -14,6 +14,9 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Platform, View, StyleSheet, Image, Dimensions } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { Camera } from 'expo-camera';
+import { Student } from './StudentInfoScreen';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/rootReducer';
 
 const StudentSearch = () => {};
 
@@ -139,6 +142,42 @@ const CreatePassScreen = ({
   //     </DefaultLayout>
   //   );
 
+  const Search = () => {
+    const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
+
+    const searchText = 'Jaso';
+    const [
+      matchingUsersCollection,
+      isMatchingUsersCollectionLoading,
+      matchingUsersCollectionError,
+    ] = useCollectionData<Student>(
+      db
+        .doc(schoolPath)
+        .collection('students')
+        .orderBy('displayName')
+        .startAt(searchText)
+        .endAt(searchText + '\uf8ff')
+    );
+
+    if (isMatchingUsersCollectionLoading) {
+      return (
+        <>
+          <Spinner />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <Text>{matchingUsersCollectionError?.message}</Text>
+
+        {matchingUsersCollection.map(student => (
+          <Text key={student.schoolIssuedStudentId}>{student.displayName}</Text>
+        ))}
+      </>
+    );
+  };
+
   if (Platform.OS === 'web' && route.params.context === 'scan') {
     alert(
       'Barcode scanning on the web version is not supported yet. Please use the manual search to add passes on the web'
@@ -159,6 +198,7 @@ const CreatePassScreen = ({
             navigation.goBack();
           }}
         />
+
         <Text category="h1" style={{ marginBottom: 20 }}>
           {route.params.context}
         </Text>
@@ -168,6 +208,7 @@ const CreatePassScreen = ({
         </Text>
 
         {route.params.context === 'scan' && <Scanner />}
+        {route.params.context === 'search' && <Search />}
 
         {/* <Text category="h2">{user.displayName}</Text>
       <Text category="h3">{userData.role}</Text>

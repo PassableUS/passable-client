@@ -13,9 +13,8 @@ export interface Pass {
 }
 export interface Student {
   eventsLog: Pass[];
-  firstName: string;
+  displayName: string;
   grade: string;
-  lastName: string;
   schoolIssuedStudentId: string;
 }
 
@@ -49,7 +48,7 @@ const StudentInfoScreen = ({ route }: { route: StudentInfoScreenRouteProp }) => 
     );
 
   const SingleStudentDisplay = ({ student }: { student: Student }) => {
-    const getNumberWithOrdinal = (n: string) => {
+    const getNumberWithOrdinal = (n: number) => {
       var s = ['th', 'st', 'nd', 'rd'],
         v = n % 100;
       return n + (s[(v - 20) % 10] || s[v] || s[0]);
@@ -57,10 +56,8 @@ const StudentInfoScreen = ({ route }: { route: StudentInfoScreenRouteProp }) => 
 
     return (
       <>
-        <Text category="h1">
-          {student.firstName} {student.lastName}
-        </Text>
-        <Text category="h4">{getNumberWithOrdinal(student.grade)} Grade</Text>
+        <Text category="h1">{student.displayName}</Text>
+        <Text category="h4">{getNumberWithOrdinal(parseInt(student.grade))} Grade</Text>
       </>
     );
   };
