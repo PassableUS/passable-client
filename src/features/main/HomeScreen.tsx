@@ -8,38 +8,25 @@ import firebase from 'firebase';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { HomeScreenNavigationProp } from '../../navigation/HomeNavigation';
+import PassCard from '../../components/PassCard';
+import { Pass } from './StudentInfoScreen';
 
-interface FirestorePassRepresenation {
-  id: string;
-  endTime: { seconds: string; nanoseconds: string };
-  fromLocation: string;
-  fromLocationName: string;
-  issuingUserUid: string;
-  passSchemaVersion: number;
-  startTime: { seconds: string; nanoseconds: string };
-  toLocation: string;
-  toLocationName: string;
-  type: string;
-  passRecipientName: string;
-  issuingUserName: string;
-}
+// const HallPass = ({ passInformation }: { passInformation: FirestorePassRepresenation }) => {
+//   const [setPassTimeLeft, passTimeLeft] = React.useState();
 
-const HallPass = ({ passInformation }: { passInformation: FirestorePassRepresenation }) => {
-  const [setPassTimeLeft, passTimeLeft] = React.useState();
+//   const Header = (props: any) => (
+//     <View {...props}>
+//       <Text category="h6">{passInformation.toLocationName}</Text>
+//       <Text category="s1">{passInformation.endTime.seconds}</Text>
+//     </View>
+//   );
 
-  const Header = (props: any) => (
-    <View {...props}>
-      <Text category="h6">{passInformation.toLocationName}</Text>
-      <Text category="s1">{passInformation.endTime.seconds}</Text>
-    </View>
-  );
-
-  return (
-    <Card status="success" header={Header}>
-      <Text>{passInformation.passRecipientName} </Text>
-    </Card>
-  );
-};
+//   return (
+//     <Card status="success" header={Header}>
+//       <Text>{passInformation.passRecipientName} </Text>
+//     </Card>
+//   );
+// };
 
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const userUid = useSelector((state: RootState) => state.setup.userUid);
@@ -58,7 +45,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
         profileData.school.get().then((doc: firebase.firestore.DocumentSnapshot) => {
           unsubscribePasses = doc.ref
             .collection('passes')
-            .where('issuingUserUid', '==', userUid)
+            // TODO: Change this reference to user document when possible
+            .where('issuingUser', '==', db.collection('users').doc(userUid))
             .onSnapshot((querySnapshot: firebase.firestore.QuerySnapshot) => {
               setUserPasses(
                 querySnapshot.docs.map(doc => {
@@ -99,8 +87,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
         Your Passes
       </Text>
       {userPasses &&
-        userPasses.map((pass: FirestorePassRepresenation) => {
-          return <HallPass key={pass.id} passInformation={pass} />;
+        userPasses.map((pass: Pass) => {
+          return <PassCard key={pass.id} passInfo={{ passColor: '#F6C', ...pass }} />;
         })}
       <Button onPress={() => auth.signOut()}>Sign out</Button>
     </DefaultLayout>

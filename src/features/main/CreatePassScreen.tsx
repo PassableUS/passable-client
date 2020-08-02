@@ -204,6 +204,8 @@ const CreatePassScreen = ({
 
     // TODO: Track from location
     // TODO: ADD TIME
+    const currentDate = new Date();
+    const futureDate = new Date(currentDate.getTime() + selectedTime * 60000);
     const passData = {
       fromLocation: 'default',
       toLocation: selectedRoom.ref,
@@ -215,7 +217,7 @@ const CreatePassScreen = ({
       passRecipientName: selectedStudent.displayName,
       passSchemaVersion: 1,
       startTime: new Date(),
-      endTime: new Date(), // use SelectedTime
+      endTime: futureDate, // use SelectedTime
     };
 
     setCreationStatus('Assigning student the pass...');
