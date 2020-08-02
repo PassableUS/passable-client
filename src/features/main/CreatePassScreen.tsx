@@ -9,7 +9,7 @@ import {
   CreatePassScreenNavigationProp,
   CreatePassScreenRouteProp,
 } from '../../navigation/HomeNavigation';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Platform, View, StyleSheet, Image, Dimensions } from 'react-native';
 import LottieView from 'lottie-react-native';
@@ -50,7 +50,7 @@ export const StudentResultItem = ({
   );
 };
 
-const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Function }) => {
+export const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Function }) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
 
   const [searchText, setSearchText] = React.useState('');
@@ -84,6 +84,14 @@ const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Function 
 
       {isMatchingUsersCollectionLoading && <Spinner />}
 
+      {matchingUsersCollection?.length === 0 && searchText !== '' ? (
+        <Text category="h4">
+          No results found. Please check the spelling of the student's name.
+        </Text>
+      ) : (
+        undefined
+      )}
+
       {matchingUsersCollection &&
         matchingUsersCollection.map(student => (
           <StudentResultItem
@@ -95,7 +103,8 @@ const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Function 
     </>
   );
 };
-const Scanner = ({ handleStudentScan }: { handleStudentScan: Function }) => {
+
+export const Scanner = ({ handleStudentScan }: { handleStudentScan: Function }) => {
   const [hasPermission, setHasPermission] = React.useState(null);
   const [scanned, setScanned] = React.useState(false);
 

@@ -24,7 +24,7 @@ const DefaultLayout = ({ children, scrollable = false }: DefaultLayoutProps) =>
           paddingTop: 50,
           // paddingHorizontal: 20,
         }}>
-        <SafeAreaView style={{ width: '80%', height: '100%' }}>
+        <SafeAreaView style={{ width: '90%', height: '100%' }}>
           <KeyboardAvoidingView
             style={{ height: '100%', width: '100%' }}
             behavior={Platform.select({ ios: 'padding', android: null })}>
@@ -42,7 +42,7 @@ const DefaultLayout = ({ children, scrollable = false }: DefaultLayoutProps) =>
         paddingTop: 50,
         // paddingHorizontal: 20,
       }}>
-      <SafeAreaView style={{ width: '80%', height: '100%' }}>
+      <SafeAreaView style={{ width: '90%', height: '100%' }}>
         <KeyboardAvoidingView
           style={{ height: '100%', width: '100%' }}
           behavior={Platform.select({ ios: 'padding', android: null })}>
