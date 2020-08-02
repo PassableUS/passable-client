@@ -9,7 +9,7 @@ const Timer = ({ targetTime, timerTextStyle }: { targetTime: Date; timerTextStyl
   //@ts-ignore
   React.useEffect(() => {
     // exit early when we reach 0
-    if (currentTime > targetTime) return <Text>Expired</Text>;
+    if (currentTime > targetTime) return () => {};
 
     // save intervalId to clear the interval when the
     // component re-renders
@@ -18,7 +18,8 @@ const Timer = ({ targetTime, timerTextStyle }: { targetTime: Date; timerTextStyl
     }, 1000);
 
     // clear interval on re-render to avoid memory leaks
-    return () => clearInterval(intervalId);
+    const returnFunction = () => clearInterval(intervalId);
+    return returnFunction;
     // add timeLeft as a dependency to re-rerun the effect
     // when we update it
   }, [currentTime]);
