@@ -5,6 +5,7 @@ const Timer = ({ targetTime, timerTextStyle }: { targetTime: Date; timerTextStyl
   // initialize timeLeft with the seconds prop
   const [currentTime, setCurrentTime] = React.useState(new Date());
 
+  // TODO: Address potential TypeScript error
   //@ts-ignore
   React.useEffect(() => {
     // exit early when we reach 0
