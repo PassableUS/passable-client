@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import AnimatedTabBar, {
   TabsConfig,
   FlashyTabBarItemConfig,
@@ -19,54 +19,21 @@ import {
 } from '@react-navigation/stack';
 import CreatePassScreen from '../features/main/CreatePassScreen';
 import { Button } from '@ui-kitten/components';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, CompositeNavigationProp } from '@react-navigation/native';
 import StudentInfoScreen from '../features/main/StudentInfoScreen';
+import SearchScreen from '../features/main/SearchScreen';
 
+export type MainTabParamList = {
+  Home: undefined;
+  Search: undefined;
+  Profile: undefined;
+};
 const Tab = createBottomTabNavigator();
 
 let tabBarFunction: any = undefined;
 
 if (Platform.OS !== 'web') {
   const AnimatedTabBar = require('@gorhom/animated-tabbar').default;
-  alert('Test');
-  const tabs: TabsConfig<FlashyTabBarItemConfig> = {
-    Home: {
-      labelStyle: {
-        color: '#5B37B7',
-      },
-      icon: {
-        component: HomeSVG,
-        color: 'rgba(91,55,183,0.5)',
-      },
-    },
-    Likes: {
-      labelStyle: {
-        color: '#C9379D',
-      },
-      icon: {
-        component: LikeSVG,
-        color: 'rgba(201,55,157,0.5)',
-      },
-    },
-    Search: {
-      labelStyle: {
-        color: '#E6A919',
-      },
-      icon: {
-        component: SearchSVG,
-        color: 'rgba(230,169,25,0.5)',
-      },
-    },
-    Profile: {
-      labelStyle: {
-        color: '#1194AA',
-      },
-      icon: {
-        component: ProfileSVG,
-        color: 'rgba(17,148,170,0.5)',
-      },
-    },
-  };
 
   const bubbleTabs: TabsConfig<BubbleTabBarItemConfig> = {
     Home: {
@@ -175,6 +142,13 @@ const HomeScreenNavigation: React.FC = () => (
 );
 // End Home Screen Navigation
 
+export type SearchScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<MainTabParamList>,
+  StackNavigationProp<HomeScreenStackParamList>
+>;
+
+// TODO: Add SearchScreen to the navigation of the search tab screen
+
 const HomeNavigation = () => {
   return (
     <Tab.Navigator tabBar={tabBarFunction} initialRouteName="Home">
@@ -192,7 +166,7 @@ const HomeNavigation = () => {
         //   backgroundColor: tabs.Search.labelStyle.color,
         //   nextScreen: 'Profile',
         // }}
-        component={HomeScreen}
+        component={SearchScreen}
       />
       <Tab.Screen
         name="Profile"

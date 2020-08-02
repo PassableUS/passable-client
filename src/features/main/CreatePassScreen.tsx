@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text, Button, Spinner, Card, Input, Avatar } from '@ui-kitten/components';
+import { Text, Button, Spinner, Card, Input, Avatar, ButtonGroup } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useDocumentData, useCollectionData } from 'react-firebase-hooks/firestore';
+import { useDocumentData, useCollectionData, useCollection } from 'react-firebase-hooks/firestore';
 import Icon from 'react-native-dynamic-vector-icons';
 import {
   CreatePassScreenNavigationProp,
@@ -18,6 +18,12 @@ import { Student } from './StudentInfoScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 
+export interface Room {
+  category: string;
+  displayName: string;
+  maxPersonCount: number;
+}
+
 export const prepareNameSearch = (inputString: string) => {
   const removedSpacesString = inputString.replace(/\s/g, '');
   const lowercasedString = removedSpacesString.toLowerCase();
@@ -28,7 +34,7 @@ export const StudentResultItem = ({
   student,
   handleStudentSelect,
 }: {
-  student: Student;
+  student: firebase.firestore.DocumentData;
   handleStudentSelect: any;
 }) => {
   return (
@@ -54,22 +60,20 @@ export const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Fu
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
 
   const [searchText, setSearchText] = React.useState('');
-  const [matchingUsers, setMatchingUsers] = React.useState<any>();
 
   const fallbackText = prepareNameSearch(searchText) || 'placeholder';
   const [
     matchingUsersCollection,
     isMatchingUsersCollectionLoading,
     matchingUsersCollectionError,
-  ] = useCollectionData<Student>(
+  ] = useCollection(
     db
       .doc(schoolPath)
       .collection('students')
       .orderBy('searchName')
       .startAt(fallbackText)
       .endAt(fallbackText + '\uf8ff')
-      .limit(5),
-    { idField: 'uid' }
+      .limit(5)
   );
 
   // TODO: Display any error
@@ -77,6 +81,7 @@ export const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Fu
   return (
     <>
       <Input
+        returnKeyType="done"
         placeholder="Search for a student"
         value={searchText}
         onChangeText={(nextValue: string) => setSearchText(nextValue)}
@@ -84,7 +89,7 @@ export const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Fu
 
       {isMatchingUsersCollectionLoading && <Spinner />}
 
-      {matchingUsersCollection?.length === 0 && searchText !== '' ? (
+      {matchingUsersCollection?.docs.length === 0 && searchText !== '' ? (
         <Text category="h4">
           No results found. Please check the spelling of the student's name.
         </Text>
@@ -93,13 +98,15 @@ export const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Fu
       )}
 
       {matchingUsersCollection &&
-        matchingUsersCollection.map(student => (
-          <StudentResultItem
-            student={student}
-            key={student.schoolIssuedId}
-            handleStudentSelect={handleStudentSelect}
-          />
-        ))}
+        matchingUsersCollection.docs.map(student => {
+          return (
+            <StudentResultItem
+              student={{ ref: student.ref, ...student.data() }}
+              key={student.data().schoolIssuedId}
+              handleStudentSelect={handleStudentSelect}
+            />
+          );
+        })}
     </>
   );
 };
@@ -181,6 +188,234 @@ const CreatePassScreen = ({
   navigation: CreatePassScreenNavigationProp;
   route: CreatePassScreenRouteProp;
 }) => {
+  const [selectedStudent, setSelectedStudent] = React.useState<firebase.firestore.DocumentData>();
+  const [selectedRoom, setSelectedRoom] = React.useState<firebase.firestore.DocumentData>();
+  const [selectedTime, setSelectedTime] = React.useState(5);
+  const [step, setStep] = React.useState('selectStudent');
+  const [creationStatus, setCreationStatus] = React.useState<string>();
+  const [user, userLoading, userError] = useAuthState(auth);
+
+  const handleCreatePass = () => {
+    alert(selectedStudent.ref);
+
+    if (!user) {
+      return alert('Please wait, initializing user.');
+    }
+
+    // TODO: Track from location
+    // TODO: ADD TIME
+    const passData = {
+      fromLocation: 'default',
+      toLocation: selectedRoom.ref,
+      fromLocationName: 'default',
+      toLocationName: selectedRoom.displayName,
+      locationCategory: selectedRoom.category,
+      issuingUserName: user.displayName,
+      issuingUser: db.collection('users').doc(user.uid),
+      passRecipientName: selectedStudent.displayName,
+      passSchemaVersion: 1,
+      startTime: new Date(),
+      endTime: new Date(), // use SelectedTime
+    };
+
+    setCreationStatus('Assigning student the pass...');
+    selectedStudent.ref
+      .collection('passes')
+      .add(passData)
+      .then(() => {
+        setCreationStatus('Updating school records...');
+
+        selectedStudent.school
+          .collection('passes')
+          .add(passData)
+          .then(() => setCreationStatus('Successfully created pass...'))
+          .catch(e => alert(e.message));
+      });
+  };
+
+  const TimeSelector = () => {
+    return (
+      <View>
+        <Text>{selectedTime} minutes</Text>
+        <ButtonGroup>
+          <Button onPress={() => setSelectedTime(selectedTime + 1)}>+</Button>
+          <Button onPress={() => setSelectedTime(selectedTime - 1)}>-</Button>
+        </ButtonGroup>
+
+        {creationStatus && <Text>{creationStatus}</Text>}
+        <Button onPress={handleCreatePass}>Create Pass</Button>
+      </View>
+    );
+  };
+
+  const StudentSelector = ({ context }: { context: string }) => {
+    return (
+      <>
+        {context === 'scan' && (
+          <Scanner
+            handleStudentScan={(data: any) =>
+              navigation.navigate('StudentInfo', {
+                schoolIssuedId: data,
+                context: 'schoolIssuedId',
+              })
+            }
+          />
+        )}
+        {context === 'search' && (
+          <StudentSearch
+            handleStudentSelect={(student: firebase.firestore.DocumentData) => {
+              setSelectedStudent(student);
+
+              setStep('selectRoom');
+            }}
+          />
+        )}
+      </>
+    );
+  };
+
+  const RoomSelector = () => {
+    const [selectedCategory, setSelectedCategory] = React.useState<any>();
+
+    const SpecificRoomSelector = ({ category }: { category: any }) => {
+      const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
+
+      const [
+        matchingRoomsCollection,
+        isMatchingRoomsCollectionLoading,
+        matchingRoomsCollectionError,
+      ] = useCollection(
+        db
+          .doc(schoolPath)
+          .collection('rooms')
+          .where('category', '==', category.categorySpecifier)
+          .limit(20)
+      );
+
+      if (matchingRoomsCollectionError) {
+        return <Text>{matchingRoomsCollectionError.message}</Text>;
+      }
+
+      if (isMatchingRoomsCollectionLoading) {
+        return <Spinner />;
+      }
+
+      return (
+        <>
+          {matchingRoomsCollection.docs.map(room => (
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedRoom({ ref: room.ref, ...room.data() });
+
+                setStep('selectTime');
+              }}>
+              <View
+                style={{
+                  backgroundColor: category.color,
+                  borderRadius: 15,
+                  height: 75,
+                  width: '50%',
+                  padding: 15,
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  marginBottom: 10,
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: '600',
+                    fontFamily: 'Inter_800ExtraBold',
+                    fontSize: 20,
+                    textAlign: 'center',
+                  }}>
+                  {room.data().displayName}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </>
+      );
+    };
+    const categories = [
+      {
+        name: 'Bathrooms',
+        categorySpecifier: 'bathroom',
+        color: '#00BFFF',
+        iconGroup: 'MaterialCommunityIcons',
+        iconName: 'watermark',
+      },
+      {
+        name: 'Water Fountains',
+        categorySpecifier: 'waterfountain',
+        color: '#00D364',
+        iconGroup: 'Ionicons',
+        iconName: 'md-water',
+      },
+      {
+        name: 'Classrooms',
+        categorySpecifier: 'classroom',
+        color: '#F39',
+        iconGroup: 'Ionicons',
+        iconName: 'md-water',
+      },
+    ];
+
+    return (
+      <>
+        {!selectedCategory && (
+          <>
+            <Text>Select a category</Text>
+            {categories.map(category => (
+              <TouchableOpacity onPress={() => setSelectedCategory(category)}>
+                <View
+                  style={{
+                    backgroundColor: category.color,
+                    borderRadius: 15,
+                    height: 125,
+                    width: '50%',
+                    padding: 15,
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    marginBottom: 10,
+                  }}>
+                  <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Icon
+                      name={category.iconName}
+                      type={category.iconGroup}
+                      size={35}
+                      color="white"
+                    />
+                  </View>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontWeight: '600',
+                      fontFamily: 'Inter_800ExtraBold',
+                      fontSize: 20,
+                      textAlign: 'center',
+                    }}>
+                    {category.name}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </>
+        )}
+
+        {selectedCategory && (
+          <>
+            <Text>Select a room</Text>
+            <SpecificRoomSelector category={selectedCategory} />
+          </>
+        )}
+      </>
+    );
+  };
+
   if (Platform.OS === 'web' && route.params.context === 'scan') {
     alert(
       'Barcode scanning on the web version is not supported yet. Please use the manual search to add passes on the web'
@@ -206,23 +441,9 @@ const CreatePassScreen = ({
           Create Pass
         </Text>
 
-        {route.params.context === 'scan' && (
-          <Scanner
-            handleStudentScan={(data: any) =>
-              navigation.navigate('StudentInfo', {
-                schoolIssuedId: data,
-                context: 'schoolIssuedId',
-              })
-            }
-          />
-        )}
-        {route.params.context === 'search' && (
-          <StudentSearch
-            handleStudentSelect={(student: Student) =>
-              navigation.navigate('StudentInfo', { context: 'uid', uid: student.uid })
-            }
-          />
-        )}
+        {step === 'selectStudent' && <StudentSelector context={route.params.context} />}
+        {step === 'selectRoom' && <RoomSelector />}
+        {step === 'selectTime' && <TimeSelector />}
       </DefaultLayout>
     </>
   );
