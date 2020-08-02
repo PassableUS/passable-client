@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Button, Spinner, Card, Input } from '@ui-kitten/components';
+import { Text, Button, Spinner, Card, Input, Avatar } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -9,7 +9,7 @@ import {
   CreatePassScreenNavigationProp,
   CreatePassScreenRouteProp,
 } from '../../navigation/HomeNavigation';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Platform, View, StyleSheet, Image, Dimensions } from 'react-native';
 import LottieView from 'lottie-react-native';
@@ -24,7 +24,33 @@ export const prepareNameSearch = (inputString: string) => {
   return lowercasedString;
 };
 
-const StudentSearch = () => {
+export const StudentResultItem = ({
+  student,
+  handleStudentSelect,
+}: {
+  student: Student;
+  handleStudentSelect: any;
+}) => {
+  return (
+    <TouchableOpacity onPress={() => handleStudentSelect(student)}>
+      <View style={{ flexDirection: 'row' }}>
+        <Avatar
+          source={{
+            uri:
+              student.profilePictureUri ||
+              'https://image.shutterstock.com/image-vector/male-default-placeholder-avatar-profile-260nw-387516193.jpg',
+          }}
+        />
+        <Text>{student.displayName}</Text>
+        <Text>
+          {student.grade} | {student.schoolIssuedId}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: any }) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
 
   const [searchText, setSearchText] = React.useState('');
@@ -42,7 +68,8 @@ const StudentSearch = () => {
       .orderBy('searchName')
       .startAt(fallbackText)
       .endAt(fallbackText + '\uf8ff')
-      .limit(5)
+      .limit(5),
+    { idField: 'uid' }
   );
 
   // React.useEffect(() => {
@@ -83,9 +110,11 @@ const StudentSearch = () => {
 
       {matchingUsersCollection &&
         matchingUsersCollection.map(student => (
-          <Text category="h1" key={student.schoolIssuedStudentId}>
-            {student.displayName}
-          </Text>
+          <StudentResultItem
+            student={student}
+            key={student.schoolIssuedId}
+            handleStudentSelect={handleStudentSelect}
+          />
         ))}
     </>
   );
@@ -124,7 +153,7 @@ const CreatePassScreen = ({
     const handleBarCodeScanned = ({ type, data }: any) => {
       setScanned(true);
       alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-      navigation.navigate('StudentInfo', { id: data });
+      navigation.navigate('StudentInfo', { schoolIssuedId: data, context: 'schoolIssuedId' });
     };
 
     return (
@@ -243,7 +272,13 @@ const CreatePassScreen = ({
         </Text>
 
         {route.params.context === 'scan' && <Scanner />}
-        {route.params.context === 'search' && <StudentSearch />}
+        {route.params.context === 'search' && (
+          <StudentSearch
+            handleStudentSelect={(student: Student) =>
+              navigation.navigate('StudentInfo', { context: 'uid', uid: student.uid })
+            }
+          />
+        )}
 
         {/* <Text category="h2">{user.displayName}</Text>
       <Text category="h3">{userData.role}</Text>

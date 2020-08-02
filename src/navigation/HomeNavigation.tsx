@@ -120,7 +120,13 @@ if (Platform.OS !== 'web') {
 type HomeScreenStackParamList = {
   Home: undefined;
   CreatePass: { context: string };
-  StudentInfo: { id?: string; name?: string };
+  StudentInfo: {
+    schoolIssuedId?: string;
+    name?: string;
+    uid?: string;
+    context: string;
+    [contextResolved: string]: string;
+  }; // Context resolved is just the route.params[INSERT_RANDOM_STRING] type
 };
 const HomeScreenStack = createStackNavigator<HomeScreenStackParamList>();
 
