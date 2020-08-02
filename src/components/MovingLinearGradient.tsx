@@ -58,6 +58,7 @@ export const presetColors = {
     'rgb(152, 197, 190)',
     'rgb(100, 173, 186)',
   ],
+  blueish: ['#40E0D0', '#FF8C00', '#FF0080'],
 };
 
 interface IAnimatedGradientProps {
@@ -94,6 +95,7 @@ class AnimatedGradient extends Component<IAnimatedGradientProps> {
     Animated.parallel(
       [color0, color1].map(animatedColor => {
         return Animated.timing(animatedColor, {
+          useNativeDriver: false,
           toValue: customColors.length,
           duration: customColors.length * speed,
           easing: Easing.linear,

@@ -27,6 +27,7 @@ export interface Pass {
   endTime: firebase.firestore.Timestamp;
   locationCategory: string;
   passColor: string;
+  uid?: string;
 }
 export interface Student {
   eventsLog: Pass[];
