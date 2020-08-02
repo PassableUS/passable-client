@@ -25,6 +25,7 @@ export interface Pass {
   startTime: firebase.firestore.Timestamp;
   endTime: firebase.firestore.Timestamp;
   locationCategory: string;
+  passColor: string;
 }
 export interface Student {
   eventsLog: Pass[];
@@ -68,10 +69,21 @@ const Timer = ({ targetTime, timerTextStyle }: { targetTime: Date; timerTextStyl
 };
 
 const PassCard = ({ passInfo }: { passInfo: Pass }) => {
+  function adjustColor(color: any, amount: any) {
+    return (
+      '#' +
+      color
+        .replace(/^#/, '')
+        .replace(/../g, (color: any) =>
+          ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2)
+        )
+    );
+  }
+
   return (
     <View
       style={{
-        backgroundColor: '#00BFFF',
+        backgroundColor: passInfo.passColor,
         borderRadius: 15,
         height: 125,
         width: '50%',
@@ -94,14 +106,30 @@ const PassCard = ({ passInfo }: { passInfo: Pass }) => {
       <Timer
         timerTextStyle={{
           color: 'white',
-          fontFamily: 'Inter_600SemiBold',
           textAlign: 'center',
           fontSize: 15,
+          paddingBottom: 10,
         }}
         targetTime={passInfo.endTime.toDate()}
       />
       {/* <Text style={{ color: 'white' }}>{JSON.stringify(passInfo.endTime)} remaining</Text> */}
-      <Text style={{ color: 'white' }}>{passInfo.issuingUserName}</Text>
+      <View
+        style={{
+          backgroundColor: adjustColor(passInfo.passColor, -20),
+          borderRadius: 10,
+          padding: 5,
+        }}>
+        <Text
+          style={{
+            color: 'white',
+            fontWeight: '600',
+            fontFamily: 'Inter_600SemiBold',
+            fontSize: 15,
+            textAlign: 'center',
+          }}>
+          {passInfo.issuingUserName}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -131,7 +159,9 @@ const StudentActivePasses = ({ student }: { student: Student }) => {
       {isActivePassesCollectionLoading && <Spinner />}
       {activePassesCollectionError && <Text>{activePassesCollectionError.message}</Text>}
       {activePassesCollection && activePassesCollection.length > 0 ? (
-        activePassesCollection.map(pass => <PassCard passInfo={pass} />)
+        activePassesCollection.map(pass => (
+          <PassCard passInfo={{ passColor: '#00BFFF', ...pass }} />
+        ))
       ) : (
         <Text>No active passes found.</Text>
       )}
@@ -158,7 +188,9 @@ const SingleStudentDisplay = ({ student }: { student: Student }) => {
       />
       <Text category="h1">{student.displayName}</Text>
       <Text category="h4">{getNumberWithOrdinal(parseInt(student.grade))} Grade</Text>
-      <Text category="h1">Active Passes</Text>
+      <Text category="h1" style={{ marginTop: 20, marginBottom: 10 }}>
+        Active Passes
+      </Text>
 
       <StudentActivePasses student={student} />
       <Button>View Student History</Button>
