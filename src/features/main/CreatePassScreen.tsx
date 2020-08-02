@@ -226,26 +226,77 @@ const CreatePassScreen = ({
       .add(passData)
       .then(() => {
         setCreationStatus('Updating school records...');
-
         selectedStudent.school
           .collection('passes')
           .add(passData)
-          .then(() => setCreationStatus('Successfully created pass...'))
-          .catch(e => alert(e.message));
-      });
+          .then(() => {
+            setCreationStatus('Updating room records...');
+            selectedRoom.ref
+              .collection('passes')
+              .add(passData)
+              .then(() => setCreationStatus('Successfully created pass.'))
+              .catch((e: any) => alert(e.message));
+          })
+          .catch((e: any) => alert(e.message));
+      })
+      .catch((e: any) => alert(e.message));
+  };
+
+  const CapacityChecker = () => {
+    // TODO: Optimize this, rerenders and rereads on time increment or decrement
+    const [currentTime, _] = React.useState(new Date());
+    const [activeRoomPasses, loading, error] = useCollection(
+      selectedRoom.ref.collection('passes').where('endTime', '>=', currentTime)
+    );
+
+    if (loading) {
+      return (
+        <Card>
+          <Text category="h1">Loading room capacity information...</Text>
+          <Spinner />
+        </Card>
+      );
+    }
+
+    if (error) {
+      return (
+        <Card>
+          <Text>{error.message}</Text>
+        </Card>
+      );
+    }
+
+    return (
+      <Card>
+        <Text category="h1">Capacity Tracker</Text>
+        <Text category="h4">
+          {activeRoomPasses.docs.length}/{selectedRoom.maxPersonCount}
+        </Text>
+      </Card>
+    );
   };
 
   const TimeSelector = () => {
     return (
-      <View>
-        <Text>{selectedTime} minutes</Text>
-        <ButtonGroup>
-          <Button onPress={() => setSelectedTime(selectedTime + 1)}>+</Button>
-          <Button onPress={() => setSelectedTime(selectedTime - 1)}>-</Button>
-        </ButtonGroup>
+      <View style={{ display: 'flex', flex: 1 }}>
+        <Text category="h1">Select Pass Duration</Text>
+        <CapacityChecker />
+        <View style={{ width: '100%', alignItems: 'center', alignContent: 'center' }}>
+          <Text
+            style={{ textAlign: 'center', fontSize: 40, marginBottom: 20, marginTop: 50 }}
+            category="h1">
+            {selectedTime} minutes
+          </Text>
+          <ButtonGroup>
+            <Button onPress={() => setSelectedTime(selectedTime + 1)}>+</Button>
+            <Button onPress={() => setSelectedTime(selectedTime - 1)}>-</Button>
+          </ButtonGroup>
+        </View>
 
-        {creationStatus && <Text>{creationStatus}</Text>}
-        <Button onPress={handleCreatePass}>Create Pass</Button>
+        <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
+          {creationStatus && <Text>{creationStatus}</Text>}
+          <Button onPress={handleCreatePass}>Create Pass</Button>
+        </View>
       </View>
     );
   };
@@ -438,10 +489,6 @@ const CreatePassScreen = ({
             navigation.goBack();
           }}
         />
-
-        <Text category="h1" style={{ marginBottom: 5 }}>
-          Create Pass
-        </Text>
 
         {step === 'selectStudent' && <StudentSelector context={route.params.context} />}
         {step === 'selectRoom' && <RoomSelector />}
