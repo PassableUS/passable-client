@@ -1,7 +1,15 @@
 import React from 'react';
 import { Text } from '@ui-kitten/components';
 
-const Timer = ({ targetTime, timerTextStyle }: { targetTime: Date; timerTextStyle: any }) => {
+const Timer = ({
+  targetTime,
+  timerTextStyle,
+  setActiveStatus,
+}: {
+  targetTime: Date;
+  timerTextStyle: any;
+  setActiveStatus: any;
+}) => {
   // initialize timeLeft with the seconds prop
   const [currentTime, setCurrentTime] = React.useState(new Date());
 
@@ -9,7 +17,10 @@ const Timer = ({ targetTime, timerTextStyle }: { targetTime: Date; timerTextStyl
   //@ts-ignore
   React.useEffect(() => {
     // exit early when we reach 0
-    if (currentTime > targetTime) return () => {};
+    if (currentTime > targetTime) {
+      setActiveStatus(false);
+      return;
+    }
 
     // save intervalId to clear the interval when the
     // component re-renders

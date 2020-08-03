@@ -12,6 +12,7 @@ import PassCard from '../../components/PassCard';
 import { Pass } from './StudentInfoScreen';
 import MovingLinearGradient, { presetColors } from '../../components/MovingLinearGradient';
 import MovingGradientButton from '../../components/MovingGradientButton';
+import PassList from '../../components/PassList';
 
 // const HallPass = ({ passInformation }: { passInformation: FirestorePassRepresenation }) => {
 //   const [setPassTimeLeft, passTimeLeft] = React.useState();
@@ -103,10 +104,15 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       <Text category="h1" style={{ marginTop: 25, paddingBottom: 10 }}>
         Active Passes
       </Text>
-      {userPasses &&
-        userPasses.map((pass: Pass) => {
-          return <PassCard key={pass.uid} passInfo={{ passColor: '#F6C', ...pass }} />;
-        })}
+      {userPasses && (
+        <>
+          <PassList passesData={userPasses} />
+
+          {userPasses.map((pass: Pass) => {
+            return <PassCard key={pass.uid} passInfo={{ passColor: '#F6C', ...pass }} />;
+          })}
+        </>
+      )}
     </DefaultLayout>
   );
 };

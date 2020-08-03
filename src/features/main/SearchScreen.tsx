@@ -9,6 +9,9 @@ const SearchScreen = ({ navigation }: { navigation: SearchScreenNavigationProp }
   return (
     <DefaultLayout>
       <Text category="h1" style={{ marginBottom: 20 }}>
+        Hall Monitor
+      </Text>
+      <Text category="h1" style={{ marginBottom: 20 }}>
         Search
       </Text>
 

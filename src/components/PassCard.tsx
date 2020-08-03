@@ -4,7 +4,14 @@ import { Pass } from '../features/main/StudentInfoScreen';
 import { View } from 'react-native';
 import Timer from './Timer';
 
-const PassCard = ({ passInfo }: { passInfo: Pass }) => {
+const PassCard = ({
+  passInfo,
+  showWhenInactive = false,
+}: {
+  passInfo: Pass;
+  showWhenInactive?: boolean;
+}) => {
+  const [activeStatus, setActiveStatus] = React.useState(true);
   function adjustColor(color: any, amount: any) {
     return (
       '#' +
@@ -14,6 +21,10 @@ const PassCard = ({ passInfo }: { passInfo: Pass }) => {
           ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2)
         )
     );
+  }
+
+  if (!activeStatus && !showWhenInactive) {
+    return null;
   }
 
   return (
@@ -46,6 +57,7 @@ const PassCard = ({ passInfo }: { passInfo: Pass }) => {
           fontSize: 15,
           paddingBottom: 10,
         }}
+        setActiveStatus={(status: any) => setActiveStatus(status)}
         targetTime={passInfo.endTime.toDate()}
       />
       {/* <Text style={{ color: 'white' }}>{JSON.stringify(passInfo.endTime)} remaining</Text> */}
