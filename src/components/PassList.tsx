@@ -7,9 +7,11 @@ import { FlatList, ScrollView, View } from 'react-native';
 const PassList = ({
   passesData,
   setUserPasses,
+  destructSelf = false,
 }: {
   passesData: firebase.firestore.DocumentData[];
-  setUserPasses: any;
+  setUserPasses?: any;
+  destructSelf: boolean;
 }) => {
   // const ListPassCard = ({ item, index, onPress, style }: any) => (
   //   <PassCard
@@ -40,7 +42,11 @@ const PassList = ({
                 key={pass.uid}
                 //@ts-ignore
                 passInfo={{ passColor: '#00BFFF', ...pass }}
-                unmountPass={() => setUserPasses(passesData.filter(p => p.uid !== pass.uid))}
+                unmountPass={
+                  destructSelf
+                    ? null
+                    : () => setUserPasses(passesData.filter(p => p.uid !== pass.uid))
+                }
                 style={{
                   marginTop: 10,
                   flex: 1,
