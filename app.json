@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Safepass",
-    "slug": "safepass",
+    "name": "Passera",
+    "slug": "passera",
     "privacy": "public",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
@@ -17,7 +17,12 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.semrai.smartpass"
+    },
+    "android": {
+      "package": "com.semrai.smartpass",
+      "versionCode": 1
     },
     "entryPoint": "./src/entryPoint.tsx"
   }

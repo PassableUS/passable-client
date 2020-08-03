@@ -70,7 +70,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   }, []);
 
   return (
-    <DefaultLayout scrollable>
+    <DefaultLayout>
       <Text category="h1" style={{ marginTop: 25, paddingBottom: 10 }}>
         Create Passes
       </Text>
@@ -106,11 +106,17 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       </Text>
       {userPasses && (
         <>
-          <PassList passesData={userPasses} />
+          <PassList passesData={userPasses} setUserPasses={setUserPasses} />
 
-          {userPasses.map((pass: Pass) => {
-            return <PassCard key={pass.uid} passInfo={{ passColor: '#F6C', ...pass }} />;
-          })}
+          {/* {userPasses.map((pass: Pass) => {
+            return (
+              <PassCard
+                key={pass.uid}
+                unmountPass={() => setUserPasses(userPasses.filter(p => p.uid !== pass.uid))}
+                passInfo={{ passColor: '#F6C', ...pass }}
+              />
+            );
+          })} */}
         </>
       )}
     </DefaultLayout>

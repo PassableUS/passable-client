@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, GestureResponderEvent } from 'react-native';
+import { View, GestureResponderEvent, Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from '@ui-kitten/components';
 import MovingLinearGradient from './MovingLinearGradient';
@@ -22,9 +22,8 @@ const MovingGradientButton = ({
   return (
     <View
       style={{
-        height: 100,
+        height: Platform.OS === 'web' ? '100%' : 120,
         flex: 1,
-
         alignContent: 'center',
         justifyContent: 'center',
         display: 'flex',

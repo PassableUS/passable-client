@@ -7,9 +7,13 @@ import Timer from './Timer';
 const PassCard = ({
   passInfo,
   showWhenInactive = false,
+  style,
+  unmountPass,
 }: {
   passInfo: Pass;
   showWhenInactive?: boolean;
+  style?: any;
+  unmountPass: any;
 }) => {
   const [activeStatus, setActiveStatus] = React.useState(true);
   function adjustColor(color: any, amount: any) {
@@ -24,14 +28,14 @@ const PassCard = ({
   }
 
   if (!activeStatus && !showWhenInactive) {
-    return null;
+    unmountPass();
   }
 
   return (
     <View
       style={{
         backgroundColor: passInfo.passColor,
-        borderRadius: 15,
+        borderRadius: 10,
         height: 125,
         width: '50%',
         padding: 15,
@@ -39,6 +43,7 @@ const PassCard = ({
         justifyContent: 'space-between',
         display: 'flex',
         flexDirection: 'column',
+        ...style,
       }}>
       <Text
         style={{
