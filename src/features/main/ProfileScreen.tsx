@@ -1,9 +1,16 @@
 import React from 'react';
-import { Text, Button, Spinner } from '@ui-kitten/components';
+import { Text, Button, Spinner, Card } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { View } from 'react-native';
+
+function toTitleCase(str) {
+  return str.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
 
 const ProfileScreen = () => {
   const [user, isAuthLoading, authError] = useAuthState(auth);
@@ -35,15 +42,23 @@ const ProfileScreen = () => {
       </DefaultLayout>
     );
 
+  const Header = (props: any) => (
+    <View {...props}>
+      <Text category="h1">{user.displayName}</Text>
+      <Text category="s1">{toTitleCase(userData.role)}</Text>
+    </View>
+  );
+
   return (
     <DefaultLayout>
-      <Text category="h1" style={{ marginBottom: 20 }}>
+      <Text category="h1" style={{ marginTop: 20, marginBottom: 20 }}>
         Profile
       </Text>
 
-      <Text category="h2">{user.displayName}</Text>
-      <Text category="h3">{userData.role}</Text>
-      <Text category="p1">{schoolData.name}</Text>
+      <Card header={Header} style={{ marginBottom: 20 }}>
+        <Text category="h5">{schoolData.name}</Text>
+      </Card>
+
       <Button onPress={() => auth.signOut()}>Sign out</Button>
     </DefaultLayout>
   );

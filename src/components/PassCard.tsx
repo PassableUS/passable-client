@@ -8,14 +8,10 @@ const PassCard = ({
   passInfo,
   showWhenInactive = false,
   style,
-  unmountPass,
-  destructSelf,
 }: {
   passInfo: Pass;
   showWhenInactive?: boolean;
   style?: any;
-  unmountPass?: any;
-  destructSelf: boolean;
 }) => {
   const [activeStatus, setActiveStatus] = React.useState(true);
   function adjustColor(color: any, amount: any) {
@@ -29,11 +25,7 @@ const PassCard = ({
     );
   }
 
-  if (!activeStatus && !showWhenInactive && !destructSelf) {
-    unmountPass();
-  }
-
-  if (!activeStatus && !showWhenInactive && destructSelf) {
+  if (!activeStatus && !showWhenInactive) {
     return null;
   }
 

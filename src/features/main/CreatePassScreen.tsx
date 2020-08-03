@@ -9,14 +9,15 @@ import {
   CreatePassScreenNavigationProp,
   CreatePassScreenRouteProp,
 } from '../../navigation/HomeNavigation';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Platform, View, StyleSheet, Image, Dimensions } from 'react-native';
+import { Platform, View, StyleSheet, Image, Dimensions, ListView } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { Camera } from 'expo-camera';
 import { Student } from './StudentInfoScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
+import { getNumberWithOrdinal } from '../../components/SingleStudentDisplay';
 
 export interface Room {
   category: string;
@@ -39,18 +40,33 @@ export const StudentResultItem = ({
 }) => {
   return (
     <TouchableOpacity onPress={() => handleStudentSelect(student)}>
-      <View style={{ flexDirection: 'row' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginTop: 10,
+          backgroundColor: '#ecf0f1',
+          borderRadius: 10,
+          padding: 10,
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}>
         <Avatar
+          size="large"
           source={{
             uri:
               student.profilePictureUri ||
               'https://image.shutterstock.com/image-vector/male-default-placeholder-avatar-profile-260nw-387516193.jpg',
           }}
         />
-        <Text>{student.displayName}</Text>
-        <Text>
-          {student.grade} | {student.schoolIssuedId}
-        </Text>
+        <View style={{ marginLeft: 15 }}>
+          <Text category="h5" style={{ fontFamily: 'Inter_600SemiBold' }}>
+            {student.displayName}
+          </Text>
+          <Text category="label">
+            {getNumberWithOrdinal(parseInt(student.grade))} Grade | {student.schoolIssuedId}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -97,16 +113,19 @@ export const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Fu
         undefined
       )}
 
-      {matchingUsersCollection &&
-        matchingUsersCollection.docs.map(student => {
-          return (
-            <StudentResultItem
-              student={{ ref: student.ref, ...student.data() }}
-              key={student.data().schoolIssuedId}
-              handleStudentSelect={handleStudentSelect}
-            />
-          );
-        })}
+      {matchingUsersCollection && (
+        <ScrollView>
+          {matchingUsersCollection.docs.map(student => {
+            return (
+              <StudentResultItem
+                student={{ ref: student.ref, ...student.data() }}
+                key={student.data().schoolIssuedId}
+                handleStudentSelect={handleStudentSelect}
+              />
+            );
+          })}
+        </ScrollView>
+      )}
     </>
   );
 };
@@ -304,6 +323,9 @@ const CreatePassScreen = ({
   const StudentSelector = ({ context }: { context: string }) => {
     return (
       <>
+        <Text category="h1" style={{ marginBottom: 10 }}>
+          Search for a student
+        </Text>
         {context === 'scan' && (
           <Scanner
             handleStudentScan={(data: any) =>
@@ -481,6 +503,7 @@ const CreatePassScreen = ({
     <>
       <DefaultLayout>
         <Icon
+          style={{ marginTop: 20, marginBottom: 30 }}
           name="md-close-circle"
           type="Ionicons"
           size={35}

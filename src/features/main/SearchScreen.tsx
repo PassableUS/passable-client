@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import { useCollectionData } from 'react-firebase-hooks/firestore/';
 import PassList from '../../components/PassList';
+import { View } from 'react-native';
 
 const SearchScreen = ({ navigation }: { navigation: SearchScreenNavigationProp }) => {
   const [userPasses, setUserPasses] = React.useState<firebase.firestore.DocumentData[]>();
@@ -26,23 +27,26 @@ const SearchScreen = ({ navigation }: { navigation: SearchScreenNavigationProp }
 
   return (
     <DefaultLayout>
-      <Text category="h1" style={{ marginBottom: 20 }}>
+      <Text category="h1" style={{ marginTop: 20, marginBottom: 10 }}>
         Search
       </Text>
 
-      <StudentSearch
-        handleStudentSelect={
-          (student: Student) => alert('Searched')
-          // navigation.navigate('StudentInfo', { context: 'uid', uid: student.uid })
-        }
-      />
-      <Text category="h1" style={{ marginBottom: 20 }}>
+      <View style={{ marginBottom: 15 }}>
+        <StudentSearch
+          handleStudentSelect={
+            (student: Student) => alert('Searched')
+            // navigation.navigate('StudentInfo', { context: 'uid', uid: student.uid })
+          }
+        />
+      </View>
+
+      <Text category="h1" style={{ marginBottom: 10 }}>
         Hall Monitor
       </Text>
 
       {activePasses && (
         <>
-          <PassList passesData={activePasses} destructSelf />
+          <PassList passesData={activePasses} />
         </>
       )}
       {activePassesError && <Text category="h2">{activePassesError.message}</Text>}

@@ -61,13 +61,14 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       <View style={{ flexDirection: 'row', display: 'flex' }}>
         <MovingGradientButton
           speed={1700}
+          style={{ margin: 5 }}
           buttonText="Create"
           onButtonPress={() => navigation.navigate('CreatePass', { context: 'search' })}
         />
         <MovingGradientButton
           customColors={presetColors.blueish}
           speed={3000}
-          style={{ marginLeft: 10 }}
+          style={{ margin: 5 }}
           buttonText="Scan"
           onButtonPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
         />
@@ -78,7 +79,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       </Text>
       {userPasses && (
         <>
-          <PassList passesData={userPasses} setUserPasses={setUserPasses} />
+          <PassList passesData={userPasses} />
         </>
       )}
     </DefaultLayout>

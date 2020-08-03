@@ -3,13 +3,13 @@ import { Student } from '../features/main/StudentInfoScreen';
 import { Avatar, Button, Text } from '@ui-kitten/components';
 import StudentActivePasses from './StudentActivePasses';
 
-const SingleStudentDisplay = ({ student }: { student: Student }) => {
-  const getNumberWithOrdinal = (n: number) => {
-    var s = ['th', 'st', 'nd', 'rd'],
-      v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
-  };
+export const getNumberWithOrdinal = (n: number) => {
+  let s = ['th', 'st', 'nd', 'rd'],
+    v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+};
 
+const SingleStudentDisplay = ({ student }: { student: Student }) => {
   return (
     <>
       <Avatar
