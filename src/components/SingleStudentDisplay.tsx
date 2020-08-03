@@ -27,13 +27,14 @@ const SingleStudentDisplay = ({ student }: { student: Student }) => {
         <View style={{ marginLeft: 15 }}>
           <Text category="h1">{student.displayName}</Text>
           <Text category="h4">{getNumberWithOrdinal(parseInt(student.grade))} Grade</Text>
+          <Text category="label">{student.schoolIssuedId}</Text>
         </View>
       </View>
       <Text category="h1" style={{ marginTop: 20, marginBottom: 10 }}>
         Active Passes
       </Text>
 
-      <StudentActivePasses student={student} />
+      <StudentActivePasses displayTeacher student={student} />
       <Button style={{ marginTop: 5 }}>View Student History</Button>
     </>
   );

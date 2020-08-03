@@ -4,7 +4,13 @@ import { firestore } from 'firebase';
 import PassCard from './PassCard';
 import { FlatList, ScrollView, View } from 'react-native';
 
-const PassList = ({ passesData }: { passesData: firebase.firestore.DocumentData[] }) => {
+const PassList = ({
+  passesData,
+  displayTeacher,
+}: {
+  passesData: firebase.firestore.DocumentData[];
+  displayTeacher: boolean;
+}) => {
   // const ListPassCard = ({ item, index, onPress, style }: any) => (
   //   <PassCard
   //   unmountPass
@@ -31,6 +37,7 @@ const PassList = ({ passesData }: { passesData: firebase.firestore.DocumentData[
           {passesData.map((pass, index) => {
             return (
               <PassCard
+                displayTeacher={displayTeacher}
                 key={pass.uid}
                 //@ts-ignore
                 passInfo={{ passColor: '#00BFFF', ...pass }}

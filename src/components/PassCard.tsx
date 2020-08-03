@@ -3,15 +3,18 @@ import { Text } from '@ui-kitten/components';
 import { Pass } from '../features/main/StudentInfoScreen';
 import { View } from 'react-native';
 import Timer from './Timer';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const PassCard = ({
   passInfo,
   showWhenInactive = false,
   style,
+  displayTeacher,
 }: {
   passInfo: Pass;
   showWhenInactive?: boolean;
   style?: any;
+  displayTeacher?: boolean;
 }) => {
   const [activeStatus, setActiveStatus] = React.useState(true);
   function adjustColor(color: any, amount: any) {
@@ -30,7 +33,11 @@ const PassCard = ({
   }
 
   return (
-    <View
+    <LinearGradient
+      colors={[passInfo.passColor, adjustColor(passInfo.passColor, -50)]}
+      start={[0.0, 0.5]}
+      end={[1.0, 0.5]}
+      locations={[0.0, 1.0]}
       style={{
         backgroundColor: passInfo.passColor,
         borderRadius: 10,
@@ -66,7 +73,6 @@ const PassCard = ({
       {/* <Text style={{ color: 'white' }}>{JSON.stringify(passInfo.endTime)} remaining</Text> */}
       <View
         style={{
-          backgroundColor: adjustColor(passInfo.passColor, -20),
           borderRadius: 10,
           padding: 5,
         }}>
@@ -78,10 +84,10 @@ const PassCard = ({
             fontSize: 15,
             textAlign: 'center',
           }}>
-          {passInfo.issuingUserName}
+          {displayTeacher ? 'Teacher: ' + passInfo.issuingUserName : passInfo.passRecipientName}
         </Text>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
