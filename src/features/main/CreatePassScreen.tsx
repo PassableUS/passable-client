@@ -422,7 +422,7 @@ const CreatePassScreen = ({
           <ScrollView>
             <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
               {matchingRoomsCollection.docs.map(room => (
-                <TouchableHighlight
+                <TouchableOpacity
                   key={category.categorySpecifier}
                   onPress={() => {
                     setSelectedRoom({ ref: room.ref, ...room.data() });
@@ -454,7 +454,7 @@ const CreatePassScreen = ({
                       {room.data().displayName}
                     </Text>
                   </>
-                </TouchableHighlight>
+                </TouchableOpacity>
               ))}
             </View>
           </ScrollView>
@@ -495,7 +495,7 @@ const CreatePassScreen = ({
             <ScrollView>
               <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 {categories.map(category => (
-                  <TouchableHighlight
+                  <TouchableOpacity
                     key={category.categorySpecifier}
                     onPress={() => setSelectedCategory(category)}
                     style={{
@@ -531,7 +531,7 @@ const CreatePassScreen = ({
                         {category.name}
                       </Text>
                     </>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 ))}
               </View>
             </ScrollView>
