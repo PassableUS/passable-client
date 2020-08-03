@@ -14,23 +14,6 @@ import MovingLinearGradient, { presetColors } from '../../components/MovingLinea
 import MovingGradientButton from '../../components/MovingGradientButton';
 import PassList from '../../components/PassList';
 
-// const HallPass = ({ passInformation }: { passInformation: FirestorePassRepresenation }) => {
-//   const [setPassTimeLeft, passTimeLeft] = React.useState();
-
-//   const Header = (props: any) => (
-//     <View {...props}>
-//       <Text category="h6">{passInformation.toLocationName}</Text>
-//       <Text category="s1">{passInformation.endTime.seconds}</Text>
-//     </View>
-//   );
-
-//   return (
-//     <Card status="success" header={Header}>
-//       <Text>{passInformation.passRecipientName} </Text>
-//     </Card>
-//   );
-// };
-
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const userUid = useSelector((state: RootState) => state.setup.userUid);
   const [currentTime, setCurrentTime] = React.useState(new Date());
@@ -88,17 +71,6 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
           buttonText="Scan"
           onButtonPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
         />
-
-        {/* <Button
-          onPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
-          style={{ flex: 1, height: 100 }}>
-          Scan
-        </Button>
-        <Button
-          
-          style={{ marginLeft: 5, flex: 1, height: 100 }}>
-          Create Pass
-        </Button> */}
       </View>
 
       <Text category="h1" style={{ marginTop: 25, paddingBottom: 10 }}>
@@ -107,16 +79,6 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       {userPasses && (
         <>
           <PassList passesData={userPasses} setUserPasses={setUserPasses} />
-
-          {/* {userPasses.map((pass: Pass) => {
-            return (
-              <PassCard
-                key={pass.uid}
-                unmountPass={() => setUserPasses(userPasses.filter(p => p.uid !== pass.uid))}
-                passInfo={{ passColor: '#F6C', ...pass }}
-              />
-            );
-          })} */}
         </>
       )}
     </DefaultLayout>
