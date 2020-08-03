@@ -11,7 +11,15 @@ import {
 } from '../../navigation/HomeNavigation';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Platform, View, StyleSheet, Image, Dimensions, ListView } from 'react-native';
+import {
+  Platform,
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  ListView,
+  TouchableHighlight,
+} from 'react-native';
 import LottieView from 'lottie-react-native';
 import { Camera } from 'expo-camera';
 import { Student } from './StudentInfoScreen';
@@ -215,10 +223,8 @@ const CreatePassScreen = ({
   const [user, userLoading, userError] = useAuthState(auth);
 
   const handleCreatePass = () => {
-    alert(selectedStudent.ref);
-
     if (!user) {
-      return alert('Please wait, initializing user.');
+      return alert('Please retry, failed to initialize user.');
     }
 
     // TODO: Track from location
@@ -253,7 +259,11 @@ const CreatePassScreen = ({
             selectedRoom.ref
               .collection('passes')
               .add(passData)
-              .then(() => setCreationStatus('Successfully created pass.'))
+              .then(() => {
+                setCreationStatus('Successfully created pass.');
+                alert('Successfully created pass!');
+                navigation.navigate('Home');
+              })
               .catch((e: any) => alert(e.message));
           })
           .catch((e: any) => alert(e.message));
@@ -270,8 +280,10 @@ const CreatePassScreen = ({
 
     if (loading) {
       return (
-        <Card>
-          <Text category="h1">Loading room capacity information...</Text>
+        <Card style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={{ textAlign: 'center' }} category="h1">
+            Loading room capacity information...
+          </Text>
           <Spinner />
         </Card>
       );
@@ -284,21 +296,49 @@ const CreatePassScreen = ({
         </Card>
       );
     }
+    const currentCount = activeRoomPasses.docs.length;
 
     return (
-      <Card>
-        <Text category="h1">Capacity Tracker</Text>
-        <Text category="h4">
-          {activeRoomPasses.docs.length}/{selectedRoom.maxPersonCount}
+      <Card style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Text
+          style={{ textAlign: 'center', fontFamily: 'Inter_600SemiBold', fontSize: 20 }}
+          category="s1">
+          Capacity Tracker
         </Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end' }}>
+          <Text
+            style={{
+              fontSize: 40,
+              textAlign: 'center',
+              color: currentCount > selectedRoom.maxPersonCount ? 'red' : 'green',
+            }}
+            category="h1">
+            {currentCount}
+          </Text>
+          <Text category="h3">/{selectedRoom.maxPersonCount}</Text>
+        </View>
       </Card>
     );
   };
+  const LoadingIndicator = props => (
+    <View
+      style={[
+        props.style,
+        {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+      ]}>
+      <Spinner size="small" />
+    </View>
+  );
 
   const TimeSelector = () => {
     return (
       <View style={{ display: 'flex', flex: 1 }}>
-        <Text category="h1">Select Pass Duration</Text>
+        <Text style={{ marginBottom: 10 }} category="h1">
+          Select Pass Duration
+        </Text>
         <CapacityChecker />
         <View style={{ width: '100%', alignItems: 'center', alignContent: 'center' }}>
           <Text
@@ -313,8 +353,10 @@ const CreatePassScreen = ({
         </View>
 
         <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
-          {creationStatus && <Text>{creationStatus}</Text>}
-          <Button onPress={handleCreatePass}>Create Pass</Button>
+          {creationStatus && <Text category="s1">{creationStatus}</Text>}
+          <Button status="success" onPress={handleCreatePass}>
+            {creationStatus || 'Create Pass'}
+          </Button>
         </View>
       </View>
     );
@@ -377,39 +419,45 @@ const CreatePassScreen = ({
 
       return (
         <>
-          {matchingRoomsCollection.docs.map(room => (
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedRoom({ ref: room.ref, ...room.data() });
+          <ScrollView>
+            <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+              {matchingRoomsCollection.docs.map(room => (
+                <TouchableHighlight
+                  key={category.categorySpecifier}
+                  onPress={() => {
+                    setSelectedRoom({ ref: room.ref, ...room.data() });
 
-                setStep('selectTime');
-              }}>
-              <View
-                style={{
-                  backgroundColor: category.color,
-                  borderRadius: 15,
-                  height: 75,
-                  width: '50%',
-                  padding: 15,
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  marginBottom: 10,
-                }}>
-                <Text
+                    setStep('selectTime');
+                  }}
                   style={{
-                    color: 'white',
-                    fontWeight: '600',
-                    fontFamily: 'Inter_800ExtraBold',
-                    fontSize: 20,
-                    textAlign: 'center',
+                    flex: 1,
+                    backgroundColor: category.color,
+                    borderRadius: 10,
+                    padding: 15,
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                    display: 'flex',
+                    minWidth: 125,
+                    height: 150,
+                    margin: 5,
                   }}>
-                  {room.data().displayName}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))}
+                  <>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontWeight: '600',
+                        fontFamily: 'Inter_800ExtraBold',
+                        fontSize: 20,
+                        textAlign: 'center',
+                        flexWrap: 'wrap',
+                      }}>
+                      {room.data().displayName}
+                    </Text>
+                  </>
+                </TouchableHighlight>
+              ))}
+            </View>
+          </ScrollView>
         </>
       );
     };
@@ -441,49 +489,60 @@ const CreatePassScreen = ({
       <>
         {!selectedCategory && (
           <>
-            <Text>Select a category</Text>
-            {categories.map(category => (
-              <TouchableOpacity onPress={() => setSelectedCategory(category)}>
-                <View
-                  style={{
-                    backgroundColor: category.color,
-                    borderRadius: 15,
-                    height: 125,
-                    width: '50%',
-                    padding: 15,
-                    alignContent: 'center',
-                    justifyContent: 'center',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    marginBottom: 10,
-                  }}>
-                  <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Icon
-                      name={category.iconName}
-                      type={category.iconGroup}
-                      size={35}
-                      color="white"
-                    />
-                  </View>
-                  <Text
+            <Text category="h1" style={{ marginBottom: 10 }}>
+              Select a category
+            </Text>
+            <ScrollView>
+              <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                {categories.map(category => (
+                  <TouchableHighlight
+                    key={category.categorySpecifier}
+                    onPress={() => setSelectedCategory(category)}
                     style={{
-                      color: 'white',
-                      fontWeight: '600',
-                      fontFamily: 'Inter_800ExtraBold',
-                      fontSize: 20,
-                      textAlign: 'center',
+                      flex: 1,
+                      backgroundColor: category.color,
+                      borderRadius: 10,
+                      padding: 15,
+                      alignContent: 'center',
+                      justifyContent: 'center',
+                      display: 'flex',
+                      minWidth: 125,
+                      height: 150,
+                      margin: 5,
                     }}>
-                    {category.name}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
+                    <>
+                      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Icon
+                          name={category.iconName}
+                          type={category.iconGroup}
+                          size={35}
+                          color="white"
+                        />
+                      </View>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontWeight: '600',
+                          fontFamily: 'Inter_800ExtraBold',
+                          fontSize: 20,
+                          textAlign: 'center',
+                          flexWrap: 'wrap',
+                        }}>
+                        {category.name}
+                      </Text>
+                    </>
+                  </TouchableHighlight>
+                ))}
+              </View>
+            </ScrollView>
           </>
         )}
 
         {selectedCategory && (
           <>
-            <Text>Select a room</Text>
+            <Text category="h1" style={{ marginBottom: 10 }}>
+              Select a room
+            </Text>
             <SpecificRoomSelector category={selectedCategory} />
           </>
         )}
