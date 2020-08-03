@@ -51,7 +51,7 @@ const ProfileScreen = () => {
 
   return (
     <DefaultLayout>
-      <Text category="h1" style={{ marginTop: 20, marginBottom: 20 }}>
+      <Text category="h1" style={{ marginTop: 30, marginBottom: 20 }}>
         Profile
       </Text>
 

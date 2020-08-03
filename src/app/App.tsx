@@ -92,6 +92,8 @@ const App = () => {
   //   prefixes: ['https://safepass.com', 'safep://'],
   // };
 
+  StatusBar.setBarStyle('dark-content', true);
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

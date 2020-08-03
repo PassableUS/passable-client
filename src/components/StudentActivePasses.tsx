@@ -6,6 +6,7 @@ import { RootState } from '../app/rootReducer';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db } from './FirebaseAuthenticator';
 import PassCard from './PassCard';
+import PassList from './PassList';
 
 const StudentActivePasses = ({ student }: { student: Student }) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
@@ -32,11 +33,9 @@ const StudentActivePasses = ({ student }: { student: Student }) => {
       {isActivePassesCollectionLoading && <Spinner />}
       {activePassesCollectionError && <Text>{activePassesCollectionError.message}</Text>}
       {activePassesCollection && activePassesCollection.length > 0 ? (
-        activePassesCollection.map(pass => (
-          <PassCard passInfo={{ passColor: '#00BFFF', ...pass }} />
-        ))
+        <PassList passesData={activePassesCollection} />
       ) : (
-        <Text>No active passes found.</Text>
+        <Text category="s1">No active passes found.</Text>
       )}
     </>
   );

@@ -115,11 +115,11 @@ export const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Fu
 
       {matchingUsersCollection && (
         <ScrollView>
-          {matchingUsersCollection.docs.map(student => {
+          {matchingUsersCollection.docs.map(snap => {
             return (
               <StudentResultItem
-                student={{ ref: student.ref, ...student.data() }}
-                key={student.data().schoolIssuedId}
+                student={{ ref: snap.ref, uid: snap.id, ...snap.data() }}
+                key={snap.data().schoolIssuedId}
                 handleStudentSelect={handleStudentSelect}
               />
             );

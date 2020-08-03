@@ -13,6 +13,7 @@ import { StudentResultItem } from './CreatePassScreen';
 import firebase from 'firebase';
 import { View } from 'react-native';
 import SingleStudentDisplay from '../../components/SingleStudentDisplay';
+import Icon from 'react-native-dynamic-vector-icons';
 
 export interface Pass {
   fromLocation: firebase.firestore.DocumentReference;
@@ -52,6 +53,7 @@ const StudentInfoScreen = ({
     return (
       <DefaultLayout>
         <Text category="h1">
+          Context: {route.params.context} | Context Resolved: {route.params[route.params.context]}
           No student search data found. This may be an error. Please return to the previous screen.
         </Text>
       </DefaultLayout>
@@ -101,6 +103,16 @@ const StudentInfoScreen = ({
 
   return (
     <DefaultLayout>
+      <Icon
+        style={{ marginTop: 20, marginBottom: 30 }}
+        name="md-close-circle"
+        type="Ionicons"
+        size={35}
+        color="black"
+        onPress={() => {
+          navigation.goBack();
+        }}
+      />
       {matchingUsersCollection.length === 1 ? (
         <SingleStudentDisplay student={matchingUsersCollection[0]} />
       ) : (

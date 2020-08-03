@@ -54,7 +54,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
 
   return (
     <DefaultLayout>
-      <Text category="h1" style={{ marginTop: 25, paddingBottom: 10 }}>
+      <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
         Create Passes
       </Text>
 
@@ -74,7 +74,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
         />
       </View>
 
-      <Text category="h1" style={{ marginTop: 25, paddingBottom: 10 }}>
+      <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
         Active Passes
       </Text>
       {userPasses && (

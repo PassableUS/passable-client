@@ -27,20 +27,19 @@ const SearchScreen = ({ navigation }: { navigation: SearchScreenNavigationProp }
 
   return (
     <DefaultLayout>
-      <Text category="h1" style={{ marginTop: 20, marginBottom: 10 }}>
+      <Text category="h1" style={{ marginTop: 30, marginBottom: 10 }}>
         Search
       </Text>
 
-      <View style={{ marginBottom: 15 }}>
+      <View>
         <StudentSearch
-          handleStudentSelect={
-            (student: Student) => alert('Searched')
-            // navigation.navigate('StudentInfo', { context: 'uid', uid: student.uid })
-          }
+          handleStudentSelect={(student: Student) => {
+            navigation.navigate('StudentInfo', { context: 'uid', uid: student.uid });
+          }}
         />
       </View>
 
-      <Text category="h1" style={{ marginBottom: 10 }}>
+      <Text category="h1" style={{ marginTop: 30, marginBottom: 10 }}>
         Hall Monitor
       </Text>
 
