@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Passera",
-    "slug": "passera",
+    "name": "Passable",
+    "slug": "Passable",
     "privacy": "public",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
@@ -18,10 +18,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.semrai.smartpass"
+      "bundleIdentifier": "com.semrai.passable"
     },
     "android": {
-      "package": "com.semrai.smartpass",
+      "package": "com.semrai.passable",
       "versionCode": 1
     },
     "entryPoint": "./src/entryPoint.tsx"
