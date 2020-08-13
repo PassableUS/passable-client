@@ -58,7 +58,8 @@ export const presetColors = {
     'rgb(152, 197, 190)',
     'rgb(100, 173, 186)',
   ],
-  blueish: ['#40E0D0', '#FF8C00', '#FF0080'],
+  blueish: ['#00BFFF', '#00D364'],
+  greenish: ['#F39', '#C6F'],
 };
 
 interface IAnimatedGradientProps {

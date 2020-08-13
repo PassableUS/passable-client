@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, Spinner } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { StudentSearch } from './CreatePassScreen';
 import { Student, Pass } from './StudentInfoScreen';
 import { SearchScreenNavigationProp } from '../../navigation/HomeNavigation';
 import { db } from '../../components/FirebaseAuthenticator';

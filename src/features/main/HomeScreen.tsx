@@ -61,6 +61,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       <View style={{ flexDirection: 'row', display: 'flex' }}>
         <MovingGradientButton
           speed={1700}
+          customColors={presetColors.greenish}
           style={{ margin: 5 }}
           buttonText="Create"
           onButtonPress={() => navigation.navigate('CreatePass', { context: 'search' })}

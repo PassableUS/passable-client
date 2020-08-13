@@ -8,8 +8,8 @@ import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 
-function toTitleCase(str) {
-  return str.replace(/\w\S*/g, function(txt) {
+function toTitleCase(str: string) {
+  return str.replace(/\w\S*/g, function(txt: string) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 }
