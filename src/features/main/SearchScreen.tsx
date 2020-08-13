@@ -9,6 +9,7 @@ import { RootState } from '../../app/rootReducer';
 import { useCollectionData } from 'react-firebase-hooks/firestore/';
 import PassList from '../../components/PassList';
 import { View } from 'react-native';
+import StudentSearch from '../../components/StudentSearch';
 
 const SearchScreen = ({ navigation }: { navigation: SearchScreenNavigationProp }) => {
   const [userPasses, setUserPasses] = React.useState<firebase.firestore.DocumentData[]>();
