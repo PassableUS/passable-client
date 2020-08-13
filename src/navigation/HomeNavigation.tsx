@@ -10,7 +10,7 @@ import LikeSVG from '../svg/LikeSVG';
 import SearchSVG from '../svg/SearchSVG';
 import ProfileSVG from '../svg/ProfileSVG';
 import HomeScreen from '../features/main/HomeScreen';
-import { Platform } from 'react-native';
+import { Platform, useWindowDimensions, Dimensions, View } from 'react-native';
 import ProfileScreen from '../features/main/ProfileScreen';
 import {
   createStackNavigator,
@@ -18,17 +18,18 @@ import {
   StackNavigationProp,
 } from '@react-navigation/stack';
 import CreatePassScreen from '../features/main/CreatePassScreen';
-import { Button } from '@ui-kitten/components';
+import { Button, Drawer, DrawerItem, IndexPath, Icon, Text } from '@ui-kitten/components';
 import { RouteProp, CompositeNavigationProp } from '@react-navigation/native';
 import StudentInfoScreen from '../features/main/StudentInfoScreen';
 import SearchScreen from '../features/main/SearchScreen';
+import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
 
-export type MainTabParamList = {
+export type MainHomeParamList = {
   Home: undefined;
   Search: undefined;
   Profile: undefined;
 };
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<MainHomeParamList>();
 
 let tabBarFunction: any = undefined;
 
@@ -143,41 +144,132 @@ const HomeScreenNavigation: React.FC = () => (
 // End Home Screen Navigation
 
 export type SearchScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<MainTabParamList>,
+  BottomTabNavigationProp<MainHomeParamList>,
   StackNavigationProp<HomeScreenStackParamList>
 >;
 
 // TODO: Add SearchScreen to the navigation of the search tab screen
 
-const HomeNavigation = () => {
+const HomeTabNavigation = () => {
   return (
     <Tab.Navigator tabBar={tabBarFunction} initialRouteName="Home">
       <Tab.Screen
         name="Home"
         // initialParams={{
         //   backgroundColor: tabs.Home.labelStyle.color,
-        //   nextScreen: 'Likes',
-        // }}
+
         component={HomeScreenNavigation}
       />
       <Tab.Screen
         name="Search"
-        // initialParams={{
         //   backgroundColor: tabs.Search.labelStyle.color,
-        //   nextScreen: 'Profile',
-        // }}
+
         component={SearchScreen}
       />
       <Tab.Screen
         name="Profile"
-        // initialParams={{
         //   backgroundColor: tabs.Profile.labelStyle.color,
-        //   nextScreen: 'Home',
-        // }}
+
         component={ProfileScreen}
       />
     </Tab.Navigator>
   );
 };
 
+// Home Drawer Navigation
+const DrawerNav = createDrawerNavigator<MainHomeParamList>();
+const isLargeScreen = Dimensions.get('window').width > 768;
+
+const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
+  <Drawer
+    style={{
+      marginVertical: 30,
+    }}
+    selectedIndex={new IndexPath(state.index)}
+    onSelect={index => navigation.navigate(state.routeNames[index.row])}>
+    <DrawerItem
+      title="Home"
+      accessoryLeft={() => (
+        <View style={{ paddingLeft: 10 }}>
+          <HomeSVG color="black" size={20} />
+        </View>
+      )}
+    />
+    <DrawerItem
+      title="Hall Monitor & Search"
+      accessoryLeft={() => (
+        <View style={{ paddingLeft: 10 }}>
+          <SearchSVG color="black" size={20} />
+        </View>
+      )}
+    />
+    <DrawerItem
+      title="Profile"
+      accessoryLeft={() => (
+        <View style={{ paddingLeft: 10 }}>
+          <ProfileSVG color="black" size={20} />
+        </View>
+      )}
+    />
+  </Drawer>
+);
+
+const HomeDrawerNavigation = () => (
+  <DrawerNav.Navigator
+    openByDefault
+    drawerType={isLargeScreen ? 'permanent' : 'back'}
+    drawerStyle={isLargeScreen ? null : { width: '100%' }}
+    overlayColor="transparent"
+    drawerContent={props => <DrawerContent {...props} />}>
+    <DrawerNav.Screen name="Home" component={HomeScreenNavigation} />
+    <DrawerNav.Screen name="Search" component={SearchScreen} />
+    <DrawerNav.Screen name="Profile" component={ProfileScreen} />
+  </DrawerNav.Navigator>
+);
+
+const HomeNavigation = isLargeScreen ? HomeDrawerNavigation : HomeTabNavigation;
+
 export default HomeNavigation;
+
+// BROKEN DYNAMIC NAVIGATION UPDATE MECHANISM, PLACE UNDER HOME DRAWER NAVIGATION, REPLACING EVERYTHING
+// const HomeNavigation = () => {
+//   const [windowWidth, setWindowWidth] = React.useState(Dimensions.get('window').width);
+//   const DrawerNav = createDrawerNavigator<MainHomeParamList>();
+
+//   const isLargeScreen = windowWidth > 768;
+
+//   // React.useEffect(() => {
+//   //   Dimensions.addEventListener('change', ({ window }) => setWindowWidth(window.width));
+//   //   const unsubscribe = Dimensions.removeEventListener('change', ({ window }) =>
+//   //     setWindowWidth(window.width)
+//   //   );
+
+//   //   return unsubscribe;
+//   // }, []);
+
+//   const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
+//     <Drawer
+//       style={{ paddingVertical: 40 }}
+//       selectedIndex={new IndexPath(state.index)}
+//       onSelect={index => navigation.navigate(state.routeNames[index.row])}>
+//       <DrawerItem title="Home" />
+//       <DrawerItem title="Hall Monitor & Search" />
+//       <DrawerItem title="Profile" />
+//     </Drawer>
+//   );
+
+//   const HomeDrawerNavigation = () => (
+//     <DrawerNav.Navigator
+//       openByDefault
+//       drawerType={isLargeScreen ? 'permanent' : 'back'}
+//       drawerStyle={isLargeScreen ? null : { width: '100%' }}
+//       overlayColor="transparent"
+//       drawerContent={props => <DrawerContent {...props} />}>
+//       <DrawerNav.Screen name="Home" component={HomeScreenNavigation} />
+//       <DrawerNav.Screen name="Search" component={SearchScreen} />
+//       <DrawerNav.Screen name="Profile" component={ProfileScreen} />
+//     </DrawerNav.Navigator>
+//   );
+
+//   return Platform.OS === 'web' && isLargeScreen ? <HomeDrawerNavigation /> : <HomeTabNavigation />;
+// };

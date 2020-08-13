@@ -1,15 +1,12 @@
 import React from 'react';
-import { Text, Button, Card } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
 import { RootState } from '../../app/rootReducer';
 import { useSelector } from 'react-redux';
 import firebase from 'firebase';
 import { View } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { HomeScreenNavigationProp } from '../../navigation/HomeNavigation';
-import PassCard from '../../components/PassCard';
-import { Pass } from './StudentInfoScreen';
 import MovingLinearGradient, { presetColors } from '../../components/MovingLinearGradient';
 import MovingGradientButton from '../../components/MovingGradientButton';
 import PassList from '../../components/PassList';
