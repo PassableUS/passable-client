@@ -191,7 +191,7 @@ const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
       title="Home"
       accessoryLeft={() => (
         <View style={{ paddingLeft: 10 }}>
-          <HomeSVG color="black" size={20} />
+          <HomeSVG color={"black" as any} size={20} />
         </View>
       )}
     />
@@ -199,7 +199,7 @@ const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
       title="Hall Monitor & Search"
       accessoryLeft={() => (
         <View style={{ paddingLeft: 10 }}>
-          <SearchSVG color="black" size={20} />
+          <SearchSVG color={"black" as any} size={20} />
         </View>
       )}
     />
@@ -207,7 +207,7 @@ const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
       title="Profile"
       accessoryLeft={() => (
         <View style={{ paddingLeft: 10 }}>
-          <ProfileSVG color="black" size={20} />
+          <ProfileSVG color={"black" as any} size={20} />
         </View>
       )}
     />
