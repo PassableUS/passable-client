@@ -64,22 +64,22 @@ const CreatePassScreen = ({
       endTime: futureDate, // use SelectedTime
     };
 
-    setCreationStatus('Assigning student the pass...');
+    // setCreationStatus('Assigning student the pass...');
     selectedStudent.ref
       .collection('passes')
       .add(passData)
       .then(() => {
-        setCreationStatus('Updating school records...');
+        // setCreationStatus('Updating school records...');
         selectedStudent.school
           .collection('passes')
           .add(passData)
           .then(() => {
-            setCreationStatus('Updating room records...');
+            // setCreationStatus('Updating room records...');
             selectedRoom.ref
               .collection('passes')
               .add(passData)
               .then(() => {
-                setCreationStatus('Successfully created pass.');
+                // setCreationStatus('Successfully created pass.');
                 alert('Successfully created pass!');
                 navigation.navigate('Home');
               })
@@ -172,9 +172,8 @@ const CreatePassScreen = ({
         </View>
 
         <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
-          {creationStatus && <Text category="s1">{creationStatus}</Text>}
           <Button status="success" onPress={handleCreatePass}>
-            {creationStatus || 'Create Pass'}
+            Create Pass
           </Button>
         </View>
       </View>

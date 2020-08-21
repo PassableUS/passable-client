@@ -218,7 +218,7 @@ const HomeDrawerNavigation = () => (
   <DrawerNav.Navigator
     openByDefault
     drawerType={isLargeScreen ? 'permanent' : 'back'}
-    drawerStyle={isLargeScreen ? null : { width: '100%' }}
+    drawerStyle={isLargeScreen ? { width: '55' } : { width: '100%' }}
     overlayColor="transparent"
     drawerContent={props => <DrawerContent {...props} />}>
     <DrawerNav.Screen name="Home" component={HomeScreenNavigation} />

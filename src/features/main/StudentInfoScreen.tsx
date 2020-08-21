@@ -9,7 +9,6 @@ import {
   StudentInfoScreenRouteProp,
   StudentInfoScreenNavigationProp,
 } from '../../navigation/HomeNavigation';
-import { StudentResultItem } from './CreatePassScreen';
 import firebase from 'firebase';
 import { View } from 'react-native';
 import SingleStudentDisplay from '../../components/SingleStudentDisplay';
