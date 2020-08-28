@@ -28,7 +28,7 @@ const ProfileScreen = () => {
   const [schoolData, setSchoolData] = React.useState<firebase.firestore.DocumentData>();
   const [userData, setUserData] = React.useState<firebase.firestore.DocumentData>();
 
-  const roles = ['Student', 'Teacher', 'Admin'];
+  const roles = ['Student', 'Teacher', 'Administrator'];
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
   const displayValue = roles[selectedIndex.row];
 
@@ -74,6 +74,7 @@ const ProfileScreen = () => {
       </Card>
 
       <Select
+        style={{ marginBottom: 20 }}
         label="Switch Context"
         value={displayValue}
         selectedIndex={selectedIndex}
