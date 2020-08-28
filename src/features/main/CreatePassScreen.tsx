@@ -194,8 +194,9 @@ const CreatePassScreen = ({
   const StudentSelector = ({ context }: { context: string }) => {
     return (
       <>
-        <Text category="h1" style={{ marginBottom: 10 }}>
-          Search for a student
+        <Text category="h1">Student Search</Text>
+        <Text category="s1" style={{ marginBottom: 10 }}>
+          Search for any student in your school.
         </Text>
         {context === 'scan' && (
           // TODO: FIX HANDLING OF SCANNER
