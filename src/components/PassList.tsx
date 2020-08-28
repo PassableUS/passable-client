@@ -9,31 +9,14 @@ import LottieView from 'lottie-react-native';
 const PassList = ({
   passesData,
   displayTeacher,
+  displayDateInsteadOfTime,
 }: {
   passesData: firebase.firestore.DocumentData[];
   displayTeacher?: boolean;
+  displayDateInsteadOfTime?: boolean;
 }) => {
-  // const ListPassCard = ({ item, index, onPress, style }: any) => (
-  //   <PassCard
-  //   unmountPass
-  //     passInfo={{ passColor: '#00BFFF', ...item }}
-  //     style={{
-  //       flex: 1,
-  //       marginLeft: index % 2 !== 0 ? 10 : null,
-  //     }}
-  //   />
-  // );
-
   return (
     <>
-      {/* <FlatList
-        style={{ flexDirection: 'row', display: 'flex' }}
-        data={passesData}
-        renderItem={ListPassCard}
-        keyExtractor={(item, index) => item.id}
-        numColumns={2}
-      /> */}
-
       {passesData.length == 0 ? (
         <View
           style={{
@@ -65,6 +48,7 @@ const PassList = ({
               return (
                 <PassCard
                   displayTeacher={displayTeacher}
+                  displayDateInsteadOfTime={displayDateInsteadOfTime}
                   key={pass.uid}
                   //@ts-ignore
                   passInfo={{ passColor: '#00BFFF', ...pass }}

@@ -13,6 +13,7 @@ import firebase from 'firebase';
 import { View } from 'react-native';
 import SingleStudentDisplay from '../../components/SingleStudentDisplay';
 import Icon from 'react-native-dynamic-vector-icons';
+import StudentSearchResultItem from '../../components/StudentSearchResultItem';
 
 export interface Pass {
   fromLocation: firebase.firestore.DocumentReference;
@@ -120,7 +121,7 @@ const StudentInfoScreen = ({
           <Text>{route.params[route.params.context]}</Text>
           {matchingUsersCollection.map(student => {
             // TODO: Test multiple students returning
-            <StudentResultItem
+            <StudentSearchResultItem
               student={student}
               key={student.schoolIssuedId}
               handleStudentSelect={(student: Student) =>

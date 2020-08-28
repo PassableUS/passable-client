@@ -10,11 +10,13 @@ const PassCard = ({
   showWhenInactive = false,
   style,
   displayTeacher,
+  displayDateInsteadOfTime,
 }: {
   passInfo: Pass;
   showWhenInactive?: boolean;
   style?: any;
   displayTeacher?: boolean;
+  displayDateInsteadOfTime?: boolean;
 }) => {
   const [activeStatus, setActiveStatus] = React.useState(true);
   function adjustColor(color: any, amount: any) {
@@ -41,7 +43,6 @@ const PassCard = ({
       style={{
         backgroundColor: passInfo.passColor,
         borderRadius: 10,
-        height: 125,
         width: '50%',
         padding: 15,
         alignContent: 'space-between',
@@ -60,17 +61,29 @@ const PassCard = ({
         }}>
         {passInfo.toLocationName}
       </Text>
-      <Timer
-        timerTextStyle={{
-          color: 'white',
-          textAlign: 'center',
-          fontSize: 15,
-          paddingBottom: 10,
-        }}
-        setActiveStatus={(status: any) => setActiveStatus(status)}
-        targetTime={passInfo.endTime.toDate()}
-      />
-      {/* <Text style={{ color: 'white' }}>{JSON.stringify(passInfo.endTime)} remaining</Text> */}
+      {displayDateInsteadOfTime ? (
+        <Text
+          style={{
+            color: 'white',
+            textAlign: 'center',
+            fontSize: 15,
+            paddingBottom: 10,
+          }}>
+          {passInfo.endTime.toDate().toDateString()}
+        </Text>
+      ) : (
+        <Timer
+          timerTextStyle={{
+            color: 'white',
+            textAlign: 'center',
+            fontSize: 15,
+            paddingBottom: 10,
+          }}
+          setActiveStatus={(status: any) => setActiveStatus(status)}
+          targetTime={passInfo.endTime.toDate()}
+        />
+      )}
+
       <View
         style={{
           borderRadius: 10,
