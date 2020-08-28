@@ -1,5 +1,14 @@
 import React from 'react';
-import { Text, Button, Spinner, Card, Input } from '@ui-kitten/components';
+import {
+  Text,
+  Button,
+  Spinner,
+  Card,
+  Input,
+  Select,
+  SelectItem,
+  IndexPath,
+} from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -18,9 +27,11 @@ const ProfileScreen = () => {
   const [user, isAuthLoading, authError] = useAuthState(auth);
   const [schoolData, setSchoolData] = React.useState<firebase.firestore.DocumentData>();
   const [userData, setUserData] = React.useState<firebase.firestore.DocumentData>();
-  // const [userDoc, isUserDocLoading, userDocError] = useDocumentData(
-  //   db.collection('users').doc(user.uid)
-  // );
+
+  const roles = ['Student', 'Teacher', 'Admin'];
+  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
+  const displayValue = roles[selectedIndex.row];
+
   React.useEffect(() => {
     console.log('Fetching Firebase Data: User Profile Information && School Data');
     const unsubscribe = db
@@ -36,38 +47,6 @@ const ProfileScreen = () => {
 
     return unsubscribe;
   }, []);
-
-  const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
-  const districtUid = useSelector((state: RootState) => state.setup.district.id);
-
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [displayName, setDisplayName] = React.useState('');
-
-  const handleCreateTeacher = () => {
-    let res: firebase.auth.UserCredential;
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(function(result) {
-        const documentData = {
-          displayName,
-          role: 'teacher',
-          district: db.collection('districts').doc(districtUid),
-          school: schoolPath,
-        };
-
-        db.collection('users')
-          .doc(res.user.uid)
-          .set(documentData);
-        res = result;
-        return result.user.updateProfile({
-          displayName: displayName,
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  };
 
   if (!userData || !schoolData)
     return (
@@ -94,10 +73,15 @@ const ProfileScreen = () => {
         <Text category="h5">{schoolData.name}</Text>
       </Card>
 
-      {/* <Input placeholder="Email" onChangeText={text => setEmail(text)} />
-      <Input placeholder="Password" onChangeText={text => setPassword(text)} />
-      <Input placeholder="Display Name" onChangeText={text => setDisplayName(text)} />
-      <Button onPress={handleCreateTeacher}>Create Teacher</Button> */}
+      <Select
+        label="Switch Context"
+        value={displayValue}
+        selectedIndex={selectedIndex}
+        onSelect={index => setSelectedIndex(index as IndexPath)}>
+        <SelectItem title="Student" />
+        <SelectItem title="Teacher (if account permitted)" />
+        <SelectItem title="Administrator (if account permitted)" />
+      </Select>
 
       <Button onPress={() => auth.signOut()}>Sign out</Button>
     </DefaultLayout>

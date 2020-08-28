@@ -27,6 +27,15 @@ export interface Room {
   maxPersonCount: number;
 }
 
+export interface RoomCategory {
+  categorySpecifier: string;
+  color: string;
+  displayName: string;
+  iconGroup: string;
+  iconName: string;
+  studentRequiresApproval: boolean;
+}
+
 const CreatePassScreen = ({
   navigation,
   route,
@@ -40,6 +49,8 @@ const CreatePassScreen = ({
   const [step, setStep] = React.useState('selectStudent');
   const [creationStatus, setCreationStatus] = React.useState<string>();
   const [user, userLoading, userError] = useAuthState(auth);
+
+  const schoolRoomCategories = useSelector((state: RootState) => state.setup.school.roomCategories);
 
   const handleCreatePass = () => {
     if (!user) {
@@ -280,29 +291,6 @@ const CreatePassScreen = ({
         </>
       );
     };
-    const categories = [
-      {
-        name: 'Bathrooms',
-        categorySpecifier: 'bathroom',
-        color: '#00BFFF',
-        iconGroup: 'MaterialCommunityIcons',
-        iconName: 'watermark',
-      },
-      {
-        name: 'Water Fountains',
-        categorySpecifier: 'waterfountain',
-        color: '#00D364',
-        iconGroup: 'Ionicons',
-        iconName: 'md-water',
-      },
-      {
-        name: 'Classrooms',
-        categorySpecifier: 'classroom',
-        color: '#F39',
-        iconGroup: 'Ionicons',
-        iconName: 'md-water',
-      },
-    ];
 
     return (
       <>
@@ -313,7 +301,7 @@ const CreatePassScreen = ({
             </Text>
             <ScrollView>
               <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                {categories.map(category => (
+                {schoolRoomCategories.map((category: RoomCategory) => (
                   <TouchableOpacity
                     key={category.categorySpecifier}
                     onPress={() => setSelectedCategory(category)}
@@ -347,7 +335,7 @@ const CreatePassScreen = ({
                           textAlign: 'center',
                           flexWrap: 'wrap',
                         }}>
-                        {category.name}
+                        {category.displayName}
                       </Text>
                     </>
                   </TouchableOpacity>

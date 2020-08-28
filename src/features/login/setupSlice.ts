@@ -10,6 +10,7 @@ export interface District {
 export interface SchoolProfileRepresentation {
   schoolName: string;
   documentPath: string;
+  roomCategories: any[];
 }
 
 export interface UserProfile {
