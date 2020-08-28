@@ -104,20 +104,16 @@ export type CreatePassScreenNavigationProp = StackNavigationProp<
   HomeScreenStackParamList,
   'CreatePass'
 >;
-export type StudentInfoScreenNavigationProp = StackNavigationProp<
-  HomeScreenStackParamList,
-  'StudentInfo'
->;
 
 // Route prop types
 export type CreatePassScreenRouteProp = RouteProp<HomeScreenStackParamList, 'CreatePass'>;
-export type StudentInfoScreenRouteProp = RouteProp<HomeScreenStackParamList, 'StudentInfo'>;
 
 const HomeScreenNavigation: React.FC = () => (
   <HomeScreenStack.Navigator
     mode="modal"
     screenOptions={{
       headerShown: false,
+      animationEnabled: true,
     }}
     initialRouteName="Home">
     <HomeScreenStack.Screen name="Home" component={HomeScreen} />
@@ -130,7 +126,49 @@ const HomeScreenNavigation: React.FC = () => (
         cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
       }}
     />
-    <HomeScreenStack.Screen
+  </HomeScreenStack.Navigator>
+);
+// End Home Screen Navigation
+
+// **************************
+// Hall Management Navigation
+// **************************
+export type SearchScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<MainHomeParamList>,
+  StackNavigationProp<HomeScreenStackParamList>
+>;
+
+type HallManagementStackParamList = {
+  Search: undefined;
+  StudentInfo: {
+    schoolIssuedId?: string;
+    name?: string;
+    uid?: string;
+    context: string;
+    [contextResolved: string]: string;
+  }; // Context resolved is just the route.params[INSERT_RANDOM_STRING] type
+};
+const HallManagementStack = createStackNavigator<HallManagementStackParamList>();
+
+// Navigation prop types
+export type StudentInfoScreenNavigationProp = StackNavigationProp<
+  HomeScreenStackParamList,
+  'StudentInfo'
+>;
+
+// Route prop types
+export type StudentInfoScreenRouteProp = RouteProp<HomeScreenStackParamList, 'StudentInfo'>;
+
+const HallManagementNavigation: React.FC = () => (
+  <HallManagementStack.Navigator
+    mode="modal"
+    screenOptions={{
+      headerShown: false,
+      animationEnabled: true,
+    }}
+    initialRouteName="Search">
+    <HallManagementStack.Screen name="Search" component={SearchScreen} />
+    <HallManagementStack.Screen
       name="StudentInfo"
       component={StudentInfoScreen}
       options={{
@@ -139,14 +177,12 @@ const HomeScreenNavigation: React.FC = () => (
         cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
       }}
     />
-  </HomeScreenStack.Navigator>
+  </HallManagementStack.Navigator>
 );
-// End Home Screen Navigation
 
-export type SearchScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<MainHomeParamList>,
-  StackNavigationProp<HomeScreenStackParamList>
->;
+// **************************
+// End Hall Management Navigation
+// **************************
 
 // TODO: Add SearchScreen to the navigation of the search tab screen
 
@@ -164,7 +200,7 @@ const HomeTabNavigation = () => {
         name="Search"
         //   backgroundColor: tabs.Search.labelStyle.color,
 
-        component={SearchScreen}
+        component={HallManagementNavigation}
       />
       <Tab.Screen
         name="Profile"
@@ -216,13 +252,14 @@ const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
 
 const HomeDrawerNavigation = () => (
   <DrawerNav.Navigator
+    initialRouteName="Home"
     openByDefault
     drawerType={isLargeScreen ? 'permanent' : 'back'}
     drawerStyle={isLargeScreen ? { width: '25%' } : { width: '100%' }}
     overlayColor="transparent"
     drawerContent={props => <DrawerContent {...props} />}>
     <DrawerNav.Screen name="Home" component={HomeScreenNavigation} />
-    <DrawerNav.Screen name="Search" component={SearchScreen} />
+    <DrawerNav.Screen name="Search" component={HallManagementNavigation} />
     <DrawerNav.Screen name="Profile" component={ProfileScreen} />
   </DrawerNav.Navigator>
 );

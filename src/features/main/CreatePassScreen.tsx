@@ -187,6 +187,7 @@ const CreatePassScreen = ({
           Search for a student
         </Text>
         {context === 'scan' && (
+          // TODO: FIX HANDLING OF SCANNER
           <IDScanner
             handleStudentScan={(data: any) =>
               navigation.navigate('StudentInfo', {
