@@ -33,7 +33,7 @@ export interface RoomCategory {
   displayName: string;
   iconGroup: string;
   iconName: string;
-  studentRequiresApproval: boolean;
+  studentsRequireApproval: boolean;
 }
 
 const CreatePassScreen = ({
@@ -261,7 +261,7 @@ const CreatePassScreen = ({
                   }}
                   style={{
                     flex: 1,
-                    backgroundColor: category.color,
+                    backgroundColor: category.color || '#FC6',
                     borderRadius: 10,
                     padding: 15,
                     alignContent: 'center',
@@ -307,7 +307,7 @@ const CreatePassScreen = ({
                     onPress={() => setSelectedCategory(category)}
                     style={{
                       flex: 1,
-                      backgroundColor: category.color,
+                      backgroundColor: category.color || '#FC6',
                       borderRadius: 10,
                       padding: 15,
                       alignContent: 'center',
@@ -336,6 +336,17 @@ const CreatePassScreen = ({
                           flexWrap: 'wrap',
                         }}>
                         {category.displayName}
+                      </Text>
+                      <Text
+                        style={{
+                          color: 'gray',
+                          fontWeight: '600',
+                          fontFamily: 'Inter_800ExtraBold',
+                          fontSize: 20,
+                          textAlign: 'center',
+                          flexWrap: 'wrap',
+                        }}>
+                        {category.studentsRequireApproval && 'Requires Approval'}
                       </Text>
                     </>
                   </TouchableOpacity>
