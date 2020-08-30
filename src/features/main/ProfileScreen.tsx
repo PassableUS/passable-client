@@ -16,6 +16,8 @@ import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
+import { signedOut } from '../login/setupSlice';
+import { useAppDispatch } from '../../app/store';
 
 function toTitleCase(str: string) {
   return str.replace(/\w\S*/g, function(txt: string) {
@@ -24,6 +26,16 @@ function toTitleCase(str: string) {
 }
 
 const ProfileScreen = () => {
+  // TODO: Replace useDispatch with useAppDispatch
+  const dispatch = useAppDispatch();
+
+  const handleSignOut = () => {
+    // TODO: Fix hacky sign out solution
+    dispatch(signedOut());
+    auth.signOut();
+    setTimeout(() => auth.signOut(), 1500);
+  };
+
   const [user, isAuthLoading, authError] = useAuthState(auth);
   const [schoolData, setSchoolData] = React.useState<firebase.firestore.DocumentData>();
   const [userData, setUserData] = React.useState<firebase.firestore.DocumentData>();
@@ -52,13 +64,13 @@ const ProfileScreen = () => {
     return (
       <DefaultLayout>
         <Spinner />
-        <Button onPress={() => auth.signOut()}>Sign out</Button>
+        <Button onPress={handleSignOut}>Sign out</Button>
       </DefaultLayout>
     );
 
   const Header = (props: any) => (
     <View {...props}>
-      <Text category="h1">{user.displayName}</Text>
+      <Text category="h1">{userData?.displayName}</Text>
       <Text category="s1">{toTitleCase(userData.role)}</Text>
     </View>
   );
@@ -84,7 +96,7 @@ const ProfileScreen = () => {
         <SelectItem title="Administrator (if account permitted)" />
       </Select>
 
-      <Button onPress={() => auth.signOut()}>Sign out</Button>
+      <Button onPress={handleSignOut}>Sign out</Button>
     </DefaultLayout>
   );
 };

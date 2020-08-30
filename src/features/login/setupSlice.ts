@@ -17,12 +17,14 @@ export interface UserProfile {
   district: District;
   userUid: string;
   school: SchoolProfileRepresentation;
+  isLoggedIn: boolean;
 }
 
 const initialState: UserProfile = {
   district: null,
   userUid: null,
   school: null,
+  isLoggedIn: null,
 };
 
 export const setupDistrict = createAction<District>('setup/setupDistrict');
@@ -49,6 +51,7 @@ const setupSlice = createSlice({
       setupSchool,
       (state: UserProfile, action: PayloadAction<SchoolProfileRepresentation>) => {
         state.school = action.payload;
+        state.isLoggedIn = true;
       }
     );
 
@@ -56,6 +59,7 @@ const setupSlice = createSlice({
       state.userUid = null;
       state.district = null;
       state.school = null;
+      state.isLoggedIn = false;
     });
   },
 });

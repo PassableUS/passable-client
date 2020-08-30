@@ -18,24 +18,18 @@ const Stack = createStackNavigator<AppStackParamList>();
 
 const AppNavigation: React.FC = () => {
   // const [hasUserToken, setHasUserToken] = useState(false)
-  // const {
-  //   firebaseToken,
-  //   isLoggedIn,
-  //   isFirebaseInitializedAndLoaded,
-  //   isProfileInitializedAndLoaded,
-  //   hasCompletedProfile,
-  // } = useSelector((state: RootState) => state.session);
 
   // const isLoading = !isFirebaseInitializedAndLoaded || !isProfileInitializedAndLoaded;
   // const isRegistering = !isLoggedIn || !hasCompletedProfile;
 
   const [user, loading, error] = useAuthState(auth);
+  const { isLoggedIn } = useSelector((state: RootState) => state.setup);
 
   return loading ? (
     <LoadingScreen />
   ) : (
     <Stack.Navigator headerMode="none">
-      {!user ? (
+      {!user || !isLoggedIn ? (
         <>
           <Stack.Screen name="Auth" component={AuthNavigation} />
         </>
