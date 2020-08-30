@@ -60,7 +60,7 @@ const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Function 
             return (
               <StudentSearchResultItem
                 student={{ ref: snap.ref, uid: snap.id, ...snap.data() }}
-                key={snap.data().schoolIssuedId}
+                key={snap.id}
                 handleStudentSelect={handleStudentSelect}
               />
             );

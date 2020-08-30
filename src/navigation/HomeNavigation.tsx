@@ -89,7 +89,7 @@ type HomeScreenStackParamList = {
   Home: undefined;
   CreatePass: { context: string };
   StudentInfo: {
-    schoolIssuedId?: string;
+    schoolIssuedStudentId?: string;
     name?: string;
     uid?: string;
     context: string;
@@ -141,7 +141,7 @@ export type SearchScreenNavigationProp = CompositeNavigationProp<
 type HallManagementStackParamList = {
   Search: undefined;
   StudentInfo: {
-    schoolIssuedId?: string;
+    schoolIssuedStudentId?: string;
     name?: string;
     uid?: string;
     context: string;

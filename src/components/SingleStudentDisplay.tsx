@@ -52,8 +52,12 @@ const SingleStudentDisplay = ({ student }: { student: Student }) => {
         />
         <View style={{ marginLeft: 15 }}>
           <Text category="h1">{student.displayName}</Text>
-          <Text category="h4">{getNumberWithOrdinal(parseInt(student.grade))} Grade</Text>
-          <Text category="label">{student.schoolIssuedId}</Text>
+          <Text category="h4">
+            {isNaN(parseInt(student.grade))
+              ? student.grade
+              : getNumberWithOrdinal(parseInt(student.grade)) + ' Grade'}
+          </Text>
+          <Text category="label">{student.schoolIssuedStudentId}</Text>
         </View>
       </View>
       <Text category="h1" style={{ marginTop: 20, marginBottom: 10 }}>

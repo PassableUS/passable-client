@@ -37,7 +37,10 @@ const StudentSearchResultItem = ({
             {student.displayName}
           </Text>
           <Text category="label">
-            {getNumberWithOrdinal(parseInt(student.grade))} Grade | {student.schoolIssuedId}
+            {isNaN(parseInt(student.grade))
+              ? student.grade
+              : getNumberWithOrdinal(parseInt(student.grade)) + ' Grade '}
+            | {student.schoolIssuedStudentId}
           </Text>
         </View>
       </View>

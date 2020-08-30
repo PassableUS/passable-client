@@ -34,7 +34,7 @@ export interface Student {
   eventsLog: Pass[];
   displayName: string;
   grade: string;
-  schoolIssuedId: string;
+  schoolIssuedStudentId: string;
   profilePictureUri?: string;
   uid: string;
 }
@@ -123,7 +123,7 @@ const StudentInfoScreen = ({
             // TODO: Test multiple students returning
             <StudentSearchResultItem
               student={student}
-              key={student.schoolIssuedId}
+              key={student.schoolIssuedStudentId}
               handleStudentSelect={(student: Student) =>
                 navigation.navigate('StudentInfo', { context: 'uid', uid: student.uid })
               }

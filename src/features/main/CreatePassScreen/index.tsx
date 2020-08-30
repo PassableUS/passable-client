@@ -1,28 +1,21 @@
 import React from 'react';
 import { Text, Button, Spinner, Card, Input, Avatar, ButtonGroup } from '@ui-kitten/components';
-import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { auth, db } from '../../components/FirebaseAuthenticator';
+import DefaultLayout from '../../../components/layouts/DefaultLayout';
+import { auth, db } from '../../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useDocumentData, useCollectionData, useCollection } from 'react-firebase-hooks/firestore';
 import Icon from 'react-native-dynamic-vector-icons';
 import {
   CreatePassScreenNavigationProp,
   CreatePassScreenRouteProp,
-} from '../../navigation/HomeNavigation';
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Platform, View, StyleSheet, Image, Dimensions, ListView } from 'react-native';
-import LottieView from 'lottie-react-native';
-import { Camera } from 'expo-camera';
-import { Student } from './StudentInfoScreen';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app/rootReducer';
-import { getNumberWithOrdinal } from '../../components/SingleStudentDisplay';
-import StudentSearch from '../../components/StudentSearch';
-import IDScanner from '../../components/IDScanner';
-import CategorySelector from './CreatePassScreen/CategorySelector';
-import TimeSelector from './CreatePassScreen/TimeSelector';
-import SpecificRoomSelector from './CreatePassScreen/SpecificRoomSelector';
+} from '../../../navigation/HomeNavigation';
+
+import { Platform } from 'react-native';
+
+import StudentSearch from '../../../components/StudentSearch';
+import IDScanner from '../../../components/IDScanner';
+import CategorySelector from './CategorySelector';
+import TimeSelector from './TimeSelector';
+import SpecificRoomSelector from './SpecificRoomSelector';
 
 export interface Room {
   category: string;
@@ -67,8 +60,8 @@ const CreatePassScreen = ({
           <IDScanner
             handleStudentScan={(data: any) =>
               navigation.navigate('StudentInfo', {
-                schoolIssuedId: data,
-                context: 'schoolIssuedId',
+                schoolIssuedStudentId: data,
+                context: 'schoolIssuedStudentId',
               })
             }
           />
@@ -99,6 +92,8 @@ const CreatePassScreen = ({
       return alert('Please retry, failed to initialize user.');
     }
 
+    console.log('Selected category color: ', selectedCategory.color);
+
     // TODO: Track from location
     const currentDate = new Date();
     const futureDate = new Date(currentDate.getTime() + selectedTime * 60000);
@@ -106,7 +101,7 @@ const CreatePassScreen = ({
       fromLocation: 'default',
       toLocation: selectedRoom.ref,
       fromLocationName: 'default',
-      passColor: selectedCategory.color,
+      passColor: selectedCategory.color || '#00BFFF',
       toLocationName: selectedRoom.displayName,
       locationCategory: selectedRoom.category,
       issuingUserName: user.displayName,
@@ -123,7 +118,13 @@ const CreatePassScreen = ({
       .add(passData)
       .then(() => {
         // setCreationStatus('Updating school records...');
-        selectedStudent.school
+
+        // TODO: Address whether to access .school or .parent in order to access the school from the parent
+        // selectedStudent.school
+        //   .collection('passes')
+        const studentsCollectionRef = selectedStudent.ref.parent;
+        const schoolDocRef = studentsCollectionRef.parent;
+        schoolDocRef
           .collection('passes')
           .add(passData)
           .then(() => {
