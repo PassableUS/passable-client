@@ -6,7 +6,9 @@ import { Platform, useWindowDimensions, Dimensions } from 'react-native';
 import { Button, Drawer, DrawerItem, IndexPath, Icon, Text } from '@ui-kitten/components';
 
 import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
-import { tabBarFunction, coreScreens } from './HomeNavConfigs';
+import { studentTabBarFunction, getCoreScreens, tabBarFunction } from './HomeNavConfigs';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/rootReducer';
 
 export type MainHomeParamList = {
   Home: undefined;
@@ -16,9 +18,12 @@ export type MainHomeParamList = {
 const Tab = createBottomTabNavigator<MainHomeParamList>();
 
 const HomeTabNavigation = () => {
+  const role = useSelector((state: RootState) => state.setup.role);
   return (
-    <Tab.Navigator tabBar={tabBarFunction} initialRouteName="Home">
-      {coreScreens.map(screenItem => (
+    <Tab.Navigator
+      tabBar={role === 'student' ? studentTabBarFunction : tabBarFunction}
+      initialRouteName="Home">
+      {getCoreScreens(role).map(screenItem => (
         <Tab.Screen
           key={screenItem.name}
           name={screenItem.name as any}
@@ -41,25 +46,29 @@ const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
     }}
     selectedIndex={new IndexPath(state.index)}
     onSelect={index => navigation.navigate(state.routeNames[index.row])}>
-    {coreScreens.map(screenItem => (
+    {getCoreScreens('student').map(screenItem => (
       <DrawerItem title={screenItem.name} accessoryLeft={screenItem.accessoryLeft} />
     ))}
   </Drawer>
 );
 
-const HomeDrawerNavigation = () => (
-  <DrawerNav.Navigator
-    initialRouteName="Home"
-    openByDefault
-    drawerType={isLargeScreen ? 'permanent' : 'back'}
-    drawerStyle={isLargeScreen ? { width: '25%' } : { width: '100%' }}
-    overlayColor="transparent"
-    drawerContent={props => <DrawerContent {...props} />}>
-    {coreScreens.map(screenItem => (
-      <DrawerNav.Screen name={screenItem.name as any} component={screenItem.component} />
-    ))}
-  </DrawerNav.Navigator>
-);
+const HomeDrawerNavigation = () => {
+  const role = useSelector((state: RootState) => state.setup.role);
+
+  return (
+    <DrawerNav.Navigator
+      initialRouteName="Home"
+      openByDefault
+      drawerType={isLargeScreen ? 'permanent' : 'back'}
+      drawerStyle={isLargeScreen ? { width: '25%' } : { width: '100%' }}
+      overlayColor="transparent"
+      drawerContent={props => <DrawerContent {...props} />}>
+      {getCoreScreens(role).map(screenItem => (
+        <DrawerNav.Screen name={screenItem.name as any} component={screenItem.component} />
+      ))}
+    </DrawerNav.Navigator>
+  );
+};
 
 const HomeNavigation = isLargeScreen ? HomeDrawerNavigation : HomeTabNavigation;
 

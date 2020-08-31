@@ -3,7 +3,7 @@ import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/rootReducer';
 
 export interface District {
-  id: string;
+  documentPath: string;
   name: string;
 }
 
@@ -18,6 +18,8 @@ export interface UserProfile {
   userUid: string;
   school: SchoolProfileRepresentation;
   isLoggedIn: boolean;
+  role: string;
+  displayName: string;
 }
 
 const initialState: UserProfile = {
@@ -25,11 +27,15 @@ const initialState: UserProfile = {
   userUid: null,
   school: null,
   isLoggedIn: null,
+  role: null,
+  displayName: null,
 };
 
 export const setupDistrict = createAction<District>('setup/setupDistrict');
 export const setupSchool = createAction<SchoolProfileRepresentation>('setup/setupSchool');
 export const setupSchoolPath = createAction<string>('setup/setupSchoolPath');
+export const setupRole = createAction<string>('setup/setupRole');
+export const setupDisplayName = createAction<string>('setup/setupDisplayName');
 
 export const signedOut = createAction('setup/signedOut');
 export const setupFirebaseUid = createAction<string>('setup/FirebaseUid');
@@ -47,6 +53,14 @@ const setupSlice = createSlice({
       state.userUid = action.payload;
     });
 
+    builder.addCase(setupDisplayName, (state: UserProfile, action: PayloadAction<string>) => {
+      state.displayName = action.payload;
+    });
+
+    builder.addCase(setupRole, (state: UserProfile, action: PayloadAction<string>) => {
+      state.role = action.payload;
+    });
+
     builder.addCase(
       setupSchool,
       (state: UserProfile, action: PayloadAction<SchoolProfileRepresentation>) => {
@@ -56,10 +70,7 @@ const setupSlice = createSlice({
     );
 
     builder.addCase(signedOut, (state: UserProfile, action: PayloadAction) => {
-      state.userUid = null;
-      state.district = null;
-      state.school = null;
-      state.isLoggedIn = false;
+      state = initialState;
     });
   },
 });

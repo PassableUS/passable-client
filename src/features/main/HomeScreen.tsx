@@ -5,15 +5,16 @@ import { auth, db } from '../../components/FirebaseAuthenticator';
 import { RootState } from '../../app/rootReducer';
 import { useSelector } from 'react-redux';
 import firebase from 'firebase';
-import { View } from 'react-native';
-import { HomeScreenNavigationProp } from '../../navigation/HomeNavigation';
+import { View, Image } from 'react-native';
 import MovingLinearGradient, { presetColors } from '../../components/MovingLinearGradient';
 import MovingGradientButton from '../../components/MovingGradientButton';
 import PassList from '../../components/PassList';
+import { HomeScreenNavigationProp } from '../../navigation/HomeScreenNavigation';
 
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const userUid = useSelector((state: RootState) => state.setup.userUid);
   const [currentTime, setCurrentTime] = React.useState(new Date());
+  const role = useSelector((state: RootState) => state.setup.role);
 
   const [userPasses, setUserPasses] = React.useState<firebase.firestore.DocumentData[]>();
 
@@ -63,13 +64,15 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
           buttonText="Create"
           onButtonPress={() => navigation.navigate('CreatePass', { context: 'search' })}
         />
-        <MovingGradientButton
-          customColors={presetColors.blueish}
-          speed={3000}
-          style={{ margin: 5 }}
-          buttonText="Scan"
-          onButtonPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
-        />
+        {role !== 'student' && (
+          <MovingGradientButton
+            customColors={presetColors.blueish}
+            speed={3000}
+            style={{ margin: 5 }}
+            buttonText="Scan"
+            onButtonPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
+          />
+        )}
       </View>
 
       <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>

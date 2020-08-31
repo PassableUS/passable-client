@@ -1,10 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { Spinner } from '@ui-kitten/components';
 
 const LoadingScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>Loading...</Text>
+      <Image width={25} height={25} source={require('../../assets/preloader.gif')} />
+
+      <Text style={{ fontWeight: 'bold', fontSize: 32 }}>Syncing...</Text>
     </View>
   );
 };

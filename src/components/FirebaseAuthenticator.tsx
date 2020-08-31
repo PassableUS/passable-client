@@ -5,7 +5,14 @@ import { AppDispatch } from '../app/store';
 
 // Firebase config
 import firebase from 'firebase/app';
-import { setupFirebaseUid, signedOut, setupSchool } from '../features/login/setupSlice';
+import {
+  setupFirebaseUid,
+  signedOut,
+  setupSchool,
+  setupRole,
+  setupDisplayName,
+  setupDistrict,
+} from '../features/login/setupSlice';
 require('firebase/auth');
 require('firebase/firestore');
 
@@ -59,15 +66,23 @@ const FirebaseAuthentication: React.FC = () => {
         const schoolPath = userDocument.school.path;
         userDocument.school
           .get()
-          .then((doc: firebase.firestore.DocumentSnapshot) =>
+          .then((doc: firebase.firestore.DocumentSnapshot) => {
+            dispatch(setupRole(userDocument.role));
+            dispatch(setupDisplayName(userDocument.displayName));
+            dispatch(
+              setupDistrict({
+                name: userDocument.district.get().name,
+                documentPath: userDocument.district.path,
+              })
+            );
             dispatch(
               setupSchool({
                 documentPath: schoolPath,
                 schoolName: doc.data().name,
                 roomCategories: doc.data().roomCategories,
               })
-            )
-          )
+            );
+          })
           .catch((e: firebase.firestore.FirestoreError) =>
             alert('Something went wrong during initialization. Error Message: ' + e.message)
           );
