@@ -4,10 +4,6 @@ import DefaultLayout from '../../../components/layouts/DefaultLayout';
 import { auth, db } from '../../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Icon from 'react-native-dynamic-vector-icons';
-import {
-  CreatePassScreenNavigationProp,
-  CreatePassScreenRouteProp,
-} from '../../../navigation/HomeNavigation';
 
 import { Platform } from 'react-native';
 
@@ -16,6 +12,10 @@ import IDScanner from '../../../components/IDScanner';
 import CategorySelector from './CategorySelector';
 import TimeSelector from './TimeSelector';
 import SpecificRoomSelector from './SpecificRoomSelector';
+import {
+  CreatePassScreenNavigationProp,
+  CreatePassScreenRouteProp,
+} from '../../../navigation/HomeScreenNavigation';
 
 export interface Room {
   category: string;
@@ -113,6 +113,8 @@ const CreatePassScreen = ({
     };
 
     // setCreationStatus('Assigning student the pass...');
+    navigation.navigate('Home');
+
     selectedStudent.ref
       .collection('passes')
       .add(passData)
@@ -142,7 +144,6 @@ const CreatePassScreen = ({
             } else {
               console.log('No selected room reference. Creating general pass...');
               alert('Successfully created pass!');
-              navigation.navigate('Home');
             }
           })
           .catch((e: any) => alert(e.message));
