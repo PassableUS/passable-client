@@ -5,15 +5,15 @@ import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useDocumentData, useCollectionData } from 'react-firebase-hooks/firestore';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
-import {
-  StudentInfoScreenRouteProp,
-  StudentInfoScreenNavigationProp,
-} from '../../navigation/HomeNavigation';
 import firebase from 'firebase';
 import { View } from 'react-native';
 import SingleStudentDisplay from '../../components/SingleStudentDisplay';
 import Icon from 'react-native-dynamic-vector-icons';
 import StudentSearchResultItem from '../../components/StudentSearchResultItem';
+import {
+  StudentInfoScreenNavigationProp,
+  StudentInfoScreenRouteProp,
+} from '../../navigation/HallManagementNavigation';
 
 export interface Pass {
   fromLocation: firebase.firestore.DocumentReference;

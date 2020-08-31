@@ -33,7 +33,7 @@ const StudentPastPasses = ({ student }: { student: Student }) => {
     <>
       {pastPassesCollectionError && <Text>{pastPassesCollectionError.message}</Text>}
       {pastPassesCollection && pastPassesCollection.length > 0 ? (
-        <PassList passesData={pastPassesCollection} displayTeacher displayDateInsteadOfTime />
+        <PassList passesData={pastPassesCollection} displayIssuer displayDateInsteadOfTime />
       ) : (
         <Text category="s1">No past passes found.</Text>
       )}

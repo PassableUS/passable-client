@@ -9,13 +9,13 @@ const PassCard = ({
   passInfo,
   showWhenInactive = false,
   style,
-  displayTeacher,
+  displayIssuer,
   displayDateInsteadOfTime,
 }: {
   passInfo: Pass;
   showWhenInactive?: boolean;
   style?: any;
-  displayTeacher?: boolean;
+  displayIssuer?: boolean;
   displayDateInsteadOfTime?: boolean;
 }) => {
   const [activeStatus, setActiveStatus] = React.useState(true);
@@ -44,6 +44,7 @@ const PassCard = ({
         backgroundColor: passInfo.passColor,
         borderRadius: 10,
         width: '50%',
+        maxHeight: 150,
         padding: 15,
         alignContent: 'space-between',
         justifyContent: 'space-between',
@@ -97,7 +98,7 @@ const PassCard = ({
             fontSize: 15,
             textAlign: 'center',
           }}>
-          {displayTeacher ? 'Teacher: ' + passInfo.issuingUserName : passInfo.passRecipientName}
+          {displayIssuer ? 'Issuer: ' + passInfo.issuingUserName : passInfo.passRecipientName}
         </Text>
       </View>
     </LinearGradient>

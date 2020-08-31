@@ -8,11 +8,11 @@ import LottieView from 'lottie-react-native';
 
 const PassList = ({
   passesData,
-  displayTeacher,
+  displayIssuer,
   displayDateInsteadOfTime,
 }: {
   passesData: firebase.firestore.DocumentData[];
-  displayTeacher?: boolean;
+  displayIssuer?: boolean;
   displayDateInsteadOfTime?: boolean;
 }) => {
   return (
@@ -47,7 +47,7 @@ const PassList = ({
             {passesData.map((pass, index) => {
               return (
                 <PassCard
-                  displayTeacher={displayTeacher}
+                  displayIssuer={displayIssuer}
                   displayDateInsteadOfTime={displayDateInsteadOfTime}
                   key={pass.uid}
                   //@ts-ignore

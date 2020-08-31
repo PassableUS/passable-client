@@ -39,21 +39,21 @@ const HomeTabNavigation = () => {
 const DrawerNav = createDrawerNavigator<MainHomeParamList>();
 const isLargeScreen = Dimensions.get('window').width > 768;
 
-const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
-  <Drawer
-    style={{
-      marginVertical: 30,
-    }}
-    selectedIndex={new IndexPath(state.index)}
-    onSelect={index => navigation.navigate(state.routeNames[index.row])}>
-    {getCoreScreens('student').map(screenItem => (
-      <DrawerItem title={screenItem.name} accessoryLeft={screenItem.accessoryLeft} />
-    ))}
-  </Drawer>
-);
-
 const HomeDrawerNavigation = () => {
   const role = useSelector((state: RootState) => state.setup.role);
+
+  const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
+    <Drawer
+      style={{
+        marginVertical: 30,
+      }}
+      selectedIndex={new IndexPath(state.index)}
+      onSelect={index => navigation.navigate(state.routeNames[index.row])}>
+      {getCoreScreens(role).map(screenItem => (
+        <DrawerItem title={screenItem.name} accessoryLeft={screenItem.accessoryLeft} />
+      ))}
+    </Drawer>
+  );
 
   return (
     <DrawerNav.Navigator

@@ -10,10 +10,10 @@ import PassList from './PassList';
 
 const StudentActivePasses = ({
   student,
-  displayTeacher,
+  displayIssuer,
 }: {
   student: Student;
-  displayTeacher?: boolean;
+  displayIssuer?: boolean;
 }) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
   const [cachedTime, setCachedTime] = React.useState(new Date());
@@ -40,7 +40,7 @@ const StudentActivePasses = ({
     <>
       {activePassesCollectionError && <Text>{activePassesCollectionError.message}</Text>}
       {activePassesCollection && activePassesCollection.length > 0 ? (
-        <PassList passesData={activePassesCollection} displayTeacher />
+        <PassList passesData={activePassesCollection} displayIssuer />
       ) : (
         <Text category="s1">No active passes found.</Text>
       )}

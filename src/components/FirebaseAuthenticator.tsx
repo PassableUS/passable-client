@@ -5,6 +5,7 @@ import { AppDispatch } from '../app/store';
 
 // Firebase config
 import firebase from 'firebase/app';
+import { setupStudentInformation } from '../features/login/setupSlice';
 import {
   setupFirebaseUid,
   signedOut,
@@ -82,6 +83,19 @@ const FirebaseAuthentication: React.FC = () => {
                 roomCategories: doc.data().roomCategories,
               })
             );
+
+            if (userDocument.role === 'student') {
+              const studentInfoRef = userDocument.studentInformationReference;
+              studentInfoRef.get().then((doc: firebase.firestore.DocumentSnapshot) => {
+                const studentInfoData = doc.data();
+                dispatch(
+                  setupStudentInformation({
+                    path: studentInfoRef.path,
+                    schoolIssuedStudentId: studentInfoData.schoolIssuedStudentId,
+                  })
+                );
+              });
+            }
           })
           .catch((e: firebase.firestore.FirestoreError) =>
             alert('Something went wrong during initialization. Error Message: ' + e.message)

@@ -31,7 +31,7 @@ const SingleStudentDisplay = ({ student }: { student: Student }) => {
       case 'pastPasses':
         return <StudentPastPasses student={student} />;
       case 'activePasses':
-        return <StudentActivePasses displayTeacher student={student} />;
+        return <StudentActivePasses displayIssuer student={student} />;
     }
 
     return <Text>No info type provided.</Text>;

@@ -16,6 +16,8 @@ import {
   CreatePassScreenNavigationProp,
   CreatePassScreenRouteProp,
 } from '../../../navigation/HomeScreenNavigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/rootReducer';
 
 export interface Room {
   category: string;
@@ -48,7 +50,29 @@ const CreatePassScreen = ({
   const [creationStatus, setCreationStatus] = React.useState<string>();
   const [user, userLoading, userError] = useAuthState(auth);
 
+  const { role, studentInformation, displayName } = useSelector((state: RootState) => state.setup);
+
   const StudentSelector = ({ context }: { context: string }) => {
+    // STUDENT CONTEXT: Automatically select the current student if it's a student assigning the role
+    React.useEffect(() => {
+      if (role === 'student') {
+        db.doc(studentInformation.path)
+          .get()
+          .then(snap => {
+            setSelectedStudent({ ref: snap.ref, uid: snap.id, ...snap.data() });
+            setStep('selectCategory');
+          });
+      }
+    }, []);
+
+    if (role === 'student') {
+      return (
+        <Text category="h1">
+          Retrieving your information... Context: Student requesting pass...
+        </Text>
+      );
+    }
+
     return (
       <>
         <Text category="h1">Student Search</Text>
@@ -94,6 +118,8 @@ const CreatePassScreen = ({
 
     console.log('Selected category color: ', selectedCategory.color);
 
+    console.log(displayName);
+
     // TODO: Track from location
     const currentDate = new Date();
     const futureDate = new Date(currentDate.getTime() + selectedTime * 60000);
@@ -104,7 +130,7 @@ const CreatePassScreen = ({
       passColor: selectedCategory.color || '#00BFFF',
       toLocationName: selectedRoom.displayName,
       locationCategory: selectedRoom.category,
-      issuingUserName: user.displayName,
+      issuingUserName: displayName,
       issuingUser: db.collection('users').doc(user.uid),
       passRecipientName: selectedStudent.displayName,
       passSchemaVersion: 1,
