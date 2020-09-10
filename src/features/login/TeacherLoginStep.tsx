@@ -48,9 +48,7 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then(res => {
-        if (res.user) {
-          alert('Signed in!');
-        }
+        console.log('Signed in!');
       })
       .catch(err => {
         const errorCode = err.code;

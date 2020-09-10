@@ -68,7 +68,11 @@ const HomeDrawerNavigation = () => {
       overlayColor="transparent"
       drawerContent={props => <DrawerContent {...props} />}>
       {getCoreScreens(role).map(screenItem => (
-        <DrawerNav.Screen name={screenItem.name as any} component={screenItem.component} />
+        <DrawerNav.Screen
+          name={screenItem.name as any}
+          key={screenItem.name}
+          component={screenItem.component}
+        />
       ))}
     </DrawerNav.Navigator>
   );

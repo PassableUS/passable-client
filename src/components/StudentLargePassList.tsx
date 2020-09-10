@@ -14,6 +14,8 @@ const StudentLargePassList: React.FC = () => {
     (state: RootState) => state.setup.studentInformation.documentPath
   );
 
+  if (!studentPath) return null;
+
   const [
     studentLargePasses,
     isLoadingStudentLargePasses,
@@ -31,7 +33,7 @@ const StudentLargePassList: React.FC = () => {
   return (
     <>
       {studentLargePasses &&
-        studentLargePasses.map(pass => <LargeActivePass key={pass.uid} passInfo={pass} />)}{' '}
+        studentLargePasses.map(pass => <LargeActivePass key={pass.uid} passInfo={pass} />)}
     </>
   );
 };
