@@ -18,22 +18,7 @@ import {
 } from '../../../navigation/HomeScreenNavigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
-import { Pass } from '../../../types/school';
-
-export interface Room {
-  category: string;
-  displayName: string;
-  maxPersonCount: number;
-}
-
-export interface RoomCategory {
-  categorySpecifier: string;
-  color: string;
-  displayName: string;
-  iconGroup: string;
-  iconName: string;
-  studentsRequireApproval: boolean;
-}
+import { Pass, RoomCategory } from '../../../types/school';
 
 const CreatePassScreen = ({
   navigation,
@@ -45,10 +30,10 @@ const CreatePassScreen = ({
   const [selectedStudent, setSelectedStudent] = React.useState<firebase.firestore.DocumentData>();
   const [selectedRoom, setSelectedRoom] = React.useState<firebase.firestore.DocumentData>();
   const [selectedTime, setSelectedTime] = React.useState(5);
-  const [selectedCategory, setSelectedCategory] = React.useState<any>();
+  const [selectedCategory, setSelectedCategory] = React.useState<RoomCategory>(); // Categories not pulled from Firestore at pass creation (populated Redux Store at app launch)
 
   const [step, setStep] = React.useState('selectStudent');
-  const [creationStatus, setCreationStatus] = React.useState<string>();
+  // const [creationStatus, setCreationStatus] = React.useState<string>();
   const [user, userLoading, userError] = useAuthState(auth);
 
   const { role, studentInformation, displayName } = useSelector((state: RootState) => state.setup);
@@ -138,6 +123,8 @@ const CreatePassScreen = ({
       passSchemaVersion: 1,
       startTime: new Date(),
       endTime: futureDate, // use SelectedTime
+      iconGroup: selectedCategory.iconGroup,
+      iconName: selectedCategory.iconName,
     };
 
     // setCreationStatus('Assigning student the pass...');

@@ -13,6 +13,8 @@ export interface Pass {
   locationCategory: string;
   passColor: string;
   uid?: string;
+  iconGroup?: string;
+  iconName?: string;
 }
 export interface Student {
   eventsLog: Pass[];
@@ -21,4 +23,19 @@ export interface Student {
   schoolIssuedStudentId: string;
   profilePictureUri?: string;
   uid: string;
+}
+
+export interface Room {
+  category: string;
+  displayName: string;
+  maxPersonCount: number;
+}
+
+export interface RoomCategory {
+  categorySpecifier: string;
+  color: string;
+  displayName: string;
+  iconGroup: string;
+  iconName: string;
+  studentsRequireApproval: boolean;
 }

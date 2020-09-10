@@ -1,11 +1,11 @@
 import React from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { RoomCategory } from '../CreatePassScreen';
 import { Text } from '@ui-kitten/components';
 import Icon from 'react-native-dynamic-vector-icons';
 import SpecificRoomSelector from './SpecificRoomSelector';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
+import { RoomCategory } from '../../../types/school';
 
 interface CategorySelectorProps {
   setSelectedCategory: any;
