@@ -1,27 +1,15 @@
 import React from 'react';
-import { Text } from '@ui-kitten/components';
 import { Pass } from '../features/main/StudentInfoScreen';
-import { View } from 'react-native';
-import Timer from './Timer';
 import { LinearGradient } from 'expo-linear-gradient';
 import { adjustColor } from '../utils/colors';
+import Timer from './Timer';
+import { View, TouchableOpacity } from 'react-native';
+import { Text } from '@ui-kitten/components';
 
-const PassCard = ({
-  passInfo,
-  showWhenInactive = false,
-  style,
-  displayIssuer,
-  displayDateInsteadOfTime,
-}: {
-  passInfo: Pass;
-  showWhenInactive?: boolean;
-  style?: any;
-  displayIssuer?: boolean;
-  displayDateInsteadOfTime?: boolean;
-}) => {
+const LargeActivePass = ({ passInfo, style }: { passInfo: Pass; style?: any }) => {
   const [activeStatus, setActiveStatus] = React.useState(true);
 
-  if (!activeStatus && !showWhenInactive) {
+  if (!activeStatus) {
     return null;
   }
 
@@ -34,13 +22,14 @@ const PassCard = ({
       style={{
         backgroundColor: passInfo.passColor,
         borderRadius: 10,
-        width: '50%',
-        maxHeight: 150,
+        width: '100%',
+        minHeight: 500,
         padding: 15,
         alignContent: 'space-between',
         justifyContent: 'space-between',
         display: 'flex',
         flexDirection: 'column',
+        margin: 5,
         ...style,
       }}>
       <Text
@@ -53,28 +42,17 @@ const PassCard = ({
         }}>
         {passInfo.toLocationName}
       </Text>
-      {displayDateInsteadOfTime ? (
-        <Text
-          style={{
-            color: 'white',
-            textAlign: 'center',
-            fontSize: 15,
-            paddingBottom: 10,
-          }}>
-          {passInfo.endTime.toDate().toDateString()}
-        </Text>
-      ) : (
-        <Timer
-          timerTextStyle={{
-            color: 'white',
-            textAlign: 'center',
-            fontSize: 15,
-            paddingBottom: 10,
-          }}
-          setActiveStatus={(status: any) => setActiveStatus(status)}
-          targetTime={passInfo.endTime.toDate()}
-        />
-      )}
+
+      <Timer
+        timerTextStyle={{
+          color: 'white',
+          textAlign: 'center',
+          fontSize: 15,
+          paddingBottom: 10,
+        }}
+        setActiveStatus={(status: any) => setActiveStatus(status)}
+        targetTime={passInfo.endTime.toDate()}
+      />
 
       <View
         style={{
@@ -89,11 +67,19 @@ const PassCard = ({
             fontSize: 15,
             textAlign: 'center',
           }}>
-          {displayIssuer ? 'Issuer: ' + passInfo.issuingUserName : passInfo.passRecipientName}
+          {'Issuer: ' + passInfo.issuingUserName}
         </Text>
       </View>
+
+      <TouchableOpacity
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.4)',
+          borderRadius: 10,
+        }}>
+        <Text>End Pass</Text>
+      </TouchableOpacity>
     </LinearGradient>
   );
 };
 
-export default PassCard;
+export default LargeActivePass;

@@ -18,6 +18,7 @@ import {
 } from '../../../navigation/HomeScreenNavigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
+import { Pass } from '../StudentInfoScreen';
 
 export interface Room {
   category: string;
@@ -56,7 +57,7 @@ const CreatePassScreen = ({
     // STUDENT CONTEXT: Automatically select the current student if it's a student assigning the role
     React.useEffect(() => {
       if (role === 'student') {
-        db.doc(studentInformation.path)
+        db.doc(studentInformation.documentPath)
           .get()
           .then(snap => {
             setSelectedStudent({ ref: snap.ref, uid: snap.id, ...snap.data() });
@@ -123,7 +124,7 @@ const CreatePassScreen = ({
     // TODO: Track from location
     const currentDate = new Date();
     const futureDate = new Date(currentDate.getTime() + selectedTime * 60000);
-    const passData = {
+    const passData: Pass = {
       fromLocation: 'default',
       toLocation: selectedRoom.ref,
       fromLocationName: 'default',
@@ -132,6 +133,7 @@ const CreatePassScreen = ({
       locationCategory: selectedRoom.category,
       issuingUserName: displayName,
       issuingUser: db.collection('users').doc(user.uid),
+      passRecipientUser: selectedStudent.ref,
       passRecipientName: selectedStudent.displayName,
       passSchemaVersion: 1,
       startTime: new Date(),

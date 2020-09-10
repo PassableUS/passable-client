@@ -90,7 +90,7 @@ const FirebaseAuthentication: React.FC = () => {
                 const studentInfoData = doc.data();
                 dispatch(
                   setupStudentInformation({
-                    path: studentInfoRef.path,
+                    documentPath: studentInfoRef.path,
                     schoolIssuedStudentId: studentInfoData.schoolIssuedStudentId,
                   })
                 );

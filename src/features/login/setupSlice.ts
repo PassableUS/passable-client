@@ -14,7 +14,7 @@ export interface SchoolProfileRepresentation {
 export interface StudentInformationRepresentation {
   classEnrollments?: any[];
   schoolIssuedStudentId?: string;
-  path: string;
+  documentPath: string;
 }
 
 export interface UserProfile {
