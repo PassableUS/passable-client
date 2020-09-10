@@ -1,10 +1,10 @@
 import React from 'react';
-import { Student } from '../features/main/StudentInfoScreen';
 import { Avatar, Button, Text } from '@ui-kitten/components';
 import StudentActivePasses from './StudentActivePasses';
 import Icon from 'react-native-dynamic-vector-icons';
 import { View } from 'react-native';
 import StudentPastPasses from './StudentPastPasses';
+import { Student } from '../types/school';
 
 export const getNumberWithOrdinal = (n: number) => {
   let s = ['th', 'st', 'nd', 'rd'],

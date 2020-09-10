@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text } from '@ui-kitten/components';
-import { Pass } from '../features/main/StudentInfoScreen';
 import { View } from 'react-native';
 import Timer from './Timer';
 import { LinearGradient } from 'expo-linear-gradient';
 import { adjustColor } from '../utils/colors';
+import { Pass } from '../types/school';
 
 const PassCard = ({
   passInfo,

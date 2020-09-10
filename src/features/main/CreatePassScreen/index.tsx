@@ -18,7 +18,7 @@ import {
 } from '../../../navigation/HomeScreenNavigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
-import { Pass } from '../StudentInfoScreen';
+import { Pass } from '../../../types/school';
 
 export interface Room {
   category: string;

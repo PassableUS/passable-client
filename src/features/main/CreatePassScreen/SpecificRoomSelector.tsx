@@ -47,7 +47,6 @@ const SpecificRoomSelector = ({
       <ScrollView>
         <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
           <TouchableOpacity
-            key={category.categorySpecifier}
             onPress={() => {
               setSelectedRoom({
                 ref: null,
@@ -85,7 +84,7 @@ const SpecificRoomSelector = ({
           </TouchableOpacity>
           {matchingRoomsCollection.docs.map(room => (
             <TouchableOpacity
-              key={category.categorySpecifier}
+              key={room.data().displayName}
               onPress={() => {
                 setSelectedRoom({ ref: room.ref, ...room.data() });
 

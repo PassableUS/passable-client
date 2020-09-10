@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text, Spinner } from '@ui-kitten/components';
-import { Student, Pass } from '../features/main/StudentInfoScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/rootReducer';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db } from './FirebaseAuthenticator';
 import PassCard from './PassCard';
 import PassList from './PassList';
+import { Student, Pass } from '../types/school';
 
 const StudentPastPasses = ({ student }: { student: Student }) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);

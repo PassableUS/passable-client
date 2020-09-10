@@ -50,7 +50,11 @@ const HomeDrawerNavigation = () => {
       selectedIndex={new IndexPath(state.index)}
       onSelect={index => navigation.navigate(state.routeNames[index.row])}>
       {getCoreScreens(role).map(screenItem => (
-        <DrawerItem title={screenItem.name} accessoryLeft={screenItem.accessoryLeft} />
+        <DrawerItem
+          title={screenItem.name}
+          key={screenItem.name}
+          accessoryLeft={screenItem.accessoryLeft}
+        />
       ))}
     </Drawer>
   );

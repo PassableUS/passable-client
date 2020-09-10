@@ -1,10 +1,10 @@
 import React from 'react';
-import { Pass } from '../features/main/StudentInfoScreen';
 import { LinearGradient } from 'expo-linear-gradient';
 import { adjustColor } from '../utils/colors';
 import Timer from './Timer';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
+import { Pass } from '../types/school';
 
 const LargeActivePass = ({ passInfo, style }: { passInfo: Pass; style?: any }) => {
   const [activeStatus, setActiveStatus] = React.useState(true);
@@ -22,7 +22,6 @@ const LargeActivePass = ({ passInfo, style }: { passInfo: Pass; style?: any }) =
       style={{
         backgroundColor: passInfo.passColor,
         borderRadius: 10,
-        width: '100%',
         minHeight: 500,
         padding: 15,
         alignContent: 'space-between',
@@ -73,10 +72,25 @@ const LargeActivePass = ({ passInfo, style }: { passInfo: Pass; style?: any }) =
 
       <TouchableOpacity
         style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.4)',
+          backgroundColor: 'rgba(255, 255, 255, 0.45)',
           borderRadius: 10,
+          alignContent: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 15,
+          marginHorizontal: 20,
         }}>
-        <Text>End Pass</Text>
+        <Text
+          style={{
+            color: 'white',
+            alignContent: 'center',
+            justifyContent: 'center',
+            padding: 25,
+            fontFamily: 'Inter_800ExtraBold',
+            fontSize: 20,
+          }}>
+          End Pass
+        </Text>
       </TouchableOpacity>
     </LinearGradient>
   );

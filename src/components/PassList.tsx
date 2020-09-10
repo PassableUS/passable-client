@@ -1,5 +1,4 @@
 import React from 'react';
-import { Pass } from '../features/main/StudentInfoScreen';
 import { firestore } from 'firebase';
 import PassCard from './PassCard';
 import { Text } from '@ui-kitten/components';
