@@ -9,10 +9,12 @@ const PassList = ({
   passesData,
   displayIssuer,
   displayDateInsteadOfTime,
+  scrollable = false,
 }: {
   passesData: firebase.firestore.DocumentData[];
   displayIssuer?: boolean;
   displayDateInsteadOfTime?: boolean;
+  scrollable?: boolean;
 }) => {
   return (
     <>
@@ -41,26 +43,24 @@ const PassList = ({
           </Text>
         </View>
       ) : (
-        <ScrollView>
-          <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-            {passesData.map((pass, index) => {
-              return (
-                <PassCard
-                  displayIssuer={displayIssuer}
-                  displayDateInsteadOfTime={displayDateInsteadOfTime}
-                  key={pass.uid}
-                  //@ts-ignore
-                  passInfo={{ passColor: '#00BFFF', ...pass }}
-                  style={{
-                    flex: 1,
-                    minWidth: 150,
-                    margin: 5,
-                  }}
-                />
-              );
-            })}
-          </View>
-        </ScrollView>
+        <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+          {passesData.map((pass, index) => {
+            return (
+              <PassCard
+                displayIssuer={displayIssuer}
+                displayDateInsteadOfTime={displayDateInsteadOfTime}
+                key={pass.uid}
+                //@ts-ignore
+                passInfo={{ passColor: '#00BFFF', ...pass }}
+                style={{
+                  flex: 1,
+                  minWidth: 150,
+                  margin: 5,
+                }}
+              />
+            );
+          })}
+        </View>
       )}
     </>
   );

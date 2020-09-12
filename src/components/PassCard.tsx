@@ -27,7 +27,7 @@ const PassCard = ({
 
   return (
     <LinearGradient
-      colors={[passInfo.passColor, adjustColor(passInfo.passColor, -50)]}
+      colors={[passInfo.passColor, adjustColor(passInfo.passColor, -40)]}
       start={[0.0, 0.5]}
       end={[1.0, 0.5]}
       locations={[0.0, 1.0]}
@@ -35,7 +35,7 @@ const PassCard = ({
         backgroundColor: passInfo.passColor,
         borderRadius: 10,
         width: '50%',
-        maxHeight: 150,
+        minHeight: 125,
         padding: 15,
         alignContent: 'space-between',
         justifyContent: 'space-between',

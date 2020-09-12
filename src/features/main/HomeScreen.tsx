@@ -55,7 +55,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   }, []);
 
   return (
-    <DefaultLayout>
+    <DefaultLayout scrollable>
       {role === 'student' && <StudentLargePassList />}
 
       <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
@@ -64,6 +64,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
 
       <View style={{ flexDirection: 'row', display: 'flex' }}>
         <MovingGradientButton
+          buttonHeight={125}
           speed={1700}
           customColors={presetColors.greenish}
           style={{ margin: 5 }}
@@ -72,6 +73,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
         />
         {role !== 'student' && (
           <MovingGradientButton
+            buttonHeight={125}
             customColors={presetColors.blueish}
             speed={3000}
             style={{ margin: 5 }}

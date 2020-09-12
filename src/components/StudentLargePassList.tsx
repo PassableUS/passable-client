@@ -14,8 +14,6 @@ const StudentLargePassList: React.FC = () => {
     (state: RootState) => state.setup.studentInformation.documentPath
   );
 
-  if (!studentPath) return null;
-
   const [
     studentLargePasses,
     isLoadingStudentLargePasses,
@@ -24,11 +22,13 @@ const StudentLargePassList: React.FC = () => {
     db
       .doc(schoolPath)
       .collection('passes')
-      .where('passRecipientUser', '==', db.doc(studentPath))
+      .where('passRecipientUser', '==', db.doc(studentPath || 'unknown'))
       .where('endTime', '>=', currentTime),
 
     { idField: 'uid' }
   );
+
+  if (!studentPath) return null;
 
   return (
     <>

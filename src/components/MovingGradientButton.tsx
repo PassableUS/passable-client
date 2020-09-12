@@ -10,19 +10,20 @@ const MovingGradientButton = ({
   buttonText,
   style,
   speed = 4000,
-
+  buttonHeight,
   customColors = presetColors.instagram,
 }: {
   onButtonPress: any;
   buttonText: string;
   style?: any;
   speed?: number;
+  buttonHeight: number;
   customColors?: any[];
 }) => {
   return (
     <View
       style={{
-        height: Platform.OS === 'web' ? '100%' : 120,
+        height: buttonHeight,
         flex: 1,
         alignContent: 'center',
         justifyContent: 'center',
@@ -32,7 +33,7 @@ const MovingGradientButton = ({
       }}>
       <TouchableOpacity
         style={{
-          height: '100%',
+          height: Platform.OS === 'web' ? buttonHeight : '100%',
           width: '100%',
         }}
         onPress={onButtonPress}>
