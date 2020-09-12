@@ -1,8 +1,6 @@
 import React from 'react';
 import { Text, Spinner } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { Student, Pass } from './StudentInfoScreen';
-import { SearchScreenNavigationProp } from '../../navigation/HomeNavigation';
 import { db } from '../../components/FirebaseAuthenticator';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
@@ -10,6 +8,8 @@ import { useCollectionData } from 'react-firebase-hooks/firestore/';
 import PassList from '../../components/PassList';
 import { View } from 'react-native';
 import StudentSearch from '../../components/StudentSearch';
+import { Pass, Student } from '../../types/school';
+import { SearchScreenNavigationProp } from '../../navigation/HallManagementNavigation';
 
 const SearchScreen = ({ navigation }: { navigation: SearchScreenNavigationProp }) => {
   const [userPasses, setUserPasses] = React.useState<firebase.firestore.DocumentData[]>();

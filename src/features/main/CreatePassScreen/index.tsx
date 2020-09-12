@@ -19,6 +19,7 @@ import {
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { Pass, RoomCategory } from '../../../types/school';
+import firebase from 'firebase';
 
 const CreatePassScreen = ({
   navigation,
@@ -121,8 +122,8 @@ const CreatePassScreen = ({
       passRecipientUser: selectedStudent.ref,
       passRecipientName: selectedStudent.displayName,
       passSchemaVersion: 1,
-      startTime: new Date(),
-      endTime: futureDate, // use SelectedTime
+      startTime: firebase.firestore.Timestamp.fromDate(new Date()),
+      endTime: firebase.firestore.Timestamp.fromDate(futureDate), // use SelectedTime
       iconGroup: selectedCategory.iconGroup,
       iconName: selectedCategory.iconName,
     };

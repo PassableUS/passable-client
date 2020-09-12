@@ -8,8 +8,8 @@ export interface Pass {
   passRecipientUser: firebase.firestore.DocumentReference;
   passRecipientName: string;
   passSchemaVersion: number;
-  startTime: firebase.firestore.Timestamp | Date;
-  endTime: firebase.firestore.Timestamp | Date;
+  startTime: firebase.firestore.Timestamp;
+  endTime: firebase.firestore.Timestamp;
   locationCategory: string;
   passColor: string;
   uid?: string;
