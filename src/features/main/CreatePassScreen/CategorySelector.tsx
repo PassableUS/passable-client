@@ -18,7 +18,7 @@ const CategorySelector = ({ setSelectedCategory, setStep }: CategorySelectorProp
   return (
     <>
       <Text category="h1" style={{ marginBottom: 10 }}>
-        Select a category
+        Select a Room Category
       </Text>
       <ScrollView>
         <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>

@@ -5,13 +5,28 @@ import Timer from './Timer';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { Pass } from '../types/school';
+import { db } from './FirebaseAuthenticator';
 
-const LargeActivePass = ({ passInfo, style }: { passInfo: Pass; style?: any }) => {
+const LargeActivePass = ({
+  passInfo,
+  passRef,
+  style,
+}: {
+  passInfo: Pass;
+  passRef: firebase.firestore.DocumentReference;
+  style?: any;
+}) => {
   const [activeStatus, setActiveStatus] = React.useState(true);
 
   if (!activeStatus) {
     return null;
   }
+
+  const handleEndPass = () => {
+    passRef.update({
+      endTime: new Date(),
+    });
+  };
 
   return (
     <LinearGradient
@@ -71,6 +86,7 @@ const LargeActivePass = ({ passInfo, style }: { passInfo: Pass; style?: any }) =
       </View>
 
       <TouchableOpacity
+        onPress={handleEndPass}
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.45)',
           borderRadius: 10,
