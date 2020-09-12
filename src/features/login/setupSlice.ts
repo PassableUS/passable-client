@@ -12,7 +12,7 @@ export interface SchoolProfileRepresentation {
 }
 
 export interface StudentInformationRepresentation {
-  classEnrollments?: any[];
+  courseEnrollments?: any[];
   schoolIssuedStudentId?: string;
   documentPath: string;
 }

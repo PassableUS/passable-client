@@ -6,6 +6,7 @@ import { AppDispatch } from '../app/store';
 // Firebase config
 import firebase from 'firebase/app';
 import { setupStudentInformation } from '../features/login/setupSlice';
+import { FirestoreCourseEnrollment, ReduxCourseEnrollment } from '../types/school';
 import {
   setupFirebaseUid,
   signedOut,
@@ -88,10 +89,22 @@ const FirebaseAuthentication: React.FC = () => {
               const studentInfoRef = userDocument.studentInformationReference;
               studentInfoRef.get().then((doc: firebase.firestore.DocumentSnapshot) => {
                 const studentInfoData = doc.data();
+                console.log('Refetching data');
+                // Transforms Firestore references into paths
+                const courseEnrollments = studentInfoData.courseEnrollments.map(
+                  (enrollment: FirestoreCourseEnrollment): ReduxCourseEnrollment => {
+                    return {
+                      courseName: enrollment.courseName,
+                      teacherPath: enrollment.teacherReference.path,
+                    };
+                  }
+                );
+
                 dispatch(
                   setupStudentInformation({
                     documentPath: studentInfoRef.path,
                     schoolIssuedStudentId: studentInfoData.schoolIssuedStudentId,
+                    courseEnrollments,
                   })
                 );
               });

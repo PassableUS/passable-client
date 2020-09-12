@@ -5,9 +5,10 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { db } from '../../../components/FirebaseAuthenticator';
 import { Spinner, Text } from '@ui-kitten/components';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { RoomCategory } from '../../../types/school';
 
 interface SpecificRoomSelectorProps {
-  category: any;
+  category: RoomCategory;
   setSelectedRoom: any;
   setStep: any;
 }
@@ -88,7 +89,11 @@ const SpecificRoomSelector = ({
               onPress={() => {
                 setSelectedRoom({ ref: room.ref, ...room.data() });
 
-                setStep('selectTime');
+                if (category.studentsRequireApproval) {
+                  setStep('selectApprover');
+                } else {
+                  setStep('selectTime');
+                }
               }}
               style={{
                 flex: 1,

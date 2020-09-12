@@ -192,6 +192,9 @@ const CreatePassScreen = ({
             setStep={setStep}
           />
         )}
+
+        {step === 'selectApprover' && <Text>Approval Selector</Text>}
+
         {step === 'selectTime' && (
           <TimeSelector
             handleCreatePass={handleCreatePass}

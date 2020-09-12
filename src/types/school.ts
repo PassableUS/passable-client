@@ -39,3 +39,13 @@ export interface RoomCategory {
   iconName: string;
   studentsRequireApproval: boolean;
 }
+
+export interface FirestoreCourseEnrollment {
+  courseName: string;
+  teacherReference: firebase.firestore.DocumentReference;
+}
+
+export interface ReduxCourseEnrollment {
+  courseName: string;
+  teacherPath: string;
+}

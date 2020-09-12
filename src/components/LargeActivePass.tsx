@@ -6,6 +6,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { Pass } from '../types/school';
 import { db } from './FirebaseAuthenticator';
+import { endPass } from '../services/passServices';
 
 const LargeActivePass = ({
   passInfo,
@@ -21,12 +22,6 @@ const LargeActivePass = ({
   if (!activeStatus) {
     return null;
   }
-
-  const handleEndPass = () => {
-    passRef.update({
-      endTime: new Date(),
-    });
-  };
 
   return (
     <LinearGradient
@@ -86,7 +81,7 @@ const LargeActivePass = ({
       </View>
 
       <TouchableOpacity
-        onPress={handleEndPass}
+        onPress={() => endPass(passRef)}
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.45)',
           borderRadius: 10,
