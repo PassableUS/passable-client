@@ -1,10 +1,10 @@
 {
-  "webpackServerPort": 19006,
+  "webpackServerPort": null,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 27280,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "packagerPid": 8336,
+  "expoServerNgrokUrl": "https://v3-9sw.josephsemrai.safepass.exp.direct",
+  "packagerNgrokUrl": "https://packager.v3-9sw.josephsemrai.safepass.exp.direct",
+  "ngrokPid": 17132,
   "devToolsPort": 19002
 }

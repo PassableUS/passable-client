@@ -34,22 +34,12 @@ const PassCard = ({
   }
 
   return (
-    <LinearGradient
-      colors={[passInfo.passColor, adjustColor(passInfo.passColor, -40)]}
-      start={[0.0, 0.5]}
-      end={[1.0, 0.5]}
-      locations={[0.0, 1.0]}
+    <View
       style={{
-        backgroundColor: passInfo.passColor,
-        borderRadius: 10,
         width: '50%',
         minHeight: 125,
-        padding: 15,
-        alignContent: 'space-between',
-        justifyContent: 'space-between',
-        display: 'flex',
-        flexDirection: 'column',
         shadowColor: '#000',
+        borderRadius: 10,
         shadowOffset: {
           width: 0,
           height: 3,
@@ -58,58 +48,77 @@ const PassCard = ({
         shadowRadius: 4.65,
 
         elevation: 6,
-        ...style,
       }}>
-      <Text
+      <LinearGradient
+        colors={[passInfo.passColor, adjustColor(passInfo.passColor, -40)]}
+        start={[0.0, 0.5]}
+        end={[1.0, 0.5]}
+        locations={[0.0, 1.0]}
         style={{
-          color: 'white',
-          fontWeight: '600',
-          fontFamily: 'Inter_800ExtraBold',
-          fontSize: 20,
-          textAlign: 'center',
-        }}>
-        {passInfo.toLocationName}
-      </Text>
-      {displayDateInsteadOfTime ? (
-        <Text
-          style={{
-            color: 'white',
-            textAlign: 'center',
-            fontSize: 15,
-            paddingBottom: 10,
-          }}>
-          {passInfo.endTime.toDate().toDateString()}
-        </Text>
-      ) : (
-        <Timer
-          timerTextStyle={{
-            color: 'white',
-            textAlign: 'center',
-            fontSize: 15,
-            paddingBottom: 10,
-          }}
-          setActiveStatus={(status: any) => setActiveStatus(status)}
-          targetTime={passInfo.endTime.toDate()}
-        />
-      )}
-
-      <View
-        style={{
+          height: '100%',
+          width: '100%',
+          backgroundColor: passInfo.passColor,
           borderRadius: 10,
-          padding: 5,
+
+          padding: 15,
+          alignContent: 'space-between',
+          justifyContent: 'space-between',
+          display: 'flex',
+          flexDirection: 'column',
+
+          ...style,
         }}>
         <Text
           style={{
             color: 'white',
             fontWeight: '600',
-            fontFamily: 'Inter_600SemiBold',
-            fontSize: 15,
+            fontFamily: 'Inter_800ExtraBold',
+            fontSize: 20,
             textAlign: 'center',
           }}>
-          {displayIssuer ? 'Issuer: ' + passInfo.issuingUserName : passInfo.passRecipientName}
+          {passInfo.toLocationName}
         </Text>
-      </View>
-    </LinearGradient>
+        {displayDateInsteadOfTime ? (
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              fontSize: 15,
+              paddingBottom: 10,
+            }}>
+            {passInfo.endTime.toDate().toDateString()}
+          </Text>
+        ) : (
+          <Timer
+            timerTextStyle={{
+              color: 'white',
+              textAlign: 'center',
+              fontSize: 15,
+              paddingBottom: 10,
+            }}
+            setActiveStatus={(status: any) => setActiveStatus(status)}
+            targetTime={passInfo.endTime.toDate()}
+          />
+        )}
+
+        <View
+          style={{
+            borderRadius: 10,
+            padding: 5,
+          }}>
+          <Text
+            style={{
+              color: 'white',
+              fontWeight: '600',
+              fontFamily: 'Inter_600SemiBold',
+              fontSize: 15,
+              textAlign: 'center',
+            }}>
+            {displayIssuer ? 'Issuer: ' + passInfo.issuingUserName : passInfo.passRecipientName}
+          </Text>
+        </View>
+      </LinearGradient>
+    </View>
   );
 };
 
