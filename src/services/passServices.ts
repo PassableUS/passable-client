@@ -9,6 +9,45 @@ const endPass = (passRef: firebase.firestore.DocumentReference) => {
   });
 };
 
+const createPassFromPassData = (passData: Pass) => {
+  const selectedStudentRef = passData.passRecipientUser;
+  const selectedRoomRef = passData.toLocation;
+
+  selectedStudentRef
+    .collection('passes')
+    .add(passData)
+    .then(() => {
+      // setCreationStatus('Updating school records...');
+
+      // TODO: Address whether to access .school or .parent in order to access the school from the parent
+      // selectedStudent.school
+      //   .collection('passes')
+      const studentsCollectionRef = selectedStudentRef.parent;
+      const schoolDocRef = studentsCollectionRef.parent;
+      schoolDocRef
+        .collection('passes')
+        .add(passData)
+        .then(() => {
+          // setCreationStatus('Updating room records...');
+          if (selectedRoomRef) {
+            selectedRoomRef
+              .collection('passes')
+              .add(passData)
+              .then(() => {
+                // setCreationStatus('Successfully created pass.');
+                alert('Successfully created pass!');
+              })
+              .catch((e: any) => alert(e.message));
+          } else {
+            console.log('No selected room reference. Creating general pass...');
+            alert('Successfully created pass!');
+          }
+        })
+        .catch((e: any) => alert(e.message));
+    })
+    .catch((e: any) => alert(e.message));
+};
+
 const createPass = (
   selectedStudent: firebase.firestore.DocumentData,
   selectedRoom: firebase.firestore.DocumentData,
@@ -39,39 +78,7 @@ const createPass = (
     iconName: selectedCategory.iconName,
   };
 
-  selectedStudent.ref
-    .collection('passes')
-    .add(passData)
-    .then(() => {
-      // setCreationStatus('Updating school records...');
-
-      // TODO: Address whether to access .school or .parent in order to access the school from the parent
-      // selectedStudent.school
-      //   .collection('passes')
-      const studentsCollectionRef = selectedStudent.ref.parent;
-      const schoolDocRef = studentsCollectionRef.parent;
-      schoolDocRef
-        .collection('passes')
-        .add(passData)
-        .then(() => {
-          // setCreationStatus('Updating room records...');
-          if (selectedRoom.ref) {
-            selectedRoom.ref
-              .collection('passes')
-              .add(passData)
-              .then(() => {
-                // setCreationStatus('Successfully created pass.');
-                alert('Successfully created pass!');
-              })
-              .catch((e: any) => alert(e.message));
-          } else {
-            console.log('No selected room reference. Creating general pass...');
-            alert('Successfully created pass!');
-          }
-        })
-        .catch((e: any) => alert(e.message));
-    })
-    .catch((e: any) => alert(e.message));
+  createPassFromPassData(passData);
 };
 
 const createPassRequest = (
@@ -135,4 +142,4 @@ const createPassRequest = (
   //   .catch((e: any) => alert(e.message));
 };
 
-export { endPass, createPass, createPassRequest };
+export { endPass, createPass, createPassRequest, createPassFromPassData };

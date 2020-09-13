@@ -21,39 +21,48 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const [currentTime, setCurrentTime] = React.useState(new Date());
   const role = useSelector((state: RootState) => state.setup.role);
 
-  const [userPasses, setUserPasses] = React.useState<firebase.firestore.DocumentData[]>();
+  const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
 
-  React.useEffect(() => {
-    console.log('Fetching Firebase Data: User -> School -> User Passes');
-    let unsubscribePasses: any = () =>
-      console.log('HomeScreen component unmounted Before unsubscribePasses could be set');
-    const unsubscribe = db
-      .collection('users')
-      .doc(userUid)
-      .onSnapshot(doc => {
-        const profileData = doc.data();
-        profileData.school.get().then((doc: firebase.firestore.DocumentSnapshot) => {
-          unsubscribePasses = doc.ref
-            .collection('passes')
-            // TODO: Change this reference to user document when possible
-            .where('issuingUser', '==', db.collection('users').doc(userUid))
-            .where('endTime', '>=', currentTime)
-            .onSnapshot((querySnapshot: firebase.firestore.QuerySnapshot) => {
-              setUserPasses(
-                querySnapshot.docs.map(doc => {
-                  return { uid: doc.id, ...doc.data() };
-                })
-              );
-              console.log('Fetching more passes...');
-            });
-        });
-      });
+  const [userPasses, isUserPassesLoading, userPassesError] = useCollectionData<Pass>(
+    db
+      .doc(schoolPath)
+      .collection('passes')
+      .where('issuingUser', '==', db.collection('users').doc(userUid))
+      .where('endTime', '>=', currentTime),
+    { idField: 'uid' }
+  );
 
-    return () => {
-      unsubscribe();
-      unsubscribePasses();
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   console.log('Fetching Firebase Data: User -> School -> User Passes');
+  //   let unsubscribePasses: any = () =>
+  //     console.log('HomeScreen component unmounted Before unsubscribePasses could be set');
+  //   const unsubscribe = db
+  //     .collection('users')
+  //     .doc(userUid)
+  //     .onSnapshot(doc => {
+  //       const profileData = doc.data();
+  //       profileData.school.get().then((doc: firebase.firestore.DocumentSnapshot) => {
+  //         unsubscribePasses = doc.ref
+  //           .collection('passes')
+  //           // TODO: Change this reference to user document when possible
+  //           .where('issuingUser', '==', db.collection('users').doc(userUid))
+  //           .where('endTime', '>=', currentTime)
+  //           .onSnapshot((querySnapshot: firebase.firestore.QuerySnapshot) => {
+  //             setUserPasses(
+  //               querySnapshot.docs.map(doc => {
+  //                 return { uid: doc.id, ...doc.data() };
+  //               })
+  //             );
+  //             console.log('Fetching more passes...');
+  //           });
+  //       });
+  //     });
+
+  //   return () => {
+  //     unsubscribe();
+  //     unsubscribePasses();
+  //   };
+  // }, []);
 
   return (
     <DefaultLayout scrollable>
@@ -88,6 +97,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
         Active Passes
       </Text>
+      <Text>{userPasses?.length}</Text>
       {userPasses && (
         <>
           <PassList passesData={userPasses} />

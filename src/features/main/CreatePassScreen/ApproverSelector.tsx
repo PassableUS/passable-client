@@ -9,7 +9,6 @@ import { ReduxCourseEnrollment } from '../../../types/school';
 import { View } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SelectedApproverInfo } from '.';
 
 const ApproverSelector = ({
   setSelectedApproverInfo,

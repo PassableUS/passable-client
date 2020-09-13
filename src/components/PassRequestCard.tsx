@@ -1,37 +1,21 @@
 import React from 'react';
 import { Text } from '@ui-kitten/components';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Timer from './Timer';
 import { LinearGradient } from 'expo-linear-gradient';
 import { adjustColor } from '../utils/colors';
-import { Pass } from '../types/school';
+import { Pass, PassRequest } from '../types/school';
+import { approveRequest } from '../services/requestServices';
 
-const PassCard = ({
-  passInfo,
-  showWhenInactive = false,
+const PassRequestCard = ({
+  requestSnapshot,
   style,
-  displayIssuer,
-  displayDateInsteadOfTime,
-  handlePassExpire,
 }: {
-  passInfo: Pass;
-  showWhenInactive?: boolean;
+  requestSnapshot: firebase.firestore.DocumentSnapshot;
   style?: any;
-  displayIssuer?: boolean;
-  displayDateInsteadOfTime?: boolean;
-  handlePassExpire?: any;
 }) => {
-  const [activeStatus, setActiveStatus] = React.useState(true);
-
-  // React.useEffect(() => {
-  //   if (!activeStatus && !showWhenInactive) {
-  //     handlePassExpire(passInfo);
-  //   }
-  // }, [activeStatus]);
-
-  if (!activeStatus && !showWhenInactive) {
-    return null;
-  }
+  const requestData: PassRequest = requestSnapshot.data() as PassRequest;
+  const passInfo = requestData.passData;
 
   return (
     <LinearGradient
@@ -49,7 +33,6 @@ const PassCard = ({
         justifyContent: 'space-between',
         display: 'flex',
         flexDirection: 'column',
-        shadowColor: '#000',
         shadowOffset: {
           width: 0,
           height: 3,
@@ -70,28 +53,6 @@ const PassCard = ({
         }}>
         {passInfo.toLocationName}
       </Text>
-      {displayDateInsteadOfTime ? (
-        <Text
-          style={{
-            color: 'white',
-            textAlign: 'center',
-            fontSize: 15,
-            paddingBottom: 10,
-          }}>
-          {passInfo.endTime.toDate().toDateString()}
-        </Text>
-      ) : (
-        <Timer
-          timerTextStyle={{
-            color: 'white',
-            textAlign: 'center',
-            fontSize: 15,
-            paddingBottom: 10,
-          }}
-          setActiveStatus={(status: any) => setActiveStatus(status)}
-          targetTime={passInfo.endTime.toDate()}
-        />
-      )}
 
       <View
         style={{
@@ -106,11 +67,34 @@ const PassCard = ({
             fontSize: 15,
             textAlign: 'center',
           }}>
-          {displayIssuer ? 'Issuer: ' + passInfo.issuingUserName : passInfo.passRecipientName}
+          {passInfo.passRecipientName}
         </Text>
       </View>
+
+      <TouchableOpacity
+        onPress={() => approveRequest(requestSnapshot)}
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          borderRadius: 10,
+          alignContent: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 10,
+        }}>
+        <Text
+          style={{
+            color: 'white',
+            alignContent: 'center',
+            justifyContent: 'center',
+            padding: 15,
+            fontFamily: 'Inter_800ExtraBold',
+            fontSize: 18,
+          }}>
+          Approve Pass
+        </Text>
+      </TouchableOpacity>
     </LinearGradient>
   );
 };
 
-export default PassCard;
+export default PassRequestCard;

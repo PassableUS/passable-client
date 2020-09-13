@@ -47,6 +47,7 @@ export class AnimatedGradient extends Component<IAnimatedGradientProps, IAnimate
   componentDidUpdate() {
     const { tweener } = this.state;
     Animated.timing(tweener, {
+      useNativeDriver: false,
       toValue: 1,
     }).start();
   }

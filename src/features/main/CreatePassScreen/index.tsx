@@ -113,7 +113,7 @@ const CreatePassScreen = ({
 
     navigation.navigate('Home');
 
-    if (selectedApproverInfo) {
+    if (selectedApproverInfo && role === 'student') {
       createPassRequest(
         selectedStudent,
         selectedRoom,

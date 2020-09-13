@@ -4,6 +4,7 @@ import PassCard from './PassCard';
 import { Text } from '@ui-kitten/components';
 import { FlatList, ScrollView, View, Platform } from 'react-native';
 import LottieView from 'lottie-react-native';
+import { Pass } from '../types/school';
 
 const PassList = ({
   passesData,
@@ -16,6 +17,14 @@ const PassList = ({
   displayDateInsteadOfTime?: boolean;
   scrollable?: boolean;
 }) => {
+  const [timerDependentPassesData, setTimerDependentPassesData] = React.useState(passesData);
+
+  // const handlePassExpire = (expiredPass: Pass) => {
+  //   setTimerDependentPassesData(timerDependentPassesData =>
+  //     timerDependentPassesData.filter(pass => pass !== expiredPass)
+  //   );
+  // };
+
   return (
     <>
       {passesData.length == 0 ? (
@@ -47,6 +56,7 @@ const PassList = ({
           {passesData.map((pass, index) => {
             return (
               <PassCard
+                // handlePassExpire={handlePassExpire}
                 displayIssuer={displayIssuer}
                 displayDateInsteadOfTime={displayDateInsteadOfTime}
                 key={pass.uid}

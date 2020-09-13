@@ -19,6 +19,7 @@ const SpecificRoomSelector = ({
   setStep,
 }: SpecificRoomSelectorProps) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
+  const role = useSelector((state: RootState) => state.setup.role);
 
   const [
     matchingRoomsCollection,
@@ -47,7 +48,7 @@ const SpecificRoomSelector = ({
       </Text>
       <ScrollView>
         <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               setSelectedRoom({
                 ref: null,
@@ -82,14 +83,14 @@ const SpecificRoomSelector = ({
                 General Location
               </Text>
             </>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {matchingRoomsCollection.docs.map(room => (
             <TouchableOpacity
               key={room.data().displayName}
               onPress={() => {
                 setSelectedRoom({ ref: room.ref, ...room.data() });
 
-                if (category.studentsRequireApproval) {
+                if (category.studentsRequireApproval && role == 'student') {
                   setStep('selectApprover');
                 } else {
                   setStep('selectTime');
