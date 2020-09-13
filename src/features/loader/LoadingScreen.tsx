@@ -5,7 +5,10 @@ import { Spinner } from '@ui-kitten/components';
 const LoadingScreen = () => {
   return (
     <View style={styles.container}>
-      <Image width={25} height={25} source={require('../../assets/preloader.gif')} />
+      <Image
+        style={{ height: '25%', width: '25%' }}
+        source={require('../../assets/preloader.gif')}
+      />
 
       <Text style={{ fontWeight: 'bold', fontSize: 32 }}>Syncing...</Text>
     </View>

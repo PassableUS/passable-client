@@ -65,55 +65,59 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   // }, []);
 
   return (
-    <DefaultLayout scrollable>
-      {role === 'student' && <StudentLargePassList />}
+    <>
+      <Image style={{ height: 100, width: 100 }} source={require('../../assets/icon.png')} />
 
-      <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
-        Create Passes
-      </Text>
+      <DefaultLayout scrollable>
+        {role === 'student' && <StudentLargePassList />}
 
-      <View style={{ flexDirection: 'row', display: 'flex' }}>
-        <MovingGradientButton
-          buttonHeight={125}
-          speed={1700}
-          customColors={presetColors.greenish}
-          style={{ margin: 5 }}
-          buttonText="Create"
-          onButtonPress={() => navigation.navigate('CreatePass', { context: 'search' })}
-        />
-        {role !== 'student' && (
+        <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
+          Create Passes
+        </Text>
+
+        <View style={{ flexDirection: 'row', display: 'flex' }}>
           <MovingGradientButton
             buttonHeight={125}
-            customColors={presetColors.blueish}
-            speed={3000}
+            speed={1700}
+            customColors={presetColors.greenish}
             style={{ margin: 5 }}
-            buttonText="Scan"
-            onButtonPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
+            buttonText="Create"
+            onButtonPress={() => navigation.navigate('CreatePass', { context: 'search' })}
           />
+          {role !== 'student' && (
+            <MovingGradientButton
+              buttonHeight={125}
+              customColors={presetColors.blueish}
+              speed={3000}
+              style={{ margin: 5 }}
+              buttonText="Scan"
+              onButtonPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
+            />
+          )}
+        </View>
+
+        {/* TODO: Hide active passes and show only scheduled passes if student */}
+        <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
+          Active Passes
+        </Text>
+        <Text>{userPasses?.length}</Text>
+        {userPasses && (
+          <>
+            <PassList passesData={userPasses} />
+          </>
         )}
-      </View>
 
-      {/* TODO: Hide active passes and show only scheduled passes if student */}
-      <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
-        Active Passes
-      </Text>
-      <Text>{userPasses?.length}</Text>
-      {userPasses && (
-        <>
-          <PassList passesData={userPasses} />
-        </>
-      )}
+        {role === 'teacher' && (
+          <>
+            <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
+              Pass Requests
+            </Text>
 
-      {role === 'teacher' && (
-        <>
-          <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
-            Pass Requests
-          </Text>
-
-          <PassApprovalList />
-        </>
-      )}
-    </DefaultLayout>
+            <PassApprovalList />
+          </>
+        )}
+      </DefaultLayout>
+    </>
   );
 };
 
