@@ -48,6 +48,7 @@ const PassCard = ({
         shadowRadius: 4.65,
 
         elevation: 6,
+        ...style,
       }}>
       <LinearGradient
         colors={[passInfo.passColor, adjustColor(passInfo.passColor, -40)]}
@@ -55,18 +56,15 @@ const PassCard = ({
         end={[1.0, 0.5]}
         locations={[0.0, 1.0]}
         style={{
-          height: '100%',
-          width: '100%',
           backgroundColor: passInfo.passColor,
           borderRadius: 10,
-
+          height: '100%',
+          width: '100%',
           padding: 15,
           alignContent: 'space-between',
           justifyContent: 'space-between',
           display: 'flex',
           flexDirection: 'column',
-
-          ...style,
         }}>
         <Text
           style={{

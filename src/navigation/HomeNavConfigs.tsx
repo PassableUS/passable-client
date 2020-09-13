@@ -29,7 +29,7 @@ if (Platform.OS !== 'web') {
         inactiveColor: 'rgba(223,215,243,0)',
       },
     },
-    Search: {
+    'Hall Monitor': {
       labelStyle: {
         color: '#E6A919',
       },
@@ -108,7 +108,7 @@ export let getCoreScreens = (role: string) => {
       ),
     },
     {
-      name: 'Search',
+      name: 'Hall Monitor',
       component: HallManagementNavigation,
       accessoryLeft: () => (
         <View style={{ paddingLeft: 10 }}>
