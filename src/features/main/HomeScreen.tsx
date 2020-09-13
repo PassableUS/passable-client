@@ -14,6 +14,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import LargeActivePass from '../../components/LargeActivePass';
 import { Pass } from '../../types/school';
 import StudentLargePassList from '../../components/StudentLargePassList';
+import PassApprovalList from '../../components/PassApprovalList';
 
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const userUid = useSelector((state: RootState) => state.setup.userUid);
@@ -90,6 +91,16 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       {userPasses && (
         <>
           <PassList passesData={userPasses} />
+        </>
+      )}
+
+      {role === 'teacher' && (
+        <>
+          <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
+            Pass Requests
+          </Text>
+
+          <PassApprovalList />
         </>
       )}
     </DefaultLayout>

@@ -16,6 +16,14 @@ export interface Pass {
   iconGroup?: string;
   iconName?: string;
 }
+
+export interface PassRequest {
+  approved: boolean;
+  addressed: boolean;
+  requestRecipient: firebase.firestore.DocumentReference;
+  passData: Pass;
+}
+
 export interface Student {
   eventsLog: Pass[];
   displayName: string;
@@ -43,9 +51,11 @@ export interface RoomCategory {
 export interface FirestoreCourseEnrollment {
   courseName: string;
   teacherReference: firebase.firestore.DocumentReference;
+  teacherDisplayName: string;
 }
 
 export interface ReduxCourseEnrollment {
   courseName: string;
   teacherPath: string;
+  teacherDisplayName: string;
 }

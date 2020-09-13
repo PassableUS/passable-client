@@ -18,8 +18,10 @@ import {
 } from '../../../navigation/HomeScreenNavigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
-import { Pass, RoomCategory } from '../../../types/school';
+import { Pass, RoomCategory, ReduxCourseEnrollment } from '../../../types/school';
 import firebase from 'firebase';
+import ApproverSelector from './ApproverSelector';
+import { createPass, createPassRequest } from '../../../services/passServices';
 
 const CreatePassScreen = ({
   navigation,
@@ -32,7 +34,7 @@ const CreatePassScreen = ({
   const [selectedRoom, setSelectedRoom] = React.useState<firebase.firestore.DocumentData>();
   const [selectedTime, setSelectedTime] = React.useState(5);
   const [selectedCategory, setSelectedCategory] = React.useState<RoomCategory>(); // Categories not pulled from Firestore at pass creation (populated Redux Store at app launch)
-
+  const [selectedApproverInfo, setSelectedApproverInfo] = React.useState<ReduxCourseEnrollment>();
   const [step, setStep] = React.useState('selectStudent');
   // const [creationStatus, setCreationStatus] = React.useState<string>();
   const [user, userLoading, userError] = useAuthState(auth);
@@ -107,64 +109,28 @@ const CreatePassScreen = ({
 
     console.log(displayName);
 
-    // TODO: Track from location
-    const currentDate = new Date();
-    const futureDate = new Date(currentDate.getTime() + selectedTime * 60000);
-    const passData: Pass = {
-      fromLocation: 'default',
-      toLocation: selectedRoom.ref,
-      fromLocationName: 'default',
-      passColor: selectedCategory.color || '#00BFFF',
-      toLocationName: selectedRoom.displayName,
-      locationCategory: selectedRoom.category,
-      issuingUserName: displayName,
-      issuingUser: db.collection('users').doc(user.uid),
-      passRecipientUser: selectedStudent.ref,
-      passRecipientName: selectedStudent.displayName,
-      passSchemaVersion: 1,
-      startTime: firebase.firestore.Timestamp.fromDate(new Date()),
-      endTime: firebase.firestore.Timestamp.fromDate(futureDate), // use SelectedTime
-      iconGroup: selectedCategory.iconGroup,
-      iconName: selectedCategory.iconName,
-    };
-
     // setCreationStatus('Assigning student the pass...');
+
     navigation.navigate('Home');
 
-    selectedStudent.ref
-      .collection('passes')
-      .add(passData)
-      .then(() => {
-        // setCreationStatus('Updating school records...');
-
-        // TODO: Address whether to access .school or .parent in order to access the school from the parent
-        // selectedStudent.school
-        //   .collection('passes')
-        const studentsCollectionRef = selectedStudent.ref.parent;
-        const schoolDocRef = studentsCollectionRef.parent;
-        schoolDocRef
-          .collection('passes')
-          .add(passData)
-          .then(() => {
-            // setCreationStatus('Updating room records...');
-            if (selectedRoom.ref) {
-              selectedRoom.ref
-                .collection('passes')
-                .add(passData)
-                .then(() => {
-                  // setCreationStatus('Successfully created pass.');
-                  alert('Successfully created pass!');
-                  navigation.navigate('Home');
-                })
-                .catch((e: any) => alert(e.message));
-            } else {
-              console.log('No selected room reference. Creating general pass...');
-              alert('Successfully created pass!');
-            }
-          })
-          .catch((e: any) => alert(e.message));
-      })
-      .catch((e: any) => alert(e.message));
+    if (selectedApproverInfo) {
+      createPassRequest(
+        selectedStudent,
+        selectedRoom,
+        selectedCategory,
+        selectedTime,
+        selectedApproverInfo
+      );
+    } else {
+      createPass(
+        selectedStudent,
+        selectedRoom,
+        selectedCategory,
+        selectedTime,
+        displayName,
+        user.uid
+      );
+    }
   };
 
   return (
@@ -193,7 +159,9 @@ const CreatePassScreen = ({
           />
         )}
 
-        {step === 'selectApprover' && <Text>Approval Selector</Text>}
+        {step === 'selectApprover' && (
+          <ApproverSelector setSelectedApproverInfo={setSelectedApproverInfo} setStep={setStep} />
+        )}
 
         {step === 'selectTime' && (
           <TimeSelector

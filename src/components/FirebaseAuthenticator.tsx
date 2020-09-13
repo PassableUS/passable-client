@@ -96,6 +96,7 @@ const FirebaseAuthentication: React.FC = () => {
                     return {
                       courseName: enrollment.courseName,
                       teacherPath: enrollment.teacherReference.path,
+                      teacherDisplayName: enrollment.teacherDisplayName,
                     };
                   }
                 );

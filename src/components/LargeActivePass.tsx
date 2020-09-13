@@ -25,7 +25,7 @@ const LargeActivePass = ({
 
   return (
     <LinearGradient
-      colors={[passInfo.passColor, adjustColor(passInfo.passColor, -50)]}
+      colors={[passInfo.passColor, adjustColor(passInfo.passColor, -40)]}
       start={[0.0, 0.5]}
       end={[1.0, 0.5]}
       locations={[0.0, 1.0]}
