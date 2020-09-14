@@ -29,7 +29,7 @@ const PassApprovalList = () => {
       {requestedPasses.docs.length === 0 ? (
         <View
           style={{
-            maxWidth: 300,
+            flex: 1,
             minHeight: 300,
             maxHeight: 300,
             borderColor: 'gray',

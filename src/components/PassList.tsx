@@ -30,7 +30,8 @@ const PassList = ({
       {passesData.length === 0 ? (
         <View
           style={{
-            width: 350,
+            margin: 5,
+            flex: 1,
             minHeight: 125,
             maxHeight: 125,
             borderColor: 'gray',

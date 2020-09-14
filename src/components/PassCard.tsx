@@ -72,7 +72,7 @@ const PassCard = ({
             color: 'white',
             fontWeight: '600',
             fontFamily: 'Inter_800ExtraBold',
-            fontSize: 20,
+            fontSize: 15,
             textAlign: 'center',
           }}>
           {passInfo.toLocationName}
