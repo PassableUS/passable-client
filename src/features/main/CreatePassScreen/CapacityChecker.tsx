@@ -1,7 +1,20 @@
 import React from 'react';
-import { useCollection } from 'react-firebase-hooks/firestore';
+import { useCollection, useCollectionData } from 'react-firebase-hooks/firestore';
 import { Card, Spinner, Text } from '@ui-kitten/components';
 import { View } from 'react-native';
+import { Pass } from '../../../types/school';
+
+function joinSentence(array: any, oxford_comma = true) {
+  if (array.length > 1) {
+    var lastWord = ' and ' + array.pop();
+    if (oxford_comma && array.length > 1) {
+      lastWord = ',' + lastWord;
+    }
+  } else {
+    var lastWord = '';
+  }
+  return array.join(', ') + lastWord;
+}
 
 const CapacityChecker = ({ selectedRoom }: any) => {
   // TODO: Optimize this, rerenders and rereads on time increment or decrement
@@ -11,7 +24,7 @@ const CapacityChecker = ({ selectedRoom }: any) => {
   }
 
   const [currentTime, _] = React.useState(new Date());
-  const [activeRoomPasses, loading, error] = useCollection(
+  const [activeRoomPasses, loading, error] = useCollectionData<Pass>(
     selectedRoom.ref.collection('passes').where('endTime', '>=', currentTime)
   );
 
@@ -33,7 +46,10 @@ const CapacityChecker = ({ selectedRoom }: any) => {
       </Card>
     );
   }
-  const currentCount = activeRoomPasses.docs.length;
+  const currentCount = activeRoomPasses.length;
+
+  const currentPeopleNames = activeRoomPasses.map(pass => pass.passRecipientName);
+  const currentPeopleSentence = joinSentence(currentPeopleNames);
 
   return (
     <View
@@ -63,13 +79,23 @@ const CapacityChecker = ({ selectedRoom }: any) => {
             style={{
               fontSize: 40,
               textAlign: 'center',
-              color: currentCount > selectedRoom.maxPersonCount ? '#ff4757' : '#2ed573',
+              color: currentCount > selectedRoom.maxPersonCount ? '#f53b57' : '#05c46b',
             }}
             category="h1">
             {currentCount}
           </Text>
           <Text category="h3">/{selectedRoom.maxPersonCount}</Text>
         </View>
+        {activeRoomPasses ? (
+          <>
+            <Text style={{ marginTop: 10, fontSize: 14 }}>
+              <Text category="s1">{currentPeopleSentence}</Text> {currentCount === 1 ? 'is' : 'are'}{' '}
+              currently in the room.
+            </Text>
+          </>
+        ) : (
+          <Text category="s1">There is no one currently in the room.</Text>
+        )}
       </View>
     </View>
   );
