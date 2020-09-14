@@ -25,18 +25,49 @@ const PassApprovalList = () => {
   if (!requestedPasses) return <Text>You have no requested passes at this time</Text>;
 
   return (
-    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-      {requestedPasses.docs.map(request => (
-        <PassRequestCard
+    <>
+      {requestedPasses.docs.length === 0 ? (
+        <View
           style={{
-            flex: 1,
-            minWidth: 150,
-            margin: 5,
-          }}
-          requestSnapshot={request}
-        />
-      ))}
-    </View>
+            maxWidth: 300,
+            minHeight: 300,
+            maxHeight: 300,
+            borderColor: 'gray',
+            borderWidth: 2,
+            padding: 20,
+            borderRadius: 10,
+            borderStyle: 'dashed',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 15,
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+            }}>
+            You do not currently have any pass requests. Student requests for passes will appear
+            here.
+          </Text>
+        </View>
+      ) : (
+        <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+          {requestedPasses.docs.map(request => (
+            <PassRequestCard
+              style={{
+                flex: 1,
+                minWidth: 150,
+                margin: 5,
+              }}
+              requestSnapshot={request}
+            />
+          ))}
+        </View>
+      )}
+    </>
   );
 };
 

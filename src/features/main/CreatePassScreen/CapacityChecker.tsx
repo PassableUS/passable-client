@@ -86,7 +86,7 @@ const CapacityChecker = ({ selectedRoom }: any) => {
           </Text>
           <Text category="h3">/{selectedRoom.maxPersonCount}</Text>
         </View>
-        {activeRoomPasses ? (
+        {currentCount ? (
           <>
             <Text style={{ marginTop: 10, fontSize: 14 }}>
               <Text category="s1">{currentPeopleSentence}</Text> {currentCount === 1 ? 'is' : 'are'}{' '}

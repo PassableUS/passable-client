@@ -27,16 +27,22 @@ const PassList = ({
 
   return (
     <>
-      {passesData.length == 0 ? (
+      {passesData.length === 0 ? (
         <View
           style={{
-            flex: 1,
+            width: 350,
+            minHeight: 125,
+            maxHeight: 125,
+            borderColor: 'gray',
+            borderWidth: 2,
+            padding: 20,
+            borderRadius: 10,
+            borderStyle: 'dashed',
             display: 'flex',
-            alignContent: 'center',
-            alignItems: 'center',
             justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          {Platform.OS !== 'web' && (
+          {/* {Platform.OS !== 'web' && (
             <LottieView
               autoPlay
               loop
@@ -46,9 +52,16 @@ const PassList = ({
               }}
               source={require('../assets/passDisplay.json')}
             />
-          )}
-          <Text category="h5" style={{ textAlign: 'center', paddingBottom: 20 }}>
-            No Current Passes. Create One!
+          )} */}
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 15,
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
+            }}>
+            You do not have any passes dispatched. Active passes you create will appear here.
           </Text>
         </View>
       ) : (
