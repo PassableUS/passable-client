@@ -66,9 +66,9 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
 
   return (
     <>
-      <Image style={{ height: 100, width: 100 }} source={require('../../assets/icon.png')} />
-
       <DefaultLayout scrollable>
+        <Image style={{ height: 100, width: 100 }} source={require('../../assets/icon.png')} />
+
         {role === 'student' && <StudentLargePassList />}
 
         <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
@@ -100,7 +100,6 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
         <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
           Active Passes
         </Text>
-        <Text>{userPasses?.length}</Text>
         {userPasses && (
           <>
             <PassList passesData={userPasses} />

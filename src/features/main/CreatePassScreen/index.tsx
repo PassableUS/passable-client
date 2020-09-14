@@ -5,7 +5,7 @@ import { auth, db } from '../../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Icon from 'react-native-dynamic-vector-icons';
 
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import StudentSearch from '../../../components/StudentSearch';
 import IDScanner from '../../../components/IDScanner';
@@ -22,6 +22,8 @@ import { Pass, RoomCategory, ReduxCourseEnrollment } from '../../../types/school
 import firebase from 'firebase';
 import ApproverSelector from './ApproverSelector';
 import { createPass, createPassRequest } from '../../../services/passServices';
+import RoundedButton from '../../../components/RoundedButton';
+import CreateGuestPass from './CreateGuestPass';
 
 const CreatePassScreen = ({
   navigation,
@@ -64,7 +66,20 @@ const CreatePassScreen = ({
 
     return (
       <>
-        <Text category="h1">Student Search</Text>
+        <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <Text category="h1" style={{ flex: 3 }}>
+            Student Search
+          </Text>
+
+          <RoundedButton
+            title="Create Guest Pass"
+            onPress={() => setStep('createGuestPass')}
+            size="sm"
+            backgroundColor="#007bff"
+            style={{ flex: 1 }}
+          />
+        </View>
+
         <Text category="s1" style={{ marginBottom: 10 }}>
           Search for any student in your school.
         </Text>
@@ -171,6 +186,8 @@ const CreatePassScreen = ({
             setSelectedTime={setSelectedTime}
           />
         )}
+
+        {step === 'createGuestPass' && <CreateGuestPass />}
       </DefaultLayout>
     </>
   );

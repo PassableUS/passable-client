@@ -38,6 +38,7 @@ const PassCard = ({
       style={{
         width: '50%',
         minHeight: 125,
+        maxHeight: 125,
         shadowColor: '#000',
         borderRadius: 10,
         shadowOffset: {

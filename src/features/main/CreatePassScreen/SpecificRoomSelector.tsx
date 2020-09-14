@@ -6,6 +6,8 @@ import { db } from '../../../components/FirebaseAuthenticator';
 import { Spinner, Text } from '@ui-kitten/components';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { RoomCategory } from '../../../types/school';
+import { LinearGradient } from 'expo-linear-gradient';
+import { adjustColor } from '../../../utils/colors';
 
 interface SpecificRoomSelectorProps {
   category: RoomCategory;
@@ -98,17 +100,28 @@ const SpecificRoomSelector = ({
               }}
               style={{
                 flex: 1,
-                backgroundColor: category.color || '#FC6',
                 borderRadius: 10,
-                padding: 15,
-                alignContent: 'center',
-                justifyContent: 'center',
                 display: 'flex',
                 minWidth: 125,
                 height: 150,
                 margin: 5,
               }}>
-              <>
+              <LinearGradient
+                colors={[category.color || '#FC6', adjustColor(category.color || '#FC6', -40)]}
+                start={[0.0, 0.5]}
+                end={[1.0, 0.5]}
+                locations={[0.0, 1.0]}
+                style={{
+                  backgroundColor: category.color || '#FC6',
+                  borderRadius: 10,
+                  height: '100%',
+                  width: '100%',
+                  padding: 15,
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}>
                 <Text
                   style={{
                     color: 'white',
@@ -120,7 +133,7 @@ const SpecificRoomSelector = ({
                   }}>
                   {room.data().displayName}
                 </Text>
-              </>
+              </LinearGradient>
             </TouchableOpacity>
           ))}
         </View>

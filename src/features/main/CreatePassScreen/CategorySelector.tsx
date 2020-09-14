@@ -6,6 +6,8 @@ import SpecificRoomSelector from './SpecificRoomSelector';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { RoomCategory } from '../../../types/school';
+import { LinearGradient } from 'expo-linear-gradient';
+import { adjustColor } from '../../../utils/colors';
 
 interface CategorySelectorProps {
   setSelectedCategory: any;
@@ -31,17 +33,28 @@ const CategorySelector = ({ setSelectedCategory, setStep }: CategorySelectorProp
               }}
               style={{
                 flex: 1,
-                backgroundColor: category.color || '#FC6',
                 borderRadius: 10,
-                padding: 15,
-                alignContent: 'center',
-                justifyContent: 'center',
                 display: 'flex',
                 minWidth: 125,
                 height: 150,
                 margin: 5,
               }}>
-              <>
+              <LinearGradient
+                colors={[category.color || '#FC6', adjustColor(category.color || '#FC6', -40)]}
+                start={[0.0, 0.5]}
+                end={[1.0, 0.5]}
+                locations={[0.0, 1.0]}
+                style={{
+                  backgroundColor: category.color || '#FC6',
+                  borderRadius: 10,
+                  height: '100%',
+                  width: '100%',
+                  padding: 15,
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <Icon
                     name={category.iconName}
@@ -61,18 +74,28 @@ const CategorySelector = ({ setSelectedCategory, setStep }: CategorySelectorProp
                   }}>
                   {category.displayName}
                 </Text>
-                <Text
-                  style={{
-                    color: 'gray',
-                    fontWeight: '600',
-                    fontFamily: 'Inter_800ExtraBold',
-                    fontSize: 20,
-                    textAlign: 'center',
-                    flexWrap: 'wrap',
-                  }}>
-                  {category.studentsRequireApproval && 'Requires Approval'}
-                </Text>
-              </>
+                {category.studentsRequireApproval && (
+                  <View
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.3)',
+                      borderRadius: 10,
+                      padding: 5,
+                      marginTop: 10,
+                    }}>
+                    <Text
+                      style={{
+                        fontWeight: '600',
+                        fontFamily: 'Inter_600SemiBold',
+                        fontSize: 15,
+                        textAlign: 'center',
+                        flexWrap: 'wrap',
+                        color: 'white',
+                      }}>
+                      Requires Approval
+                    </Text>
+                  </View>
+                )}
+              </LinearGradient>
             </TouchableOpacity>
           ))}
         </View>

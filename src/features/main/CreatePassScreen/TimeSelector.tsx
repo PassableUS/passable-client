@@ -1,7 +1,8 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import CapacityChecker from './CapacityChecker';
 import { ButtonGroup, Text, Button } from '@ui-kitten/components';
+import Icon from 'react-native-dynamic-vector-icons';
 
 interface TimeSelectorProps {
   handleCreatePass: any;
@@ -35,9 +36,38 @@ const TimeSelector = ({
       </View>
 
       <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
-        <Button status="success" onPress={handleCreatePass}>
-          Create Pass
-        </Button>
+        <TouchableOpacity
+          onPress={handleCreatePass}
+          style={{ backgroundColor: '#2253ff', padding: 20, borderRadius: 10, marginTop: 10 }}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Icon
+              name="plus"
+              type="FontAwesome"
+              size={20}
+              color="white"
+              // onPress={() => {
+              //   navigation.goBack();
+              // }}
+            />
+            <Text
+              category="s1"
+              style={{
+                marginLeft: 10,
+                color: 'white',
+                fontSize: 15,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              Create Pass
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

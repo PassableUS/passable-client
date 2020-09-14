@@ -36,25 +36,42 @@ const CapacityChecker = ({ selectedRoom }: any) => {
   const currentCount = activeRoomPasses.docs.length;
 
   return (
-    <Card style={{ alignItems: 'center', justifyContent: 'center' }}>
-      <Text
-        style={{ textAlign: 'center', fontFamily: 'Inter_600SemiBold', fontSize: 20 }}
-        category="s1">
-        Capacity Tracker
-      </Text>
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end' }}>
+    <View
+      style={{
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        marginTop: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+
+        elevation: 6,
+      }}>
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
         <Text
-          style={{
-            fontSize: 40,
-            textAlign: 'center',
-            color: currentCount > selectedRoom.maxPersonCount ? 'red' : 'green',
-          }}
-          category="h1">
-          {currentCount}
+          style={{ textAlign: 'center', fontFamily: 'Inter_600SemiBold', fontSize: 20 }}
+          category="s1">
+          Capacity Tracker
         </Text>
-        <Text category="h3">/{selectedRoom.maxPersonCount}</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end' }}>
+          <Text
+            style={{
+              fontSize: 40,
+              textAlign: 'center',
+              color: currentCount > selectedRoom.maxPersonCount ? '#ff4757' : '#2ed573',
+            }}
+            category="h1">
+            {currentCount}
+          </Text>
+          <Text category="h3">/{selectedRoom.maxPersonCount}</Text>
+        </View>
       </View>
-    </Card>
+    </View>
   );
 };
 
