@@ -5,6 +5,7 @@ import Timer from './Timer';
 import { LinearGradient } from 'expo-linear-gradient';
 import { adjustColor } from '../utils/colors';
 import { Pass } from '../types/school';
+import moment from 'moment';
 
 const PassCard = ({
   passInfo,
@@ -38,7 +39,7 @@ const PassCard = ({
       style={{
         width: '50%',
         minHeight: 125,
-        maxHeight: 125,
+        maxHeight: displayDateInsteadOfTime ? 150 : 125,
         shadowColor: '#000',
         borderRadius: 10,
         shadowOffset: {
@@ -85,7 +86,7 @@ const PassCard = ({
               fontSize: 15,
               paddingBottom: 10,
             }}>
-            {passInfo.endTime.toDate().toDateString()}
+            {moment(passInfo.endTime.toDate()).format('llll')}
           </Text>
         ) : (
           <Timer
