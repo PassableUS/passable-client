@@ -18,11 +18,34 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import { signedOut } from '../login/setupSlice';
 import { useAppDispatch } from '../../app/store';
-import { Room } from '../../types/school';
+import { Room, Pass } from '../../types/school';
 import FancyInput from '../../components/FancyInput';
 import FancyButton from '../../components/FancyButton';
 import RoundedButton from '../../components/RoundedButton';
 import CapacityChecker from './CreatePassScreen/CapacityChecker';
+import PassList from '../../components/PassList';
+
+const RoomDetails = ({ room }: { room: firebase.firestore.DocumentSnapshot<Room> }) => {
+  const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
+  const [currentTime, _] = React.useState(new Date());
+
+  const [activeRoomPasses, loading, error] = useCollectionData<Pass>(
+    db
+      .doc(schoolPath)
+      .collection('passes')
+      .where('toLocation', '==', room.ref)
+      .limit(15),
+    { idField: 'uid' }
+  );
+
+  return (
+    <View>
+      {/* TODO: Optimization here: fetch Pass data once, then allow both of the following components to grab it */}
+      <CapacityChecker selectedRoom={room} />
+      {activeRoomPasses && <PassList passesData={activeRoomPasses} displayDateInsteadOfTime />}
+    </View>
+  );
+};
 
 const RoomPreview = ({ room }: { room: firebase.firestore.DocumentSnapshot<Room> }) => {
   const [viewDetails, setViewDetails] = React.useState(false);
@@ -59,7 +82,7 @@ const RoomPreview = ({ room }: { room: firebase.firestore.DocumentSnapshot<Room>
         />
       </View>
 
-      {viewDetails && <CapacityChecker selectedRoom={room} />}
+      {viewDetails && <RoomDetails room={room} />}
     </View>
   );
 };

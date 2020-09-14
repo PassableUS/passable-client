@@ -10,10 +10,12 @@ const PassList = ({
   passesData,
   displayIssuer,
   displayDateInsteadOfTime,
+  showWhenInactive = false,
   scrollable = false,
 }: {
   passesData: firebase.firestore.DocumentData[];
   displayIssuer?: boolean;
+  showWhenInactive?: boolean;
   displayDateInsteadOfTime?: boolean;
   scrollable?: boolean;
 }) => {
@@ -70,6 +72,7 @@ const PassList = ({
           {passesData.map((pass, index) => {
             return (
               <PassCard
+                showWhenInactive={showWhenInactive}
                 // handlePassExpire={handlePassExpire}
                 displayIssuer={displayIssuer}
                 displayDateInsteadOfTime={displayDateInsteadOfTime}
