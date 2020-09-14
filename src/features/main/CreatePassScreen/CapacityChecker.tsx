@@ -3,6 +3,9 @@ import { useCollection, useCollectionData } from 'react-firebase-hooks/firestore
 import { Card, Spinner, Text } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { Pass } from '../../../types/school';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/rootReducer';
+import { db } from '../../../components/FirebaseAuthenticator';
 
 function joinSentence(array: any, oxford_comma = true) {
   if (array.length > 1) {
@@ -19,13 +22,21 @@ function joinSentence(array: any, oxford_comma = true) {
 const CapacityChecker = ({ selectedRoom }: any) => {
   // TODO: Optimize this, rerenders and rereads on time increment or decrement
 
+  const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
+
   if (!selectedRoom.ref) {
     return <Text>Capacity information not available: Specific room not selected.</Text>;
   }
 
+  const selectedRoomData = selectedRoom.data();
+
   const [currentTime, _] = React.useState(new Date());
   const [activeRoomPasses, loading, error] = useCollectionData<Pass>(
-    selectedRoom.ref.collection('passes').where('endTime', '>=', currentTime)
+    db
+      .doc(schoolPath)
+      .collection('passes')
+      .where('endTime', '>=', currentTime)
+      .where('toLocation', '==', selectedRoom.ref)
   );
 
   if (loading) {
@@ -79,12 +90,12 @@ const CapacityChecker = ({ selectedRoom }: any) => {
             style={{
               fontSize: 40,
               textAlign: 'center',
-              color: currentCount > selectedRoom.maxPersonCount ? '#f53b57' : '#05c46b',
+              color: currentCount > selectedRoomData.maxPersonCount ? '#f53b57' : '#05c46b',
             }}
             category="h1">
             {currentCount}
           </Text>
-          <Text category="h3">/{selectedRoom.maxPersonCount}</Text>
+          <Text category="h3">/{selectedRoomData.maxPersonCount}</Text>
         </View>
         {currentCount ? (
           <>

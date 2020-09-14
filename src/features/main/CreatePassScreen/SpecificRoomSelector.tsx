@@ -90,7 +90,7 @@ const SpecificRoomSelector = ({
             <TouchableOpacity
               key={room.data().displayName}
               onPress={() => {
-                setSelectedRoom({ ref: room.ref, ...room.data() });
+                setSelectedRoom(room);
 
                 if (category.studentsRequireApproval && role == 'student') {
                   setStep('selectApprover');

@@ -12,7 +12,7 @@ import {
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useDocumentData, useCollectionData } from 'react-firebase-hooks/firestore';
+import { useDocumentData, useCollectionData, useCollection } from 'react-firebase-hooks/firestore';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
@@ -22,8 +22,12 @@ import { Room } from '../../types/school';
 import FancyInput from '../../components/FancyInput';
 import FancyButton from '../../components/FancyButton';
 import RoundedButton from '../../components/RoundedButton';
+import CapacityChecker from './CreatePassScreen/CapacityChecker';
 
-const RoomPreview = ({ roomData }: { roomData: Room }) => {
+const RoomPreview = ({ room }: { room: firebase.firestore.DocumentSnapshot<Room> }) => {
+  const [viewDetails, setViewDetails] = React.useState(false);
+  const roomData = room.data();
+
   return (
     <View
       style={{
@@ -48,19 +52,21 @@ const RoomPreview = ({ roomData }: { roomData: Room }) => {
         </View>
         <RoundedButton
           title="View Details"
-          onPress={() => alert('button pressed')}
+          onPress={() => setViewDetails(currentValue => !currentValue)}
           size="sm"
           style={{ borderRadius: 10, flex: 1 }}
           backgroundColor="#007bff"
         />
       </View>
+
+      {viewDetails && <CapacityChecker selectedRoom={room} />}
     </View>
   );
 };
 
 const RoomScreen = () => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
-  const [schoolRooms, schoolRoomsLoading, schoolRoomsError] = useCollectionData<Room>(
+  const [schoolRooms, schoolRoomsLoading, schoolRoomsError] = useCollection(
     db.doc(schoolPath).collection('rooms')
   );
 
@@ -81,8 +87,8 @@ const RoomScreen = () => {
       <FancyInput placeholder="Search for a room" />
 
       <View style={{ marginTop: 15 }}>
-        {schoolRooms.map(room => (
-          <RoomPreview key={room.displayName} roomData={room} />
+        {schoolRooms.docs.map((room: firebase.firestore.DocumentSnapshot<Room>) => (
+          <RoomPreview key={room.id} room={room} />
         ))}
       </View>
     </DefaultLayout>

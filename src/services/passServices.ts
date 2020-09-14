@@ -3,8 +3,10 @@ import { db } from '../components/FirebaseAuthenticator';
 import firebase from 'firebase';
 // Extract business logic here eventually for ending passes, creating passes, etc. depending on data and document references
 
-const endPass = (passRef: firebase.firestore.DocumentReference) => {
-  passRef.update({
+const endPass = (schoolPassRef: firebase.firestore.DocumentReference) => {
+  // TODO: Doesn't update the student's collection of passes
+
+  schoolPassRef.update({
     endTime: new Date(),
   });
 };
@@ -50,7 +52,7 @@ const createPassFromPassData = (passData: Pass) => {
 
 const createPass = (
   selectedStudent: firebase.firestore.DocumentData,
-  selectedRoom: firebase.firestore.DocumentData,
+  selectedRoom: firebase.firestore.DocumentSnapshot,
   selectedCategory: firebase.firestore.DocumentData,
   selectedTime: number,
   issuingDisplayName: string,
@@ -60,13 +62,16 @@ const createPass = (
   // ALERT: Tracks from location only for approval-required passes
   const currentDate = new Date();
   const futureDate = new Date(currentDate.getTime() + selectedTime * 60000);
+
+  const selectedRoomData = selectedRoom.data();
+
   const passData: Pass = {
     fromLocation: 'default',
     toLocation: selectedRoom.ref,
     fromLocationName: 'default',
     passColor: selectedCategory.color || '#00BFFF',
-    toLocationName: selectedRoom.displayName,
-    locationCategory: selectedRoom.category,
+    toLocationName: selectedRoomData.displayName,
+    locationCategory: selectedRoomData.category,
     issuingUserName: issuingDisplayName,
     issuingUser: db.collection('users').doc(issuingUid),
     passRecipientUser: selectedStudent.ref,
@@ -83,7 +88,7 @@ const createPass = (
 
 const createPassRequest = (
   selectedStudent: firebase.firestore.DocumentData,
-  selectedRoom: firebase.firestore.DocumentData,
+  selectedRoom: firebase.firestore.DocumentSnapshot,
   selectedCategory: firebase.firestore.DocumentData,
   selectedTime: number,
   selectedApproverInfo: ReduxCourseEnrollment
@@ -93,13 +98,15 @@ const createPassRequest = (
   const currentDate = new Date();
   const futureDate = new Date(currentDate.getTime() + selectedTime * 60000);
 
+  const selectedRoomData = selectedRoom.data();
+
   const passData: Pass = {
     fromLocation: 'default',
     toLocation: selectedRoom.ref,
     fromLocationName: 'default',
     passColor: selectedCategory.color || '#00BFFF',
-    toLocationName: selectedRoom.displayName,
-    locationCategory: selectedRoom.category,
+    toLocationName: selectedRoomData.displayName,
+    locationCategory: selectedRoomData.category,
     issuingUserName: selectedApproverInfo.teacherDisplayName,
     issuingUser: db.doc(selectedApproverInfo.teacherPath),
     passRecipientUser: selectedStudent.ref,

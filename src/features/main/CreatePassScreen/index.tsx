@@ -32,8 +32,9 @@ const CreatePassScreen = ({
   navigation: CreatePassScreenNavigationProp;
   route: CreatePassScreenRouteProp;
 }) => {
+  //TODO: USE DOCUMENT SNAPSHOTS FOR ALL OF THE RELEVANT PIECES OF STATE RATHER THAN DOCUMENT DATA
   const [selectedStudent, setSelectedStudent] = React.useState<firebase.firestore.DocumentData>();
-  const [selectedRoom, setSelectedRoom] = React.useState<firebase.firestore.DocumentData>();
+  const [selectedRoom, setSelectedRoom] = React.useState<firebase.firestore.DocumentSnapshot>();
   const [selectedTime, setSelectedTime] = React.useState(5);
   const [selectedCategory, setSelectedCategory] = React.useState<RoomCategory>(); // Categories not pulled from Firestore at pass creation (populated Redux Store at app launch)
   const [selectedApproverInfo, setSelectedApproverInfo] = React.useState<ReduxCourseEnrollment>();

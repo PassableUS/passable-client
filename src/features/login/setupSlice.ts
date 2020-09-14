@@ -24,7 +24,7 @@ export interface UserProfile {
   isLoggedIn: boolean;
   role: string;
   displayName: string;
-  studentInformation?: StudentInformationRepresentation;
+  studentInformation: StudentInformationRepresentation | null;
 }
 
 const initialState: UserProfile = {
@@ -34,6 +34,7 @@ const initialState: UserProfile = {
   isLoggedIn: null,
   role: null,
   displayName: null,
+  studentInformation: null,
 };
 
 export const setupDistrict = createAction<District>('setup/setupDistrict');
