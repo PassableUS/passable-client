@@ -72,11 +72,11 @@ const CreatePassScreen = ({
           </Text>
 
           <RoundedButton
-            title="Create Guest Pass"
+            title="Guest Pass"
             onPress={() => setStep('createGuestPass')}
             size="sm"
             backgroundColor="#007bff"
-            style={{ flex: 1 }}
+            style={{ width: 150 }}
           />
         </View>
 

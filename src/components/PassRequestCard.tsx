@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { adjustColor } from '../utils/colors';
 import { Pass, PassRequest } from '../types/school';
 import { approveRequest } from '../services/requestServices';
+import moment from 'moment';
 
 const PassRequestCard = ({
   requestSnapshot,
@@ -17,6 +18,9 @@ const PassRequestCard = ({
   const requestData: PassRequest = requestSnapshot.data() as PassRequest;
   const passInfo = requestData.passData;
 
+  const startMoment = moment(passInfo.startTime.toDate());
+  const endMoment = moment(passInfo.endTime.toDate());
+
   return (
     <LinearGradient
       colors={[passInfo.passColor, adjustColor(passInfo.passColor, -40)]}
@@ -24,13 +28,13 @@ const PassRequestCard = ({
       end={[1.0, 0.5]}
       locations={[0.0, 1.0]}
       style={{
+        margin: 5,
         backgroundColor: passInfo.passColor,
         borderRadius: 10,
-        width: '50%',
-        minHeight: 125,
+        minHeight: 250,
         padding: 15,
-        alignContent: 'space-between',
-        justifyContent: 'space-between',
+        alignContent: 'center',
+        justifyContent: 'space-around',
         display: 'flex',
         flexDirection: 'column',
         shadowOffset: {
@@ -68,6 +72,30 @@ const PassRequestCard = ({
             textAlign: 'center',
           }}>
           {passInfo.passRecipientName}
+        </Text>
+      </View>
+
+      <View
+        style={{
+          borderRadius: 10,
+          padding: 5,
+        }}>
+        <Text
+          style={{
+            textAlign: 'center',
+            color: 'white',
+            fontFamily: 'Inter_600SemiBold',
+            fontSize: 14,
+          }}>
+          {Math.abs(startMoment.diff(endMoment) / 60000)} minutes
+        </Text>
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 12,
+            textAlign: 'center',
+          }}>
+          {startMoment.format('dddd LT')} to {endMoment.format('dddd LT')}
         </Text>
       </View>
 

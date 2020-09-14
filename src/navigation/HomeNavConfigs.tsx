@@ -7,6 +7,8 @@ import ProfileSVG from '../svg/ProfileSVG';
 import HomeScreenNavigation from './HomeScreenNavigation';
 import ProfileScreen from '../features/main/ProfileScreen';
 import HallManagementNavigation from './HallManagementNavigation';
+import RoomSVG from '../svg/RoomSVG';
+import RoomScreen from '../features/main/RoomScreen';
 
 export let tabBarFunction: any = undefined;
 export let studentTabBarFunction: any = undefined;
@@ -43,6 +45,20 @@ if (Platform.OS !== 'web') {
         inactiveColor: 'rgba(207,235,239,0)',
       },
     },
+    Rooms: {
+      labelStyle: {
+        color: '#5B37B7',
+      },
+      icon: {
+        component: RoomSVG,
+        activeColor: 'rgba(91,55,183,1)',
+        inactiveColor: 'rgba(0,0,0,1)',
+      },
+      background: {
+        activeColor: 'rgba(223,215,243,1)',
+        inactiveColor: 'rgba(223,215,243,0)',
+      },
+    },
     Profile: {
       labelStyle: {
         color: '#1194AA',
@@ -74,6 +90,7 @@ if (Platform.OS !== 'web') {
         inactiveColor: 'rgba(223,215,243,0)',
       },
     },
+
     Profile: {
       labelStyle: {
         color: '#1194AA',
@@ -113,6 +130,15 @@ export let getCoreScreens = (role: string) => {
       accessoryLeft: () => (
         <View style={{ paddingLeft: 10 }}>
           <SearchSVG color={'black' as any} size={20} />
+        </View>
+      ),
+    },
+    {
+      name: 'Rooms',
+      component: RoomScreen,
+      accessoryLeft: () => (
+        <View style={{ paddingLeft: 10 }}>
+          <RoomSVG color={'black' as any} size={20} />
         </View>
       ),
     },

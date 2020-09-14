@@ -18,7 +18,7 @@ const StudentLargePassList: React.FC = () => {
     db
       .doc(schoolPath)
       .collection('passes')
-      .where('passRecipientUser', '==', db.doc(studentPath || 'unknown'))
+      .where('passRecipientUser', '==', db.doc(studentPath))
       .where('endTime', '>=', currentTime)
   );
 

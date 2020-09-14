@@ -18,7 +18,7 @@ const TimeSelector = ({
   setSelectedTime,
 }: TimeSelectorProps) => {
   return (
-    <View style={{ display: 'flex', flex: 1 }}>
+    <View style={{ display: 'flex', flex: 1, height: '100%' }}>
       <Text style={{ marginBottom: 10 }} category="h1">
         Select Pass Duration
       </Text>

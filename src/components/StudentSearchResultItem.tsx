@@ -17,9 +17,10 @@ const StudentSearchResultItem = ({
         style={{
           flexDirection: 'row',
           marginTop: 10,
-          backgroundColor: '#ecf0f1',
+          backgroundColor: '#efefef',
           borderRadius: 10,
-          padding: 10,
+          paddingVertical: 20,
+          paddingHorizontal: 25,
           display: 'flex',
           justifyContent: 'flex-start',
           alignItems: 'center',
@@ -36,7 +37,7 @@ const StudentSearchResultItem = ({
           <Text category="h5" style={{ fontFamily: 'Inter_600SemiBold' }}>
             {student.displayName}
           </Text>
-          <Text category="label">
+          <Text category="s2">
             {isNaN(parseInt(student.grade))
               ? student.grade
               : getNumberWithOrdinal(parseInt(student.grade)) + ' Grade '}

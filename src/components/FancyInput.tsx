@@ -7,7 +7,7 @@ import typography from '../theme/typography';
 const FancyInput: React.FC<TextInputProps> = (props: TextInputProps) => {
   return (
     <TextInput
-      placeholderTextColor="#b9b9bb"
+      placeholderTextColor="#929296"
       style={[
         {
           borderRadius: 10,
