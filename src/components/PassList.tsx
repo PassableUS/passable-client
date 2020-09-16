@@ -12,12 +12,14 @@ const PassList = ({
   displayDateInsteadOfTime,
   showWhenInactive = false,
   scrollable = false,
+  flatCard = false,
 }: {
   passesData: firebase.firestore.DocumentData[];
   displayIssuer?: boolean;
   showWhenInactive?: boolean;
   displayDateInsteadOfTime?: boolean;
   scrollable?: boolean;
+  flatCard?: boolean;
 }) => {
   const [timerDependentPassesData, setTimerDependentPassesData] = React.useState(passesData);
 
@@ -64,7 +66,7 @@ const PassList = ({
               justifyContent: 'center',
               textAlign: 'center',
             }}>
-            You do not have any passes dispatched. Active passes you create will appear here.
+            No passes are currently dispatched. Active passes will appear here.
           </Text>
         </View>
       ) : (
@@ -74,6 +76,7 @@ const PassList = ({
               <PassCard
                 showWhenInactive={showWhenInactive}
                 // handlePassExpire={handlePassExpire}
+                flatCard={flatCard}
                 displayIssuer={displayIssuer}
                 displayDateInsteadOfTime={displayDateInsteadOfTime}
                 key={pass.uid}
@@ -81,7 +84,7 @@ const PassList = ({
                 passInfo={{ passColor: '#00BFFF', ...pass }}
                 style={{
                   flex: 1,
-                  minWidth: 150,
+                  minWidth: 200,
                   margin: 5,
                 }}
               />

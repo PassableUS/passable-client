@@ -23,7 +23,7 @@ const StudentPastPasses = ({ student }: { student: Student }) => {
       .doc(student.uid)
       .collection('passes')
       .orderBy('endTime', 'desc')
-      .limit(10),
+      .limit(12),
     { idField: 'uid' }
   );
 

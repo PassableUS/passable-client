@@ -37,12 +37,10 @@ const createPassFromPassData = (passData: Pass) => {
               .add(passData)
               .then(() => {
                 // setCreationStatus('Successfully created pass.');
-                alert('Successfully created pass!');
               })
               .catch((e: any) => alert(e.message));
           } else {
             console.log('No selected room reference. Creating general pass...');
-            alert('Successfully created pass!');
           }
         })
         .catch((e: any) => alert(e.message));

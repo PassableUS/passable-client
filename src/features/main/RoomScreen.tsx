@@ -42,7 +42,14 @@ const RoomDetails = ({ room }: { room: firebase.firestore.DocumentSnapshot<Room>
     <View>
       {/* TODO: Optimization here: fetch Pass data once, then allow both of the following components to grab it */}
       <CapacityChecker selectedRoom={room} />
-      {activeRoomPasses && <PassList passesData={activeRoomPasses} displayDateInsteadOfTime />}
+      {activeRoomPasses && (
+        <>
+          <Text style={{ marginTop: 20 }} category="h6">
+            Room History
+          </Text>
+          <PassList passesData={activeRoomPasses} flatCard displayDateInsteadOfTime />
+        </>
+      )}
     </View>
   );
 };

@@ -5,6 +5,9 @@ import Icon from 'react-native-dynamic-vector-icons';
 import { View } from 'react-native';
 import StudentPastPasses from './StudentPastPasses';
 import { Student } from '../types/school';
+import PrimaryButton from './PrimaryButton';
+import DefaultLayout from './layouts/DefaultLayout';
+import StudentContactTracing from './StudentContactTracing';
 
 export const getNumberWithOrdinal = (n: number) => {
   let s = ['th', 'st', 'nd', 'rd'],
@@ -18,6 +21,8 @@ const convertInfoTypeToReadable = (infoType: string) => {
       return 'Pass History';
     case 'activePasses':
       return 'Active Passes';
+    case 'contactTracing':
+      return 'Contact Tracing Report';
     default:
       return 'Invalid info request.';
   }
@@ -32,6 +37,8 @@ const SingleStudentDisplay = ({ student }: { student: Student }) => {
         return <StudentPastPasses student={student} />;
       case 'activePasses':
         return <StudentActivePasses displayIssuer student={student} />;
+      case 'contactTracing':
+        return <StudentContactTracing />;
     }
 
     return <Text>No info type provided.</Text>;
@@ -39,7 +46,7 @@ const SingleStudentDisplay = ({ student }: { student: Student }) => {
 
   const [infoType, setInfoType] = React.useState('activePasses');
   return (
-    <>
+    <DefaultLayout scrollable>
       <View style={{ flexDirection: 'row' }}>
         <Avatar
           style={{ width: 100, height: 100 }}
@@ -65,13 +72,25 @@ const SingleStudentDisplay = ({ student }: { student: Student }) => {
       </Text>
 
       <ContextualStudentInfo infoType={infoType} />
-      <Button style={{ marginTop: 5 }} onPress={() => setInfoType('pastPasses')}>
-        View Student History
-      </Button>
-      <Button style={{ marginTop: 5 }} status="danger">
-        Build Contact Tracing Report
-      </Button>
-    </>
+      <PrimaryButton
+        icon="history"
+        iconType="FontAwesome"
+        text={infoType === 'pastPasses' ? 'View Active Passes' : 'View Student History'}
+        color="#2253ff"
+        onPress={() =>
+          setInfoType(infoType => (infoType === 'pastPasses' ? 'activePasses' : 'pastPasses'))
+        }
+      />
+      {!(infoType == 'contactTracing') && (
+        <PrimaryButton
+          icon="plus"
+          iconType="FontAwesome"
+          text="Build Contact Tracing Report"
+          color="#ff223c"
+          onPress={() => setInfoType('contactTracing')}
+        />
+      )}
+    </DefaultLayout>
   );
 };
 

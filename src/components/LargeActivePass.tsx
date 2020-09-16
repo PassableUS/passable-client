@@ -47,6 +47,7 @@ const LargeActivePass = ({
           fontWeight: '600',
           fontFamily: 'Inter_800ExtraBold',
           fontSize: 20,
+          marginTop: 50,
           textAlign: 'center',
         }}>
         {passInfo.toLocationName}
@@ -56,7 +57,8 @@ const LargeActivePass = ({
         timerTextStyle={{
           color: 'white',
           textAlign: 'center',
-          fontSize: 15,
+          fontFamily: 'Inter_800ExtraBold',
+          fontSize: 35,
           paddingBottom: 10,
         }}
         setActiveStatus={(status: any) => setActiveStatus(status)}

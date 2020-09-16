@@ -30,7 +30,7 @@ const StudentActivePasses = ({
     db
       .doc(schoolPath)
       .collection('passes')
-      .where('passRecipientUser', '==', studentPath)
+      .where('passRecipientUser', '==', db.doc(studentPath))
       .where('endTime', '>=', cachedTime)
       .limit(5),
     { idField: 'uid' }

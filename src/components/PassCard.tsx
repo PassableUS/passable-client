@@ -14,6 +14,7 @@ const PassCard = ({
   displayIssuer,
   displayDateInsteadOfTime,
   handlePassExpire,
+  flatCard = false,
 }: {
   passInfo: Pass;
   showWhenInactive?: boolean;
@@ -21,6 +22,7 @@ const PassCard = ({
   displayIssuer?: boolean;
   displayDateInsteadOfTime?: boolean;
   handlePassExpire?: any;
+  flatCard?: boolean;
 }) => {
   const [activeStatus, setActiveStatus] = React.useState(true);
 
@@ -37,19 +39,22 @@ const PassCard = ({
   return (
     <View
       style={{
+        minWidth: 200,
         width: '50%',
         minHeight: 125,
         maxHeight: displayDateInsteadOfTime ? 150 : 125,
         shadowColor: '#000',
         borderRadius: 10,
-        shadowOffset: {
-          width: 0,
-          height: 3,
-        },
-        shadowOpacity: 0.27,
-        shadowRadius: 4.65,
+        shadowOffset: flatCard
+          ? undefined
+          : {
+              width: 0,
+              height: 3,
+            },
+        shadowOpacity: flatCard ? undefined : 0.27,
+        shadowRadius: flatCard ? undefined : 4.65,
 
-        elevation: 6,
+        elevation: flatCard ? undefined : 6,
         ...style,
       }}>
       <LinearGradient
