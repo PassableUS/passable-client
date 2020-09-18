@@ -13,7 +13,7 @@ import StudentSearchResultItem from '../../components/StudentSearchResultItem';
 import {
   StudentInfoScreenNavigationProp,
   StudentInfoScreenRouteProp,
-} from '../../navigation/HallManagementNavigation';
+} from './HallMonitorNavigation';
 import { Student } from '../../types/school';
 
 const StudentInfoScreen = ({

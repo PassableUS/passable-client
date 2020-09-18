@@ -12,10 +12,7 @@ import IDScanner from '../../../components/IDScanner';
 import CategorySelector from './CategorySelector';
 import TimeSelector from './TimeSelector';
 import SpecificRoomSelector from './SpecificRoomSelector';
-import {
-  CreatePassScreenNavigationProp,
-  CreatePassScreenRouteProp,
-} from '../../../navigation/HomeScreenNavigation';
+import { CreatePassScreenNavigationProp, CreatePassScreenRouteProp } from '../HomeNavigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { Pass, RoomCategory, ReduxCourseEnrollment } from '../../../types/school';

@@ -1,15 +1,15 @@
 import React from 'react';
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { MainHomeParamList } from './HomeNavigation';
+import { MainHomeParamList } from '../../app/AuthenticatedNavigation';
 import {
   StackNavigationProp,
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import SearchScreen from '../features/main/SearchScreen';
-import StudentInfoScreen from '../features/main/StudentInfoScreen';
-import { HomeScreenStackParamList } from './HomeScreenNavigation';
+import SearchScreen from '.';
+import StudentInfoScreen from './StudentInfoScreen';
+import { HomeScreenStackParamList } from '../home/HomeNavigation';
 
 // **************************
 // Hall Management Navigation

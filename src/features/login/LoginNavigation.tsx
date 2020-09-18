@@ -8,8 +8,8 @@ import {
 import { RouteProp, CompositeNavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
-import SchoolDistrictStep from '../features/login/SchoolDistrictStep';
-import TeacherLoginStep from '../features/login/TeacherLoginStep';
+import SchoolDistrictStep from './SchoolDistrictStep';
+import TeacherLoginStep from './TeacherLoginStep';
 
 // PHONE INPUT / CAPTCHA
 type PhoneInputStackParamList = {

@@ -4,11 +4,11 @@ import { TabsConfig, BubbleTabBarItemConfig } from '@gorhom/animated-tabbar';
 import HomeSVG from '../svg/HomeSVG';
 import SearchSVG from '../svg/SearchSVG';
 import ProfileSVG from '../svg/ProfileSVG';
-import HomeScreenNavigation from './HomeScreenNavigation';
-import ProfileScreen from '../features/main/ProfileScreen';
-import HallManagementNavigation from './HallManagementNavigation';
+import HallManagementNavigation from '../features/hallMonitor/HallMonitorNavigation';
 import RoomSVG from '../svg/RoomSVG';
-import RoomScreen from '../features/main/RoomScreen';
+import RoomScreen from '../features/rooms';
+import HomeScreenNavigation from '../features/home/HomeNavigation';
+import ProfileScreen from '../features/profile';
 
 export let tabBarFunction: any = undefined;
 export let studentTabBarFunction: any = undefined;

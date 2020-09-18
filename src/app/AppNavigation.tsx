@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import AuthNavigation from './AuthNavigation';
-import HomeNavigation from './HomeNavigation';
+import AuthNavigation from '../features/login/LoginNavigation';
+import HomeNavigation from './AuthenticatedNavigation';
 import LoadingScreen from '../features/loader/LoadingScreen';
 import { useSelector } from 'react-redux';
-import { RootState } from '../app/rootReducer';
+import { RootState } from './rootReducer';
 import { auth } from '../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
 

@@ -22,8 +22,8 @@ import { Room, Pass } from '../../types/school';
 import FancyInput from '../../components/FancyInput';
 import FancyButton from '../../components/FancyButton';
 import RoundedButton from '../../components/RoundedButton';
-import CapacityChecker from './CreatePassScreen/CapacityChecker';
 import PassList from '../../components/PassList';
+import CapacityChecker from '../home/CreatePassScreen/CapacityChecker';
 
 const RoomDetails = ({ room }: { room: firebase.firestore.DocumentSnapshot<Room> }) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);

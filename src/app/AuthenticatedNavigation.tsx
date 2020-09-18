@@ -6,9 +6,9 @@ import { Platform, useWindowDimensions, Dimensions } from 'react-native';
 import { Button, Drawer, DrawerItem, IndexPath, Icon, Text } from '@ui-kitten/components';
 
 import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
-import { studentTabBarFunction, getCoreScreens, tabBarFunction } from './HomeNavConfigs';
+import { studentTabBarFunction, getCoreScreens, tabBarFunction } from './AuthenticatedNavConfig';
 import { useSelector } from 'react-redux';
-import { RootState } from '../app/rootReducer';
+import { RootState } from './rootReducer';
 
 export type MainHomeParamList = {
   Home: undefined;

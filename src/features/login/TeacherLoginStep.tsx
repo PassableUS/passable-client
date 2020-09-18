@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import {
   SchoolDistrictScreenNavigationProp,
   TeacherLoginScreenNavigationProp,
-} from '../../navigation/AuthNavigation';
+} from './LoginNavigation';
 
 interface TeacherLoginStepProps {
   navigation: TeacherLoginScreenNavigationProp;

@@ -9,7 +9,7 @@ import PassList from '../../components/PassList';
 import { View } from 'react-native';
 import StudentSearch from '../../components/StudentSearch';
 import { Pass, Student } from '../../types/school';
-import { SearchScreenNavigationProp } from '../../navigation/HallManagementNavigation';
+import { SearchScreenNavigationProp } from './HallMonitorNavigation';
 
 const SearchScreen = ({ navigation }: { navigation: SearchScreenNavigationProp }) => {
   const [userPasses, setUserPasses] = React.useState<firebase.firestore.DocumentData[]>();

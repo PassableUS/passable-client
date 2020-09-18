@@ -8,13 +8,14 @@ import {
   Icon,
   Spinner,
 } from '@ui-kitten/components';
-import { KeyboardAvoidingView, Platform, FlatList, View, Alert } from 'react-native';
+import { Platform, FlatList, View, Alert } from 'react-native';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { db } from '../../components/FirebaseAuthenticator';
 import LottieView from 'lottie-react-native';
 import { District, setupDistrict } from './setupSlice';
 import { useDispatch } from 'react-redux';
-import { SchoolDistrictScreenNavigationProp } from '../../navigation/AuthNavigation';
+import { SchoolDistrictScreenNavigationProp } from './LoginNavigation';
+import { useCollectionData } from 'react-firebase-hooks/firestore/';
 
 interface SchoolDistrictStepProps {
   navigation: SchoolDistrictScreenNavigationProp;
@@ -23,24 +24,12 @@ interface SchoolDistrictStepProps {
 const SchoolDistrictStep = ({ navigation }: SchoolDistrictStepProps) => {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState('');
-  const [districtData, setDistrictData] = React.useState<District[]>();
+
+  const [districtData, isDistrictsLoading, districtsError] = useCollectionData<District>(
+    db.collection('districts'),
+    { idField: 'id' }
+  );
   const [filteredDistricts, setFilteredDistricts] = React.useState<District[]>();
-
-  React.useEffect(() => {
-    const unsubscribe = db.collection('districts').onSnapshot(
-      querySnapshot => {
-        let districts: District[] = [];
-        querySnapshot.forEach(function(doc) {
-          districts.push({ id: doc.id, ...doc.data() } as District);
-        });
-        setDistrictData(districts);
-        setFilteredDistricts(districts);
-      },
-      error => alert(error)
-    );
-
-    return unsubscribe;
-  }, []);
 
   const filter = (item: District, query: string) =>
     item.name.toLowerCase().includes(query.toLowerCase());
@@ -50,7 +39,7 @@ const SchoolDistrictStep = ({ navigation }: SchoolDistrictStepProps) => {
     setFilteredDistricts(districtData.filter(item => filter(item, query)) as District[]);
   };
 
-  const handleSelectDistrict = (district: District) => {
+  const handleSelectDistrict = (district: firebase.firestore.DocumentData) => {
     // Validation
     if (!district.name || !district.id) {
       alert(
@@ -60,7 +49,7 @@ const SchoolDistrictStep = ({ navigation }: SchoolDistrictStepProps) => {
     }
 
     try {
-      dispatch(setupDistrict(district));
+      dispatch(setupDistrict(district as District));
     } catch (e) {
       Alert.alert(JSON.stringify(e));
       return;
@@ -78,8 +67,6 @@ const SchoolDistrictStep = ({ navigation }: SchoolDistrictStepProps) => {
       {item.name}
     </Button>
   );
-
-  // const AlertIcon = props => <Icon {...props} name="alert-circle-outline" />;
 
   return (
     <DefaultLayout>

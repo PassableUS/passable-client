@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 import store, { persistor } from './store';
 
-import AppNavigation from '../navigation/AppNavigation';
+import AppNavigation from './AppNavigation';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 

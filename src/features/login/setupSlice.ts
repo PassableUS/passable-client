@@ -1,6 +1,7 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 
 export interface District {
+  id?: string;
   documentPath: string;
   name: string;
 }
