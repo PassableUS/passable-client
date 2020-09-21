@@ -12,15 +12,11 @@ const StudentActivePasses = ({
   student,
   displayIssuer,
 }: {
-  student: Student;
+  student: firebase.firestore.DocumentSnapshot;
   displayIssuer?: boolean;
 }) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
-  const studentPath = useSelector(
-    (state: RootState) => state.setup.studentInformation.documentPath
-  );
   const [cachedTime, setCachedTime] = React.useState(new Date());
-  const currentTimeAndDate = new Date();
 
   const [
     activePassesCollection,
@@ -30,7 +26,7 @@ const StudentActivePasses = ({
     db
       .doc(schoolPath)
       .collection('passes')
-      .where('passRecipientUser', '==', db.doc(studentPath))
+      .where('passRecipientUser', '==', student.ref)
       .where('endTime', '>=', cachedTime)
       .limit(5),
     { idField: 'uid' }

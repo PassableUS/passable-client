@@ -30,7 +30,9 @@ const convertInfoTypeToReadable = (infoType: string) => {
   return 'Invalid info request.';
 };
 
-const SingleStudentDisplay = ({ student }: { student: Student }) => {
+const SingleStudentDisplay = ({ student }: { student: firebase.firestore.DocumentSnapshot }) => {
+  const studentData = student.data();
+
   const ContextualStudentInfo = ({ infoType }: { infoType: string }) => {
     switch (infoType) {
       case 'pastPasses':
@@ -53,18 +55,18 @@ const SingleStudentDisplay = ({ student }: { student: Student }) => {
           size="giant"
           source={{
             uri:
-              student.profilePictureUri ||
+              studentData.profilePictureUri ||
               'https://image.shutterstock.com/image-vector/male-default-placeholder-avatar-profile-260nw-387516193.jpg',
           }}
         />
         <View style={{ marginLeft: 15 }}>
-          <Text category="h1">{student.displayName}</Text>
+          <Text category="h1">{studentData.displayName}</Text>
           <Text category="h4">
-            {isNaN(parseInt(student.grade))
-              ? student.grade
-              : getNumberWithOrdinal(parseInt(student.grade)) + ' Grade'}
+            {isNaN(parseInt(studentData.grade))
+              ? studentData.grade
+              : getNumberWithOrdinal(parseInt(studentData.grade)) + ' Grade'}
           </Text>
-          <Text category="label">{student.schoolIssuedStudentId}</Text>
+          <Text category="label">{studentData.schoolIssuedStudentId}</Text>
         </View>
       </View>
       <Text category="h1" style={{ marginTop: 20, marginBottom: 10 }}>

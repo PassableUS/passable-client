@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, Button, Spinner, Avatar } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
-import { useDocumentData, useCollectionData } from 'react-firebase-hooks/firestore';
+import { useDocumentData, useCollectionData, useCollection } from 'react-firebase-hooks/firestore';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import firebase from 'firebase';
@@ -46,12 +46,11 @@ const StudentInfoScreen = ({
     matchingUsersCollection,
     isMatchingUsersCollectionLoading,
     matchingUsersCollectionError,
-  ] = useCollectionData<Student>(
+  ] = useCollection(
     db
       .doc(schoolPath)
       .collection('students')
-      .where(infoContext, '==', route.params[route.params.context]),
-    { idField: 'uid' }
+      .where(infoContext, '==', route.params[route.params.context])
   );
 
   if (isMatchingUsersCollectionLoading || !matchingUsersCollection)
@@ -64,7 +63,7 @@ const StudentInfoScreen = ({
   if (matchingUsersCollectionError)
     return <Text category="h1">{matchingUsersCollectionError.message}</Text>;
 
-  if (!matchingUsersCollection || matchingUsersCollection.length === 0) {
+  if (!matchingUsersCollection || matchingUsersCollection.docs.length === 0) {
     return (
       <DefaultLayout>
         <Text category="h1">
@@ -90,17 +89,17 @@ const StudentInfoScreen = ({
           navigation.goBack();
         }}
       />
-      {matchingUsersCollection.length === 1 ? (
-        <SingleStudentDisplay student={matchingUsersCollection[0]} />
+      {matchingUsersCollection.docs.length === 1 ? (
+        <SingleStudentDisplay student={matchingUsersCollection.docs[0]} />
       ) : (
         <>
           <Text>Multiple Matching Users for Query:</Text>
           <Text>{route.params[route.params.context]}</Text>
-          {matchingUsersCollection.map(student => {
+          {matchingUsersCollection.docs.map(student => {
             // TODO: Test multiple students returning
             <StudentSearchResultItem
               student={student}
-              key={student.schoolIssuedStudentId}
+              key={student.data().schoolIssuedStudentId}
               handleStudentSelect={(student: Student) =>
                 navigation.navigate('StudentInfo', { context: 'uid', uid: student.uid })
               }

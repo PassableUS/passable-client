@@ -4,7 +4,7 @@
     "slug": "Passable",
     "privacy": "public",
     "platforms": ["ios", "android", "web"],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "icon": "./src/assets/icon.png",
     "splash": {
       "image": "./src/assets/splash.png",

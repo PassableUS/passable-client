@@ -8,9 +8,8 @@ import PassCard from './PassCard';
 import PassList from './PassList';
 import { Student, Pass } from '../types/school';
 
-const StudentPastPasses = ({ student }: { student: Student }) => {
+const StudentPastPasses = ({ student }: { student: firebase.firestore.DocumentSnapshot }) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
-  const [cachedTime, setCachedTime] = React.useState(new Date());
 
   const [
     pastPassesCollection,
@@ -20,7 +19,7 @@ const StudentPastPasses = ({ student }: { student: Student }) => {
     db
       .doc(schoolPath)
       .collection('students')
-      .doc(student.uid)
+      .doc(student.id)
       .collection('passes')
       .orderBy('endTime', 'desc')
       .limit(12),

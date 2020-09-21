@@ -87,7 +87,8 @@ const setupSlice = createSlice({
     );
 
     builder.addCase(signedOut, (state: UserProfile, action: PayloadAction) => {
-      state = initialState;
+      // Sets state to initial state
+      Object.assign(state, initialState);
     });
   },
 });
