@@ -88,10 +88,6 @@ const App = () => {
   }
   // End Custom Font Loading and Override
 
-  // const linking = {
-  //   prefixes: ['https://safepass.com', 'safep://'],
-  // };
-
   StatusBar.setBarStyle('dark-content', true);
 
   return (

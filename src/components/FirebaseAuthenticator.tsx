@@ -44,19 +44,6 @@ export const auth = firebase.auth();
 export const db = firebase.firestore();
 
 const FirebaseAuthentication: React.FC = () => {
-  // const getCircularReplacer = () => {
-  //   const seen = new WeakSet();
-  //   return (key: any, value: any) => {
-  //     if (typeof value === 'object' && value !== null) {
-  //       if (seen.has(value)) {
-  //         return;
-  //       }
-  //       seen.add(value);
-  //     }
-  //     return value;
-  //   };
-  // };
-
   const handleSession = (userUid: string) => {
     console.log('Setting Session State from Firestore for Uid: ' + userUid + '...');
     db.collection('users')
