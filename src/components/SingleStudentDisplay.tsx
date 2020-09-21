@@ -26,8 +26,6 @@ const convertInfoTypeToReadable = (infoType: string) => {
     default:
       return 'Invalid info request.';
   }
-
-  return 'Invalid info request.';
 };
 
 const SingleStudentDisplay = ({ student }: { student: firebase.firestore.DocumentSnapshot }) => {

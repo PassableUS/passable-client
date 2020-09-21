@@ -32,7 +32,7 @@ const LargeActivePass = ({
       style={{
         backgroundColor: passInfo.passColor,
         borderRadius: 10,
-        minHeight: 500,
+        minHeight: 400,
         padding: 15,
         alignContent: 'space-between',
         justifyContent: 'space-between',
