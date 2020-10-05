@@ -117,7 +117,12 @@ const FirebaseAuthentication: React.FC = () => {
         dispatch(setupFirebaseUid(user.uid));
         handleSession(user.uid);
       } else {
-        dispatch(signedOut());
+        // Data is cleared 5 seconds after sign out
+        setTimeout(() => {
+          dispatch(signedOut());
+
+          console.log('Dispatched sign out');
+        }, 5000);
       }
     });
 

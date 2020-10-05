@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const [currentTime, _] = React.useState(new Date());
   const role = useSelector((state: RootState) => state.setup.role);
 
-  const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
+  const schoolPath = useSelector((state: RootState) => state.setup.school?.documentPath);
   const studentPath = useSelector(
     (state: RootState) => state.setup.studentInformation?.documentPath
   );

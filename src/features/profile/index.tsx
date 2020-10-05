@@ -31,9 +31,7 @@ const ProfileScreen = () => {
 
   const handleSignOut = () => {
     // TODO: Fix hacky sign out solution
-    dispatch(signedOut());
     auth.signOut();
-    setTimeout(() => auth.signOut(), 1500);
   };
 
   const [user, isAuthLoading, authError] = useAuthState(auth);
