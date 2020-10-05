@@ -26,6 +26,7 @@ export interface UserProfile {
   role: string;
   displayName: string;
   studentInformation: StudentInformationRepresentation | null;
+  isLoading: boolean;
 }
 
 const initialState: UserProfile = {
@@ -36,8 +37,10 @@ const initialState: UserProfile = {
   role: null,
   displayName: null,
   studentInformation: null,
+  isLoading: true,
 };
 
+export const setupIsLoading = createAction<boolean>('setup/setupIsLoading');
 export const setupDistrict = createAction<District>('setup/setupDistrict');
 export const setupSchool = createAction<SchoolProfileRepresentation>('setup/setupSchool');
 export const setupSchoolPath = createAction<string>('setup/setupSchoolPath');
@@ -55,6 +58,10 @@ const setupSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
+    builder.addCase(setupIsLoading, (state: UserProfile, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    });
+
     builder.addCase(setupDistrict, (state: UserProfile, action: PayloadAction<District>) => {
       state.district = action.payload;
     });

@@ -22,6 +22,9 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const role = useSelector((state: RootState) => state.setup.role);
 
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
+  const studentPath = useSelector(
+    (state: RootState) => state.setup.studentInformation?.documentPath
+  );
 
   const [userPasses, isUserPassesLoading, userPassesError] = useCollectionData<Pass>(
     db
@@ -37,7 +40,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       <DefaultLayout scrollable>
         <Image style={{ height: 100, width: 100 }} source={require('../../assets/icon.png')} />
 
-        {role === 'student' && <StudentLargePassList />}
+        {role === 'student' && studentPath && <StudentLargePassList studentPath={studentPath} />}
 
         <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
           Create Passes

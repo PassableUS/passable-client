@@ -5,7 +5,7 @@ import { AppDispatch } from '../app/store';
 
 // Firebase config
 import firebase from 'firebase/app';
-import { setupStudentInformation } from '../features/login/setupSlice';
+import { setupStudentInformation, setupIsLoading } from '../features/login/setupSlice';
 import { FirestoreCourseEnrollment, ReduxCourseEnrollment } from '../types/school';
 import {
   setupFirebaseUid,
@@ -97,6 +97,9 @@ const FirebaseAuthentication: React.FC = () => {
                 );
               });
             }
+
+            // Dispatch done initializing
+            dispatch(setupIsLoading(false));
           })
           .catch((e: firebase.firestore.FirestoreError) =>
             alert('Something went wrong during initialization. Error Message: ' + e.message)

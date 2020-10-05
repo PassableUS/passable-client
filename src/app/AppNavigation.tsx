@@ -23,13 +23,14 @@ const AppNavigation: React.FC = () => {
   // const isRegistering = !isLoggedIn || !hasCompletedProfile;
 
   const [user, loading, error] = useAuthState(auth);
-  const { isLoggedIn } = useSelector((state: RootState) => state.setup);
+  const { isLoggedIn, isLoading } = useSelector((state: RootState) => state.setup);
 
   return loading ? (
     <LoadingScreen />
   ) : (
     <Stack.Navigator headerMode="none">
-      {!user || !isLoggedIn ? (
+      {/* If we don't have the user object or if the redux state says we are not logged in or if the redux state is loading, show the login screen */}
+      {!user || !isLoggedIn || isLoading ? (
         <>
           <Stack.Screen name="Auth" component={AuthNavigation} />
         </>

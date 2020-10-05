@@ -6,13 +6,13 @@ import { Pass } from '../types/school';
 import { db } from './FirebaseAuthenticator';
 import LargeActivePass from './LargeActivePass';
 
-const StudentLargePassList: React.FC = () => {
+const StudentLargePassList = ({ studentPath }: { studentPath: string }) => {
   const [currentTime, setCurrentTime] = React.useState(new Date());
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
 
-  const studentPath = useSelector(
-    (state: RootState) => state.setup.studentInformation.documentPath
-  );
+  // const studentPath = useSelector(
+  //   (state: RootState) => state.setup.studentInformation.documentPath
+  // );
 
   const [studentLargePasses, isLoadingStudentLargePasses, studentLargePassesError] = useCollection(
     db
@@ -21,8 +21,6 @@ const StudentLargePassList: React.FC = () => {
       .where('passRecipientUser', '==', db.doc(studentPath))
       .where('endTime', '>=', currentTime)
   );
-
-  if (!studentPath) return null;
 
   return (
     <>
