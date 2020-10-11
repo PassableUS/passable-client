@@ -2,10 +2,10 @@ import React from 'react';
 import { useCollection, useCollectionData } from 'react-firebase-hooks/firestore';
 import { Card, Spinner, Text } from '@ui-kitten/components';
 import { View } from 'react-native';
-import { Pass } from '../../../types/school';
+import { Pass } from '../../../../types/school';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/rootReducer';
-import { db } from '../../../components/FirebaseAuthenticator';
+import { RootState } from '../../../../app/rootReducer';
+import { db } from '../../../../components/FirebaseAuthenticator';
 
 function joinSentence(array: any, oxford_comma = true) {
   if (array.length > 1) {
@@ -20,8 +20,6 @@ function joinSentence(array: any, oxford_comma = true) {
 }
 
 const CapacityChecker = ({ selectedRoom }: any) => {
-  // TODO: Optimize this, rerenders and rereads on time increment or decrement
-
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);
 
   if (!selectedRoom.ref) {

@@ -18,6 +18,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import { signedOut } from '../login/setupSlice';
 import { useAppDispatch } from '../../app/store';
+import FancyButton from '../../components/FancyButton';
+import PrimaryButton from '../../components/PrimaryButton';
 
 function toTitleCase(str: string) {
   return str.replace(/\w\S*/g, function(txt: string) {
@@ -83,6 +85,13 @@ const ProfileScreen = () => {
         <Text category="h5">{schoolData.name}</Text>
       </Card>
 
+      <PrimaryButton
+        style={{ marginBottom: 10 }}
+        color="red"
+        text="Enable Kiosk Mode"
+        onPress={() => {}}
+      />
+
       <Select
         style={{ marginBottom: 20 }}
         label="Switch Context"
@@ -94,7 +103,7 @@ const ProfileScreen = () => {
         <SelectItem title="Administrator (if account permitted)" />
       </Select>
 
-      <Button onPress={handleSignOut}>Sign out</Button>
+      <PrimaryButton text="Sign Out" onPress={handleSignOut} />
     </DefaultLayout>
   );
 };

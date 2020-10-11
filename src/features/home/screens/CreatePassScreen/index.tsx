@@ -1,26 +1,25 @@
 import React from 'react';
 import { Text, Button, Spinner, Card, Input, Avatar, ButtonGroup } from '@ui-kitten/components';
-import DefaultLayout from '../../../components/layouts/DefaultLayout';
-import { auth, db } from '../../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Icon from 'react-native-dynamic-vector-icons';
 
 import { Platform, View } from 'react-native';
 
-import StudentSearch from '../../../components/StudentSearch';
-import IDScanner from '../../../components/IDScanner';
+import StudentSearch from '../../../../components/StudentSearch';
+import IDScanner from '../../../../components/IDScanner';
 import CategorySelector from './CategorySelector';
 import TimeSelector from './TimeSelector';
 import SpecificRoomSelector from './SpecificRoomSelector';
-import { CreatePassScreenNavigationProp, CreatePassScreenRouteProp } from '../HomeNavigation';
+import { CreatePassScreenNavigationProp, CreatePassScreenRouteProp } from '../../HomeNavigation';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/rootReducer';
-import { Pass, RoomCategory, ReduxCourseEnrollment } from '../../../types/school';
-import firebase from 'firebase';
+import { RootState } from '../../../../app/rootReducer';
+import { RoomCategory, ReduxCourseEnrollment } from '../../../../types/school';
 import ApproverSelector from './ApproverSelector';
-import { createPass, createPassRequest } from '../../../services/passServices';
-import RoundedButton from '../../../components/RoundedButton';
+import { createPass, createPassRequest } from '../../../../services/passServices';
+import RoundedButton from '../../../../components/RoundedButton';
 import CreateGuestPass from './CreateGuestPass';
+import DefaultLayout from '../../../../components/layouts/DefaultLayout';
+import { db, auth } from '../../../../components/FirebaseAuthenticator';
 
 const CreatePassScreen = ({
   navigation,
@@ -147,47 +146,45 @@ const CreatePassScreen = ({
   };
 
   return (
-    <>
-      <DefaultLayout>
-        <Icon
-          style={{ marginTop: 20, marginBottom: 30 }}
-          name="md-close-circle"
-          type="Ionicons"
-          size={35}
-          color="black"
-          onPress={() => {
-            navigation.goBack();
-          }}
+    <DefaultLayout>
+      <Icon
+        style={{ marginTop: 20, marginBottom: 30 }}
+        name="md-close-circle"
+        type="Ionicons"
+        size={35}
+        color="black"
+        onPress={() => {
+          navigation.goBack();
+        }}
+      />
+
+      {step === 'selectStudent' && <StudentSelector context={route.params.context} />}
+      {step === 'selectCategory' && (
+        <CategorySelector setSelectedCategory={setSelectedCategory} setStep={setStep} />
+      )}
+      {step === 'selectRoom' && (
+        <SpecificRoomSelector
+          category={selectedCategory}
+          setSelectedRoom={setSelectedRoom}
+          setStep={setStep}
         />
+      )}
 
-        {step === 'selectStudent' && <StudentSelector context={route.params.context} />}
-        {step === 'selectCategory' && (
-          <CategorySelector setSelectedCategory={setSelectedCategory} setStep={setStep} />
-        )}
-        {step === 'selectRoom' && (
-          <SpecificRoomSelector
-            category={selectedCategory}
-            setSelectedRoom={setSelectedRoom}
-            setStep={setStep}
-          />
-        )}
+      {step === 'selectApprover' && (
+        <ApproverSelector setSelectedApproverInfo={setSelectedApproverInfo} setStep={setStep} />
+      )}
 
-        {step === 'selectApprover' && (
-          <ApproverSelector setSelectedApproverInfo={setSelectedApproverInfo} setStep={setStep} />
-        )}
+      {step === 'selectTime' && (
+        <TimeSelector
+          handleCreatePass={handleCreatePass}
+          selectedRoom={selectedRoom}
+          selectedTime={selectedTime}
+          setSelectedTime={setSelectedTime}
+        />
+      )}
 
-        {step === 'selectTime' && (
-          <TimeSelector
-            handleCreatePass={handleCreatePass}
-            selectedRoom={selectedRoom}
-            selectedTime={selectedTime}
-            setSelectedTime={setSelectedTime}
-          />
-        )}
-
-        {step === 'createGuestPass' && <CreateGuestPass />}
-      </DefaultLayout>
-    </>
+      {step === 'createGuestPass' && <CreateGuestPass />}
+    </DefaultLayout>
   );
 };
 

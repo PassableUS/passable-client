@@ -18,7 +18,8 @@ export interface StudentInformationRepresentation {
   documentPath: string;
 }
 
-export interface UserProfile {
+export interface SetupState {
+  appContext: string;
   district: District;
   userUid: string;
   school: SchoolProfileRepresentation;
@@ -29,7 +30,8 @@ export interface UserProfile {
   isLoading: boolean;
 }
 
-const initialState: UserProfile = {
+const initialState: SetupState = {
+  appContext: 'default',
   district: null,
   userUid: null,
   school: null,
@@ -40,6 +42,7 @@ const initialState: UserProfile = {
   isLoading: true,
 };
 
+export const setupAppContext = createAction<string>('setup/setupAppContext');
 export const setupIsLoading = createAction<boolean>('setup/setupIsLoading');
 export const setupDistrict = createAction<District>('setup/setupDistrict');
 export const setupSchool = createAction<SchoolProfileRepresentation>('setup/setupSchool');
@@ -58,42 +61,47 @@ const setupSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(setupIsLoading, (state: UserProfile, action: PayloadAction<boolean>) => {
+    builder.addCase(setupAppContext, (state: SetupState, action: PayloadAction<string>) => {
+      state.appContext = action.payload;
+    });
+
+    builder.addCase(setupIsLoading, (state: SetupState, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     });
 
-    builder.addCase(setupDistrict, (state: UserProfile, action: PayloadAction<District>) => {
+    builder.addCase(setupDistrict, (state: SetupState, action: PayloadAction<District>) => {
       state.district = action.payload;
     });
 
-    builder.addCase(setupFirebaseUid, (state: UserProfile, action: PayloadAction<string>) => {
+    builder.addCase(setupFirebaseUid, (state: SetupState, action: PayloadAction<string>) => {
       state.userUid = action.payload;
     });
 
-    builder.addCase(setupDisplayName, (state: UserProfile, action: PayloadAction<string>) => {
+    builder.addCase(setupDisplayName, (state: SetupState, action: PayloadAction<string>) => {
       state.displayName = action.payload;
     });
 
     builder.addCase(
       setupStudentInformation,
-      (state: UserProfile, action: PayloadAction<StudentInformationRepresentation>) => {
+      (state: SetupState, action: PayloadAction<StudentInformationRepresentation>) => {
         state.studentInformation = action.payload;
       }
     );
 
-    builder.addCase(setupRole, (state: UserProfile, action: PayloadAction<string>) => {
+    builder.addCase(setupRole, (state: SetupState, action: PayloadAction<string>) => {
       state.role = action.payload;
     });
 
+    // After the school is set up in the Firebase Authenticator component, the user is "signed in"
     builder.addCase(
       setupSchool,
-      (state: UserProfile, action: PayloadAction<SchoolProfileRepresentation>) => {
+      (state: SetupState, action: PayloadAction<SchoolProfileRepresentation>) => {
         state.school = action.payload;
         state.isLoggedIn = true;
       }
     );
 
-    builder.addCase(signedOut, (state: UserProfile, action: PayloadAction) => {
+    builder.addCase(signedOut, (state: SetupState, action: PayloadAction) => {
       // Sets state to initial state
       Object.assign(state, initialState);
     });

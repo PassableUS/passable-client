@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  Button,
-  Spinner,
-  Card,
-  Input,
-  Select,
-  SelectItem,
-  IndexPath,
-} from '@ui-kitten/components';
+import { Text, Spinner } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { auth, db } from '../../components/FirebaseAuthenticator';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -16,14 +7,11 @@ import { useDocumentData, useCollectionData, useCollection } from 'react-firebas
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
-import { signedOut } from '../login/setupSlice';
-import { useAppDispatch } from '../../app/store';
 import { Room, Pass } from '../../types/school';
 import FancyInput from '../../components/FancyInput';
-import FancyButton from '../../components/FancyButton';
 import RoundedButton from '../../components/RoundedButton';
 import PassList from '../../components/PassList';
-import CapacityChecker from '../home/CreatePassScreen/CapacityChecker';
+import CapacityChecker from '../home/screens/CreatePassScreen/CapacityChecker';
 
 const RoomDetails = ({ room }: { room: firebase.firestore.DocumentSnapshot<Room> }) => {
   const schoolPath = useSelector((state: RootState) => state.setup.school.documentPath);

@@ -7,16 +7,24 @@ import { Text } from '@ui-kitten/components';
 interface PrimaryButtonProps {
   onPress: any;
   text: string;
-  color: string;
+  color?: string;
   icon?: string;
   iconType?: string;
+  style: any;
 }
 
-const PrimaryButton = ({ onPress, text, color, icon, iconType }: PrimaryButtonProps) => {
+const PrimaryButton = ({
+  onPress,
+  text,
+  color = '#2253FF',
+  icon,
+  iconType,
+  style,
+}: PrimaryButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={{ backgroundColor: color, padding: 20, borderRadius: 10, marginTop: 10 }}>
+      style={{ backgroundColor: color, padding: 20, borderRadius: 10, marginTop: 10, ...style }}>
       <View
         style={{
           display: 'flex',

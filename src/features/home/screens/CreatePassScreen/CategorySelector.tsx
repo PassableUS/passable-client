@@ -1,13 +1,12 @@
 import React from 'react';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Text } from '@ui-kitten/components';
-import Icon from 'react-native-dynamic-vector-icons';
-import SpecificRoomSelector from './SpecificRoomSelector';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/rootReducer';
-import { RoomCategory } from '../../../types/school';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { RootState } from '../../../../app/rootReducer';
+import { RoomCategory } from '../../../../types/school';
+import { adjustColor } from '../../../../utils/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { adjustColor } from '../../../utils/colors';
+import { useSelector } from 'react-redux';
+import Icon from 'react-native-dynamic-vector-icons';
 
 interface CategorySelectorProps {
   setSelectedCategory: any;

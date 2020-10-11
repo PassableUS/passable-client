@@ -1,20 +1,20 @@
 import React from 'react';
 import { Text, Spinner } from '@ui-kitten/components';
-import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { auth, db } from '../../components/FirebaseAuthenticator';
-import { RootState } from '../../app/rootReducer';
+import { auth, db } from '../../../components/FirebaseAuthenticator';
+import { RootState } from '../../../app/rootReducer';
 import { useSelector } from 'react-redux';
 import firebase from 'firebase';
 import { View, Image } from 'react-native';
-import MovingLinearGradient, { presetColors } from '../../components/MovingLinearGradient';
-import MovingGradientButton from '../../components/MovingGradientButton';
-import PassList from '../../components/PassList';
-import { HomeScreenNavigationProp } from './HomeNavigation';
+import MovingLinearGradient, { presetColors } from '../../../components/MovingLinearGradient';
+import MovingGradientButton from '../../../components/MovingGradientButton';
+import PassList from '../../../components/PassList';
+import { HomeScreenNavigationProp } from '../HomeNavigation';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import LargeActivePass from '../../components/LargeActivePass';
-import { Pass } from '../../types/school';
-import StudentLargePassList from '../../components/StudentLargePassList';
-import PassApprovalList from '../../components/PassApprovalList';
+import LargeActivePass from '../../../components/LargeActivePass';
+import { Pass } from '../../../types/school';
+import StudentLargePassList from '../../../components/StudentLargePassList';
+import PassApprovalList from '../../../components/PassApprovalList';
+import DefaultLayout from '../../../components/layouts/DefaultLayout';
 
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const userUid = useSelector((state: RootState) => state.setup.userUid);
@@ -38,7 +38,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   return (
     <>
       <DefaultLayout scrollable>
-        <Image style={{ height: 100, width: 100 }} source={require('../../assets/icon.png')} />
+        <Image style={{ height: 100, width: 100 }} source={require('../../../assets/icon.png')} />
 
         {role === 'student' && studentPath && <StudentLargePassList studentPath={studentPath} />}
 

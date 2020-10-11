@@ -1,9 +1,9 @@
 import React from 'react';
-import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Platform, useWindowDimensions, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 
-import { Button, Drawer, DrawerItem, IndexPath, Icon, Text } from '@ui-kitten/components';
+import { Drawer, DrawerItem, IndexPath } from '@ui-kitten/components';
 
 import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
 import { studentTabBarFunction, getCoreScreens, tabBarFunction } from './AuthenticatedNavConfig';
@@ -15,9 +15,10 @@ export type MainHomeParamList = {
   Search: undefined;
   Profile: undefined;
 };
+
 const Tab = createBottomTabNavigator<MainHomeParamList>();
 
-const HomeTabNavigation = () => {
+const MainTabNavigation = () => {
   const role = useSelector((state: RootState) => state.setup.role);
   return (
     <Tab.Navigator
@@ -39,7 +40,7 @@ const HomeTabNavigation = () => {
 const DrawerNav = createDrawerNavigator<MainHomeParamList>();
 const isLargeScreen = Dimensions.get('window').width > 768;
 
-const HomeDrawerNavigation = () => {
+const MainDrawerNavigation = () => {
   const role = useSelector((state: RootState) => state.setup.role);
 
   const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
@@ -78,9 +79,14 @@ const HomeDrawerNavigation = () => {
   );
 };
 
-const HomeNavigation = isLargeScreen ? HomeDrawerNavigation : HomeTabNavigation;
+// Chooses whether to display the drawer navigation or tab navigation depending on the screen size
+const MainNavigation = isLargeScreen ? MainDrawerNavigation : MainTabNavigation;
 
-export default HomeNavigation;
+const AuthenticatedNavigation = () => {
+  return <MainNavigation />;
+};
+
+export default AuthenticatedNavigation;
 
 // BROKEN DYNAMIC NAVIGATION UPDATE MECHANISM, PLACE UNDER HOME DRAWER NAVIGATION, REPLACING EVERYTHING
 // const HomeNavigation = () => {

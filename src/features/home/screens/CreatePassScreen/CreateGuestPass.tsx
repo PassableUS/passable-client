@@ -1,14 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
-import CapacityChecker from './CapacityChecker';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 
 import { ButtonGroup, Text, Button, Datepicker, Input } from '@ui-kitten/components';
-import { Inter_900Black } from '@expo-google-fonts/inter';
 
-interface CreateGuestPassProps {}
-
-const CreateGuestPass = ({}: CreateGuestPassProps) => {
+const CreateGuestPass = () => {
   const [date, setDate] = React.useState(new Date());
   const [name, setName] = React.useState('');
 

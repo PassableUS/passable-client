@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/rootReducer';
+import { RootState } from '../../../../app/rootReducer';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { db } from '../../../components/FirebaseAuthenticator';
 import { Spinner, Text } from '@ui-kitten/components';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
-import { RoomCategory } from '../../../types/school';
+import { RoomCategory } from '../../../../types/school';
 import { LinearGradient } from 'expo-linear-gradient';
-import { adjustColor } from '../../../utils/colors';
+import { adjustColor } from '../../../../utils/colors';
+import { db } from '../../../../components/FirebaseAuthenticator';
 
 interface SpecificRoomSelectorProps {
   category: RoomCategory;

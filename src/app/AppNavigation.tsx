@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import AuthNavigation from '../features/login/LoginNavigation';
-import HomeNavigation from './AuthenticatedNavigation';
+import AuthenticatedNavigation from './AuthenticatedNavigation';
 import LoadingScreen from '../features/loader/LoadingScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from './rootReducer';
@@ -37,7 +37,7 @@ const AppNavigation: React.FC = () => {
       ) : (
         <>
           {/* User is signed in and done */}
-          <Stack.Screen name="Main" component={HomeNavigation} />
+          <Stack.Screen name="Main" component={AuthenticatedNavigation} />
         </>
       )}
     </Stack.Navigator>

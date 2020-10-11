@@ -5,8 +5,8 @@ import {
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import HomeScreen from '.';
-import CreatePassScreen from './CreatePassScreen';
+import HomeScreen from './screens/HomeScreen';
+import CreatePassScreen from './screens/CreatePassScreen';
 
 // Start Home Screen Navigation
 export type HomeScreenStackParamList = {

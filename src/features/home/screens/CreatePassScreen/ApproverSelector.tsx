@@ -1,11 +1,11 @@
 import React, { Dispatch } from 'react';
 
 import { Text } from '@ui-kitten/components';
-import IDScanner from '../../../components/IDScanner';
-import StudentSearch from '../../../components/StudentSearch';
+import IDScanner from '../../../../components/IDScanner';
+import StudentSearch from '../../../../components/StudentSearch';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/rootReducer';
-import { ReduxCourseEnrollment } from '../../../types/school';
+import { RootState } from '../../../../app/rootReducer';
+import { ReduxCourseEnrollment } from '../../../../types/school';
 import { View } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
