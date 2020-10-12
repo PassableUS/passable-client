@@ -9,6 +9,7 @@ import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navig
 import { studentTabBarFunction, getCoreScreens, tabBarFunction } from './AuthenticatedNavConfig';
 import { useSelector } from 'react-redux';
 import { RootState } from './rootReducer';
+import KioskNavigation from '../features/kiosk/KioskNavigation';
 
 export type MainHomeParamList = {
   Home: undefined;
@@ -83,6 +84,10 @@ const MainDrawerNavigation = () => {
 const MainNavigation = isLargeScreen ? MainDrawerNavigation : MainTabNavigation;
 
 const AuthenticatedNavigation = () => {
+  const appContext = useSelector((state: RootState) => state.setup.appContext);
+
+  if (appContext == 'kiosk') return <KioskNavigation />;
+
   return <MainNavigation />;
 };
 

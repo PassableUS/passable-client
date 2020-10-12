@@ -16,13 +16,14 @@ import { District, setupDistrict } from './setupSlice';
 import { useDispatch } from 'react-redux';
 import { SchoolDistrictScreenNavigationProp } from './LoginNavigation';
 import { useCollectionData } from 'react-firebase-hooks/firestore/';
+import { useAppDispatch } from '../../app/store';
 
 interface SchoolDistrictStepProps {
   navigation: SchoolDistrictScreenNavigationProp;
 }
 
 const SchoolDistrictStep = ({ navigation }: SchoolDistrictStepProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [value, setValue] = React.useState('');
 
   const [districtData, isDistrictsLoading, districtsError] = useCollectionData<District>(

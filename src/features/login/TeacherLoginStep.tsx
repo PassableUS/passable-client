@@ -1,19 +1,8 @@
 import React from 'react';
-import {
-  Layout,
-  Text,
-  Autocomplete,
-  AutocompleteItem,
-  Button,
-  Icon,
-  Spinner,
-  Input,
-} from '@ui-kitten/components';
-import { KeyboardAvoidingView, Platform, FlatList, View, Alert } from 'react-native';
+import { Layout, Text, Button, Spinner, Input } from '@ui-kitten/components';
+import { View, Alert } from 'react-native';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { db, auth } from '../../components/FirebaseAuthenticator';
-import LottieView from 'lottie-react-native';
-import { useDispatch } from 'react-redux';
 import {
   SchoolDistrictScreenNavigationProp,
   TeacherLoginScreenNavigationProp,
@@ -29,7 +18,6 @@ function validateEmail(email: string) {
 }
 
 const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
-  const dispatch = useDispatch();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);

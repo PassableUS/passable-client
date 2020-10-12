@@ -16,7 +16,7 @@ import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
-import { signedOut } from '../login/setupSlice';
+import { signedOut, setupAppContext } from '../login/setupSlice';
 import { useAppDispatch } from '../../app/store';
 import FancyButton from '../../components/FancyButton';
 import PrimaryButton from '../../components/PrimaryButton';
@@ -89,7 +89,7 @@ const ProfileScreen = () => {
         style={{ marginBottom: 10 }}
         color="red"
         text="Enable Kiosk Mode"
-        onPress={() => {}}
+        onPress={() => dispatch(setupAppContext('kiosk'))}
       />
 
       <Select

@@ -10,7 +10,7 @@ interface PrimaryButtonProps {
   color?: string;
   icon?: string;
   iconType?: string;
-  style: any;
+  style?: any;
 }
 
 const PrimaryButton = ({
