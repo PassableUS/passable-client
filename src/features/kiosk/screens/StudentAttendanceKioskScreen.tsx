@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import DefaultLayout from '../../../components/layouts/DefaultLayout';
 import { Text } from '@ui-kitten/components';
 import LottieView from 'lottie-react-native';
@@ -7,6 +7,15 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 
 const StudentAttendanceKioskScreen = () => {
+  if (Platform.OS === 'web')
+    return (
+      <DefaultLayout>
+        <Text category="h1">
+          Kiosk mode is not supported on web. Please try again using the iOS or Android client.
+        </Text>
+      </DefaultLayout>
+    );
+
   return (
     <DefaultLayout>
       <Text category="h1" style={{ marginTop: 30, marginBottom: 10 }}>
