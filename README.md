@@ -1,24 +1,3 @@
-<!--
-*** Thanks for checking out this README Template. If you have a suggestion that would
-*** make this better, please fork the repo and create a pull request or simply open
-*** an issue with the tag "enhancement".
-*** Thanks again! Now go create something AMAZING! :D
-***
-***
-***
-*** To avoid retyping too much info. Do a search and replace for the following:
-*** PassableUS, passable-client, twitter_handle, admin@passable.us
--->
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/aa5883a465a04bdea446d10b8a3f05db)](https://www.codacy.com/gh/PassableUS/passable-client/dashboard?utm_source=github.com&utm_medium=referral&utm_content=PassableUS/passable-client&utm_campaign=Badge_Grade)
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
@@ -94,19 +73,19 @@ npm i -g expo-cli
 
 ### Installation
 
-1. Clone the repo
+1.Clone the repo
 
 ```sh
 git clone https://github.com/PassableUS/passable-client.git
 ```
 
-2. Install NPM packages
+2.Install NPM packages
 
 ```sh
 npm install
 ```
 
-3. Start the project in development mode
+3.Start the project in development mode
 
 ```sh
 expo start
