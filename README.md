@@ -1,5 +1,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/aa5883a465a04bdea446d10b8a3f05db)](https://www.codacy.com/gh/PassableUS/passable-client/dashboard?utm_source=github.com&utm_medium=referral&utm_content=PassableUS/passable-client&utm_campaign=Badge_Grade)
 [![LinkedIn][linkedin-shield]][linkedin-url]
+![Expo Publish](https://github.com/PassableUS/passable-client/workflows/Expo%20Publish/badge.svg)
 
 <!-- PROJECT LOGO -->
 <br />
