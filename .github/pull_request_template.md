@@ -1,3 +1,6 @@
+## Related issue
+Closes #
+
 ## Pull request checklist
 
 Please check if your PR fulfills the following requirements:
