@@ -5,8 +5,12 @@ import { Text } from '@ui-kitten/components';
 import LottieView from 'lottie-react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
+import Modal from 'react-native-modal';
+import Emoji from 'react-native-emoji';
 
 const StudentAttendanceKioskScreen = () => {
+  const [isModalVisible, setModalVisible] = React.useState(false);
+
   if (Platform.OS === 'web')
     return (
       <DefaultLayout>
@@ -18,6 +22,31 @@ const StudentAttendanceKioskScreen = () => {
 
   return (
     <DefaultLayout>
+      <Modal isVisible={isModalVisible}>
+        <View style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <View
+            style={{
+              width: '50%',
+              height: '50%',
+              backgroundColor: 'white',
+              borderRadius: 20,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Emoji name=":wave:" style={{ fontSize: 80 }} />
+            <Text category="h1">Bye Joseph!</Text>
+            <Text category="h5" style={{ marginTop: 20 }}>
+              You have successfully left{' '}
+              <Text category="h5" style={{ fontFamily: 'Inter_600SemiBold' }}>
+                HANOVER HIGH
+              </Text>
+              .
+            </Text>
+          </View>
+        </View>
+      </Modal>
+
       <Text category="h1" style={{ marginTop: 30, marginBottom: 10 }}>
         Passable Kiosk
       </Text>
@@ -80,12 +109,14 @@ const StudentAttendanceKioskScreen = () => {
                 overflow: 'hidden',
               },
             ]}
-            type={Camera.Constants.Type.front}
+            type={Camera.Constants.Type.back}
             barCodeScannerSettings={{
               barCodeTypes: [BarCodeScanner.Constants.BarCodeType.code39],
             }}
             onBarCodeScanned={data => {
-              console.log(data);
+              console.log('Scanned');
+              setModalVisible(true);
+              setTimeout(() => setModalVisible(false), 1200);
             }}>
             <LottieView
               loop
