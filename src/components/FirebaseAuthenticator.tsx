@@ -50,60 +50,70 @@ const FirebaseAuthentication: React.FC = () => {
       .doc(userUid)
       .get()
       .then(doc => {
-        // Fetch school info
         const userDocument = doc.data();
-        const schoolPath = userDocument.school.path;
-        userDocument.school
+
+        dispatch(setupRole(userDocument.role));
+        dispatch(setupDisplayName(userDocument.displayName));
+
+        // Fetch and setup district info
+        userDocument.district
           .get()
           .then((doc: firebase.firestore.DocumentSnapshot) => {
-            dispatch(setupRole(userDocument.role));
-            dispatch(setupDisplayName(userDocument.displayName));
             dispatch(
               setupDistrict({
-                name: userDocument.district.get().name,
                 documentPath: userDocument.district.path,
+                name: doc.data().name,
               })
             );
-            dispatch(
-              setupSchool({
-                documentPath: schoolPath,
-                schoolName: doc.data().name,
-                roomCategories: doc.data().roomCategories,
-              })
-            );
-
-            if (userDocument.role === 'student') {
-              const studentInfoRef = userDocument.studentInformationReference;
-              studentInfoRef.get().then((doc: firebase.firestore.DocumentSnapshot) => {
-                const studentInfoData = doc.data();
-                console.log('Refetching data');
-                // Transforms Firestore references into paths
-                const courseEnrollments = studentInfoData.courseEnrollments.map(
-                  (enrollment: FirestoreCourseEnrollment): ReduxCourseEnrollment => {
-                    return {
-                      courseName: enrollment.courseName,
-                      teacherPath: enrollment.teacherReference.path,
-                      teacherDisplayName: enrollment.teacherDisplayName,
-                    };
-                  }
-                );
-
+          })
+          .then(() => {
+            // Fetch and setup school info
+            userDocument.school
+              .get()
+              .then((doc: firebase.firestore.DocumentSnapshot) => {
                 dispatch(
-                  setupStudentInformation({
-                    documentPath: studentInfoRef.path,
-                    schoolIssuedStudentId: studentInfoData.schoolIssuedStudentId,
-                    courseEnrollments,
+                  setupSchool({
+                    documentPath: userDocument.school.path,
+                    schoolName: doc.data().name,
+                    roomCategories: doc.data().roomCategories,
                   })
                 );
-              });
-            }
-
-            // Dispatch done initializing
-            dispatch(setupIsLoading(false));
-          })
-          .catch((e: firebase.firestore.FirestoreError) =>
-            alert('Something went wrong during initialization. Error Message: ' + e.message)
-          );
+              })
+              .then(() => {
+                // If student, fetch and setup student info
+                if (userDocument.role === 'student') {
+                  const studentInfoRef = userDocument.studentInformationReference;
+                  studentInfoRef.get().then((doc: firebase.firestore.DocumentSnapshot) => {
+                    const studentInfoData = doc.data();
+                    console.log('Refetching data');
+                    // Transforms Firestore references into paths
+                    const courseEnrollments = studentInfoData.courseEnrollments.map(
+                      (enrollment: FirestoreCourseEnrollment): ReduxCourseEnrollment => {
+                        return {
+                          courseName: enrollment.courseName,
+                          teacherPath: enrollment.teacherReference.path,
+                          teacherDisplayName: enrollment.teacherDisplayName,
+                        };
+                      }
+                    );
+                    dispatch(
+                      setupStudentInformation({
+                        documentPath: studentInfoRef.path,
+                        schoolIssuedStudentId: studentInfoData.schoolIssuedStudentId,
+                        courseEnrollments,
+                      })
+                    );
+                    dispatch(setupIsLoading(false));
+                  });
+                } else {
+                  // Done loading, no need to fetch student data as the user is not a student
+                  dispatch(setupIsLoading(false));
+                }
+              })
+              .catch((e: firebase.firestore.FirestoreError) =>
+                alert('Something went wrong during initialization. Error Message: ' + e.message)
+              );
+          });
       })
       .catch(e => alert('Something went wrong during initialization. Error Message: ' + e));
   };

@@ -7,9 +7,14 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 import Modal from 'react-native-modal';
 import Emoji from 'react-native-emoji';
+import { useAppDispatch } from '../../../app/store';
+import { setupAppContext } from '../../login/setupSlice';
+import FancyButton from '../../../components/FancyButton';
+import PrimaryButton from '../../../components/PrimaryButton';
 
 const StudentAttendanceKioskScreen = () => {
   const [isModalVisible, setModalVisible] = React.useState(false);
+  const dispatch = useAppDispatch();
 
   if (Platform.OS === 'web')
     return (
@@ -17,6 +22,7 @@ const StudentAttendanceKioskScreen = () => {
         <Text category="h1">
           Kiosk mode is not supported on web. Please try again using the iOS or Android client.
         </Text>
+        <PrimaryButton text="Go Back" onPress={() => dispatch(setupAppContext('default'))} />
       </DefaultLayout>
     );
 

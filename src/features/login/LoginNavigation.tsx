@@ -50,8 +50,8 @@ const AuthNavigation: React.FC = () => (
     screenOptions={{
       headerShown: false,
     }}
-    initialRouteName="SchoolDistrictStep">
-    <Stack.Screen name="SchoolDistrictStep" component={SchoolDistrictStep} />
+    initialRouteName="TeacherLoginStep">
+    {/* <Stack.Screen name="SchoolDistrictStep" component={SchoolDistrictStep} /> */}
     <Stack.Screen name="TeacherLoginStep" component={TeacherLoginStep} />
   </Stack.Navigator>
 );
