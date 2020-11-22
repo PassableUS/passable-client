@@ -76,8 +76,8 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
     <>
       <WavyHeader
         customStyles={{ position: 'absolute', width: '100%' }}
-        customHeight={500}
-        customTop={370}
+        customHeight={550}
+        customTop={300}
         customBgColor="#2253ff"
         customWavePattern="M0,96L48,112C96,128,192,160,288,
         186.7C384,213,480,235,576,213.3C672,192,768,128,864,
