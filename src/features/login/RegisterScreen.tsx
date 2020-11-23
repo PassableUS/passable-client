@@ -1,16 +1,15 @@
 import React from 'react';
-import { Layout, Text, Button, Spinner, Input } from '@ui-kitten/components';
+import { Text, Button, Spinner, Input } from '@ui-kitten/components';
 import { View, Image } from 'react-native';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
 import { db, auth } from '../../components/FirebaseAuthenticator';
-import { TeacherLoginScreenNavigationProp } from './LoginNavigation';
-import PrimaryInput from '../../components/PrimaryInput';
 import FancyInput from '../../components/FancyInput';
 import WavyHeader from '../../components/WavyHeader';
 import PrimaryButton from '../../components/PrimaryButton';
+import { RegisterScreenNavigationProp } from './LoginNavigation';
 
-interface TeacherLoginStepProps {
-  navigation: TeacherLoginScreenNavigationProp;
+interface RegisterScreenProps {
+  navigation: RegisterScreenNavigationProp;
 }
 
 function validateEmail(email: string) {
@@ -18,12 +17,14 @@ function validateEmail(email: string) {
   return re.test(String(email).toLowerCase());
 }
 
-const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
+const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const [email, setEmail] = React.useState('');
+  const [fullName, setFullName] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [schoolID, setSchoolID] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleNext = () => {
+  const handleSignUp = () => {
     // Validation
     if (!password) {
       alert('Please enter your password');
@@ -35,9 +36,11 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
     setIsLoading(true);
 
     auth
-      .signInWithEmailAndPassword(email, password)
-      .then(res => {
-        console.log('Signed in!');
+      .createUserWithEmailAndPassword(email, password)
+      .then(user => {
+        if (user) {
+          console.log('Successfully created user!');
+        }
       })
       .catch(err => {
         const errorCode = err.code;
@@ -47,15 +50,13 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
           err.message +
             ' (Error Code: ' +
             errorCode +
-            ') \n Please check your credentials and try again.'
+            ') \n Please check your responses and try again.'
         );
         setIsLoading(false);
         return;
       });
 
     setIsLoading(false);
-
-    // dispatch(setupDistrict(district));
   };
 
   const LoadingIndicator = () => (
@@ -72,8 +73,8 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
     <>
       <WavyHeader
         customStyles={{ position: 'absolute', width: '100%' }}
-        customHeight={450}
-        customTop={230}
+        customHeight={550}
+        customTop={300}
         customBgColor="#2253ff"
         customWavePattern="M0,96L48,112C96,128,192,160,288,
         186.7C384,213,480,235,576,213.3C672,192,768,128,864,
@@ -90,44 +91,67 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
         />
 
         <Text category="h1" style={{ marginTop: 30, color: 'white' }}>
-          Welcome
+          Get Started
         </Text>
         <Text category="s1" style={{ color: 'white' }}>
-          Please enter your district provided credentials.
+          Let's make your school safer.
         </Text>
 
+        <Text category="s1" style={{ color: 'white', marginTop: 50, marginBottom: 5 }}>
+          School Email
+        </Text>
         <FancyInput
-          style={{ marginTop: 50, marginBottom: 10 }}
-          placeholder="Username or Email Address"
+          style={{ marginBottom: 10 }}
+          placeholder="Ex: chrism@flschool.k12.fl.us"
           value={email}
           onChangeText={text => setEmail(text)}
         />
 
+        <Text category="s1" style={{ color: 'white', marginTop: 10, marginBottom: 5 }}>
+          Password
+        </Text>
         <FancyInput
-          style={{ marginTop: 10, marginBottom: 20 }}
-          placeholder="Password"
+          style={{ marginBottom: 10 }}
+          placeholder="Enter in a password (9+ characters)"
           value={password}
           secureTextEntry
           onChangeText={text => setPassword(text)}
         />
 
-        <Text
-          category="s1"
-          style={{ color: 'white', textDecorationLine: 'underline' }}
-          onPress={() => navigation.navigate('RegisterScreen')}>
-          Need to register your school?
+        <Text category="s1" style={{ color: 'white', marginTop: 10, marginBottom: 5 }}>
+          Full Name (MOVE NAME AND SCHOOL ID TO NEXT SCREEN)
         </Text>
+        <FancyInput
+          style={{ marginBottom: 10 }}
+          placeholder="Ex: John Smith"
+          value={fullName}
+          secureTextEntry
+          onChangeText={text => setFullName(text)}
+        />
+
+        <Text category="s1" style={{ color: 'white', marginTop: 10, marginBottom: 5 }}>
+          School ID (UNIQUE DEV ONLY, WILL BE MAPPED TO A LOCATION SOON)
+        </Text>
+        <FancyInput
+          style={{ marginBottom: 10 }}
+          placeholder="Ex: A1XT2547835"
+          value={schoolID}
+          secureTextEntry
+          onChangeText={text => setSchoolID(text)}
+        />
 
         <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
           <Text style={{ textAlign: 'center' }}>
             By pressing "Sign In", you agree to our Terms and that you have read our Data Use Policy
           </Text>
 
-          <PrimaryButton onPress={handleNext} text="Sign In" icon="login" iconType="AntDesign" />
+          {isLoading && <LoadingIndicator />}
+
+          <PrimaryButton onPress={handleSignUp} text="Sign In" icon="login" iconType="AntDesign" />
         </View>
       </DefaultLayout>
     </>
   );
 };
 
-export default TeacherLoginStep;
+export default RegisterScreen;

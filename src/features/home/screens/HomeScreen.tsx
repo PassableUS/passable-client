@@ -17,30 +17,15 @@ import PassApprovalList from '../../../components/PassApprovalList';
 import DefaultLayout from '../../../components/layouts/DefaultLayout';
 
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
-  const userUid = useSelector((state: RootState) => state.setup.userUid);
   const [currentTime, _] = React.useState(new Date());
-  const role = useSelector((state: RootState) => state.setup.role);
-
-  const schoolPath = useSelector((state: RootState) => state.setup.school?.documentPath);
-  const studentPath = useSelector(
-    (state: RootState) => state.setup.studentInformation?.documentPath
-  );
-
-  const [userPasses, isUserPassesLoading, userPassesError] = useCollectionData<Pass>(
-    db
-      .doc(schoolPath)
-      .collection('passes')
-      .where('issuingUser', '==', db.collection('users').doc(userUid))
-      .where('endTime', '>=', currentTime),
-    { idField: 'uid' }
-  );
+  const isTeacher = false;
 
   return (
     <>
       <DefaultLayout scrollable>
         <Image style={{ height: 100, width: 100 }} source={require('../../../assets/icon.png')} />
 
-        {role === 'student' && studentPath && <StudentLargePassList studentPath={studentPath} />}
+        {/* {role === 'student' && studentPath && <StudentLargePassList studentPath={studentPath} />} */}
 
         <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
           Create Passes
@@ -55,31 +40,18 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
             buttonText="Create"
             onButtonPress={() => navigation.navigate('CreatePass', { context: 'search' })}
           />
-          {role !== 'student' && (
-            <MovingGradientButton
-              buttonHeight={125}
-              customColors={presetColors.blueish}
-              speed={3000}
-              style={{ margin: 5 }}
-              buttonText="Scan"
-              onButtonPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
-            />
-          )}
         </View>
 
         {/* TODO: Hide active passes and show only scheduled passes if student */}
         <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
           Active Passes
         </Text>
-        {userPassesError && <Text>{userPassesError.message}</Text>}
-        {isUserPassesLoading && <Spinner />}
-        {userPasses && (
-          <>
-            <PassList passesData={userPasses} />
-          </>
-        )}
 
-        {role === 'teacher' && (
+        <>
+          <PassList passesData={[]} />
+        </>
+
+        {isTeacher && (
           <>
             <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
               Pass Requests
