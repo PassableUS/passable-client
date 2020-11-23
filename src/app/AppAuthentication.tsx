@@ -1,21 +1,11 @@
 import React, { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../app/store';
+import { AppDispatch } from './store';
 
 // Firebase config
 import firebase from 'firebase/app';
-import { setupStudentInformation, setupIsLoading } from '../features/login/setupSlice';
-import { FirestoreCourseEnrollment, ReduxCourseEnrollment } from '../types/school';
-import {
-  setupFirebaseUid,
-  signedOut,
-  setupSchool,
-  setupRole,
-  setupDisplayName,
-  setupDistrict,
-} from '../features/login/setupSlice';
-import { signedIn } from '../features/login/authSlice';
+import { signedIn, signedOut } from '../features/login/authSlice';
 require('firebase/auth');
 require('firebase/firestore');
 
@@ -44,7 +34,7 @@ try {
 export const auth = firebase.auth();
 export const db = firebase.firestore();
 
-const FirebaseAuthentication: React.FC = () => {
+const AppAuthentication: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -83,4 +73,4 @@ const FirebaseAuthentication: React.FC = () => {
   return null;
 };
 
-export default FirebaseAuthentication;
+export default AppAuthentication;

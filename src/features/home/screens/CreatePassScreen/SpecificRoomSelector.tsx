@@ -7,7 +7,7 @@ import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { RoomCategory } from '../../../../types/school';
 import { LinearGradient } from 'expo-linear-gradient';
 import { adjustColor } from '../../../../utils/colors';
-import { db } from '../../../../components/FirebaseAuthenticator';
+import { db } from '../../../../app/AppAuthentication';
 
 interface SpecificRoomSelectorProps {
   category: RoomCategory;

@@ -19,7 +19,7 @@ import { createPass, createPassRequest } from '../../../../services/passServices
 import RoundedButton from '../../../../components/RoundedButton';
 import CreateGuestPass from './CreateGuestPass';
 import DefaultLayout from '../../../../components/layouts/DefaultLayout';
-import { db, auth } from '../../../../components/FirebaseAuthenticator';
+import { db, auth } from '../../../../app/AppAuthentication';
 
 const CreatePassScreen = ({
   navigation,

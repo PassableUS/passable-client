@@ -3,7 +3,7 @@ import { Text, Spinner } from '@ui-kitten/components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/rootReducer';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { db } from './FirebaseAuthenticator';
+import { db } from '../app/AppAuthentication';
 import PassCard from './PassCard';
 import PassList from './PassList';
 import { Student, Pass } from '../types/school';

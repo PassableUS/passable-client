@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Text, Button, Spinner, Input } from '@ui-kitten/components';
 import { View, Image } from 'react-native';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { db, auth } from '../../components/FirebaseAuthenticator';
+import { db, auth } from '../../app/AppAuthentication';
 import { TeacherLoginScreenNavigationProp } from './LoginNavigation';
 import PrimaryInput from '../../components/PrimaryInput';
 import FancyInput from '../../components/FancyInput';

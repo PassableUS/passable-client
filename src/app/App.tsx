@@ -1,21 +1,19 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 
-import { Provider } from 'react-redux';
-
-import store, { persistor } from './store';
-
 import AppNavigation from './AppNavigation';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import FirebaseAuthentication from '../components/FirebaseAuthenticator';
 import { StatusBar, Platform } from 'react-native';
+
+// Apollo
+import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink, split } from '@apollo/client';
+import { WebSocketLink } from '@apollo/client/link/ws';
 
 // UI Kitten
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
-import { PersistGate } from 'redux-persist/integration/react';
 
 import {
   useFonts,
@@ -26,6 +24,10 @@ import {
 } from '@expo-google-fonts/inter';
 import LoadingScreen from '../features/loader/LoadingScreen';
 import { decode, encode } from 'base-64';
+import { useSelector } from 'react-redux';
+import AppAuthentication from './AppAuthentication';
+import { RootState } from './rootReducer';
+import { getMainDefinition } from '@apollo/client/utilities';
 
 // Firebase Fixdeclare global {const globalAny:any = global;
 if (Platform.OS !== 'web') {
@@ -83,26 +85,58 @@ const App = () => {
     test: '',
   };
 
-  if (!fontsLoaded) {
-    return <LoadingScreen />;
-  }
-  // End Custom Font Loading and Override
+  // Apollo Setup
+  const authState = useSelector((state: RootState) => state.auth);
+  const isIn = authState.status === 'in';
+  const headers = isIn ? { Authorization: `Bearer ${authState.token}` } : {};
+
+  const httpLink = new HttpLink({
+    uri: 'https://apt-chamois-59.hasura.app/v1/graphql',
+    headers,
+  });
+
+  const wsLink = new WebSocketLink({
+    uri: 'wss://apt-chamois-59.hasura.app/v1/graphql',
+    options: {
+      reconnect: true,
+      connectionParams: {
+        headers,
+      },
+    },
+  });
+
+  const splitLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+    },
+    wsLink,
+    httpLink
+  );
+
+  const client = new ApolloClient({
+    link: splitLink,
+    cache: new InMemoryCache(),
+  });
 
   StatusBar.setBarStyle('dark-content', true);
 
+  if (!fontsLoaded) {
+    return <LoadingScreen />;
+  }
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ApplicationProvider {...eva} theme={eva.light} customMapping={customMapping}>
-          <FirebaseAuthentication />
-          <SafeAreaProvider>
-            <NavigationContainer>
-              <AppNavigation />
-            </NavigationContainer>
-          </SafeAreaProvider>
-        </ApplicationProvider>
-      </PersistGate>
-    </Provider>
+    // Redux wrappers are found inside the AppAuthenticationWrapper component
+    <ApolloProvider client={client}>
+      <ApplicationProvider {...eva} theme={eva.light} customMapping={customMapping}>
+        <AppAuthentication />
+        <SafeAreaProvider>
+          <NavigationContainer>
+            <AppNavigation />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </ApplicationProvider>
+    </ApolloProvider>
   );
 };
 

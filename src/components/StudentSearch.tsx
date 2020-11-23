@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../app/rootReducer';
 import React from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { db } from './FirebaseAuthenticator';
+import { db } from '../app/AppAuthentication';
 import { Spinner, Text } from '@ui-kitten/components';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import StudentSearchResultItem from './StudentSearchResultItem';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Spinner } from '@ui-kitten/components';
-import { auth, db } from '../../../components/FirebaseAuthenticator';
+import { auth, db } from '../../../app/AppAuthentication';
 import { RootState } from '../../../app/rootReducer';
 import { useSelector } from 'react-redux';
 import firebase from 'firebase';
@@ -15,6 +15,62 @@ import { Pass } from '../../../types/school';
 import StudentLargePassList from '../../../components/StudentLargePassList';
 import PassApprovalList from '../../../components/PassApprovalList';
 import DefaultLayout from '../../../components/layouts/DefaultLayout';
+import { gql, useSubscription } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+
+const GET_SCHOOLS = gql`
+  subscription MyQuery {
+    schools {
+      name
+      id
+      students {
+        user_id
+        school_id
+        id
+      }
+      teachers {
+        user_id
+        school_id
+        id
+      }
+      users {
+        name
+        id
+        created_at
+        received_passes {
+          id
+          end_time
+          destination_room_id
+          start_time
+          round_trip
+          request_approved
+          receipient_user_id
+          origin_room_id
+          issuing_user_id
+        }
+        request_assignments {
+          id
+          room_id
+          user_id
+        }
+        updated_at
+      }
+    }
+  }
+`;
+
+const PassListQuery = () => {
+  const { loading, error, data } = useSubscription(GET_SCHOOLS);
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+  if (error) {
+    console.error(error);
+    return <Text>Error!</Text>;
+  }
+  return <Text>{JSON.stringify(data)}</Text>;
+};
 
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const [currentTime, _] = React.useState(new Date());
@@ -23,6 +79,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   return (
     <>
       <DefaultLayout scrollable>
+        <PassListQuery />
         <Image style={{ height: 100, width: 100 }} source={require('../../../assets/icon.png')} />
 
         {/* {role === 'student' && studentPath && <StudentLargePassList studentPath={studentPath} />} */}

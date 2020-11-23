@@ -1,5 +1,5 @@
 import { Pass, Student, ReduxCourseEnrollment, PassRequest } from '../types/school';
-import { db } from '../components/FirebaseAuthenticator';
+import { db } from '../app/AppAuthentication';
 import firebase from 'firebase';
 // Extract business logic here eventually for ending passes, creating passes, etc. depending on data and document references
 

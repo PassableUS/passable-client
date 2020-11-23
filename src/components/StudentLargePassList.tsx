@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../app/rootReducer';
 import { useCollectionData, useCollection } from 'react-firebase-hooks/firestore';
 import { Pass } from '../types/school';
-import { db } from './FirebaseAuthenticator';
+import { db } from '../app/AppAuthentication';
 import LargeActivePass from './LargeActivePass';
 
 const StudentLargePassList = ({ studentPath }: { studentPath: string }) => {

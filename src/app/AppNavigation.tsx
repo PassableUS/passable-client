@@ -5,7 +5,7 @@ import AuthenticatedNavigation from './AuthenticatedNavigation';
 import LoadingScreen from '../features/loader/LoadingScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from './rootReducer';
-import { auth } from '../components/FirebaseAuthenticator';
+import { auth } from './AppAuthentication';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 type AppStackParamList = {

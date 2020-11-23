@@ -5,7 +5,7 @@ import Timer from './Timer';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { Pass } from '../types/school';
-import { db } from './FirebaseAuthenticator';
+import { db } from '../app/AppAuthentication';
 import { endPass } from '../services/passServices';
 
 const LargeActivePass = ({

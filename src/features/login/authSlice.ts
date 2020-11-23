@@ -14,7 +14,7 @@ export const signedIn = createAction<AuthenticationState>('auth/signedIn');
 export const signedOut = createAction('auth/signedOut');
 
 
-const setupSlice = createSlice({
+const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {},
@@ -31,4 +31,4 @@ const setupSlice = createSlice({
   },
 });
 
-export default setupSlice.reducer;
+export default authSlice.reducer;
