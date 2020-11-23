@@ -20,7 +20,8 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(signedIn, (state: AuthenticationState, action: PayloadAction<AuthenticationState>) => {
-      state = action.payload;
+      state.status = action.payload.status;
+      state.token = action.payload.token;
     });
 
 

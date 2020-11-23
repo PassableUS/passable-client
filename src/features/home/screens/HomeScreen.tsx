@@ -22,39 +22,6 @@ const GET_SCHOOLS = gql`
   subscription MyQuery {
     schools {
       name
-      id
-      students {
-        user_id
-        school_id
-        id
-      }
-      teachers {
-        user_id
-        school_id
-        id
-      }
-      users {
-        name
-        id
-        created_at
-        received_passes {
-          id
-          end_time
-          destination_room_id
-          start_time
-          round_trip
-          request_approved
-          receipient_user_id
-          origin_room_id
-          issuing_user_id
-        }
-        request_assignments {
-          id
-          room_id
-          user_id
-        }
-        updated_at
-      }
     }
   }
 `;
@@ -67,7 +34,7 @@ const PassListQuery = () => {
   }
   if (error) {
     console.error(error);
-    return <Text>Error!</Text>;
+    return <Text>Error! {JSON.stringify(error)}</Text>;
   }
   return <Text>{JSON.stringify(data)}</Text>;
 };

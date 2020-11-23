@@ -22,6 +22,9 @@ const AppNavigation: React.FC = () => {
   // const isLoading = !isFirebaseInitializedAndLoaded || !isProfileInitializedAndLoaded;
   // const isRegistering = !isLoggedIn || !hasCompletedProfile;
 
+  const authState = useSelector((state: RootState) => state.auth);
+  const isIn = authState.status === 'in';
+
   const [user, loading, error] = useAuthState(auth);
   // const { isLoggedIn, isLoading } = useSelector((state: RootState) => state.setup);
 
@@ -30,7 +33,7 @@ const AppNavigation: React.FC = () => {
   ) : (
     <Stack.Navigator headerMode="none">
       {/* If we don't have the user object or if the redux state says we are not logged in or if the redux state is loading, show the login screen */}
-      {!user ? (
+      {!user || !isIn ? (
         <>
           <Stack.Screen name="Auth" component={AuthNavigation} />
         </>
