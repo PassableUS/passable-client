@@ -5,7 +5,7 @@ import { AppDispatch } from './store';
 
 // Firebase config
 import firebase from 'firebase/app';
-import { signedIn, signedOut } from '../features/login/authSlice';
+import { signedIn, signedOut, updateToken } from '../features/login/authSlice';
 require('firebase/auth');
 require('firebase/firestore');
 
@@ -64,6 +64,27 @@ const AppAuthentication: React.FC = () => {
 
           console.log('Dispatched sign out');
         }, 5000);
+      }
+    });
+
+    return unsubscribe;
+  });
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onIdTokenChanged(async user => {
+      if (user) {
+        // User is signed in or token was refreshed.
+
+        const token = await user.getIdToken();
+        const idTokenResult = await user.getIdTokenResult();
+        const hasuraClaim = idTokenResult.claims['https://hasura.io/jwt/claims'];
+
+        if (hasuraClaim) {
+          console.log('Hasura Claims Verified: Refreshing Token');
+          dispatch(updateToken(token));
+        } else {
+          console.error('Hasura Claims Failed on Token Refresh');
+        }
       }
     });
 

@@ -11,6 +11,7 @@ const initialState: AuthenticationState = {
 };
 
 export const signedIn = createAction<AuthenticationState>('auth/signedIn');
+export const updateToken = createAction<string>('auth/updateToken');
 export const signedOut = createAction('auth/signedOut');
 
 
@@ -22,6 +23,10 @@ const authSlice = createSlice({
     builder.addCase(signedIn, (state: AuthenticationState, action: PayloadAction<AuthenticationState>) => {
       state.status = action.payload.status;
       state.token = action.payload.token;
+    });
+
+    builder.addCase(updateToken, (state: AuthenticationState, action: PayloadAction<string>) => {
+      state.token = action.payload;
     });
 
 
