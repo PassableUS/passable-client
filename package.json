@@ -53,6 +53,7 @@
     "react-native-dynamic-vector-icons": "github:WrathChaos/react-native-dynamic-vector-icons#expo",
     "react-native-emoji": "^1.8.0",
     "react-native-gesture-handler": "~1.6.0",
+    "react-native-google-places-autocomplete": "^2.1.1",
     "react-native-modal": "^11.5.6",
     "react-native-modal-datetime-picker": "^8.5.1",
     "react-native-reanimated": "~1.9.0",

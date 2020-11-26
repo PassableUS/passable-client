@@ -7,6 +7,7 @@ import FancyInput from '../../components/FancyInput';
 import WavyHeader from '../../components/WavyHeader';
 import PrimaryButton from '../../components/PrimaryButton';
 import { RegisterScreenNavigationProp } from './LoginNavigation';
+import GooglePlacesInput from '../../components/GooglePlacesInput';
 
 interface RegisterScreenProps {
   navigation: RegisterScreenNavigationProp;
@@ -74,7 +75,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       <WavyHeader
         customStyles={{ position: 'absolute', width: '100%' }}
         customHeight={550}
-        customTop={300}
+        customTop={340}
         customBgColor="#2253ff"
         customWavePattern="M0,96L48,112C96,128,192,160,288,
         186.7C384,213,480,235,576,213.3C672,192,768,128,864,
@@ -86,59 +87,60 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
 
       <DefaultLayout backgroundColor="transparent">
         <Image
-          style={{ width: 200, height: 50, marginTop: 100 }}
+          style={{ width: 200, height: 50, marginTop: 50 }}
           source={require('../../assets/white-wordmark.png')}
         />
+        <View
+          style={{
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            backgroundColor: 'white',
+            padding: 50,
+            marginVertical: 50,
+            width: '80%',
+            borderRadius: 20,
+          }}>
+          <Text category="h1">Get Started</Text>
+          <Text category="s1">Let's make your school safer.</Text>
 
-        <Text category="h1" style={{ marginTop: 30, color: 'white' }}>
-          Get Started
-        </Text>
-        <Text category="s1" style={{ color: 'white' }}>
-          Let's make your school safer.
-        </Text>
+          <Text category="s1" style={{ marginTop: 50, marginBottom: 5 }}>
+            School Email
+          </Text>
+          <FancyInput
+            style={{ marginBottom: 10 }}
+            placeholder="Ex: chrism@flschool.k12.fl.us"
+            value={email}
+            onChangeText={text => setEmail(text)}
+          />
 
-        <Text category="s1" style={{ color: 'white', marginTop: 50, marginBottom: 5 }}>
-          School Email
-        </Text>
-        <FancyInput
-          style={{ marginBottom: 10 }}
-          placeholder="Ex: chrism@flschool.k12.fl.us"
-          value={email}
-          onChangeText={text => setEmail(text)}
-        />
+          <Text category="s1" style={{ marginTop: 10, marginBottom: 5 }}>
+            Password
+          </Text>
+          <FancyInput
+            style={{ marginBottom: 10 }}
+            placeholder="Enter in a password (9+ characters)"
+            value={password}
+            secureTextEntry
+            onChangeText={text => setPassword(text)}
+          />
 
-        <Text category="s1" style={{ color: 'white', marginTop: 10, marginBottom: 5 }}>
-          Password
-        </Text>
-        <FancyInput
-          style={{ marginBottom: 10 }}
-          placeholder="Enter in a password (9+ characters)"
-          value={password}
-          secureTextEntry
-          onChangeText={text => setPassword(text)}
-        />
+          <Text category="s1" style={{ marginTop: 10, marginBottom: 5 }}>
+            Full Name
+          </Text>
+          <FancyInput
+            style={{ marginBottom: 10 }}
+            placeholder="Ex: John Smith"
+            value={fullName}
+            onChangeText={text => setFullName(text)}
+          />
 
-        <Text category="s1" style={{ color: 'white', marginTop: 10, marginBottom: 5 }}>
-          Full Name (MOVE NAME AND SCHOOL ID TO NEXT SCREEN)
-        </Text>
-        <FancyInput
-          style={{ marginBottom: 10 }}
-          placeholder="Ex: John Smith"
-          value={fullName}
-          secureTextEntry
-          onChangeText={text => setFullName(text)}
-        />
-
-        <Text category="s1" style={{ color: 'white', marginTop: 10, marginBottom: 5 }}>
-          School ID (UNIQUE DEV ONLY, WILL BE MAPPED TO A LOCATION SOON)
-        </Text>
-        <FancyInput
-          style={{ marginBottom: 10 }}
-          placeholder="Ex: A1XT2547835"
-          value={schoolID}
-          secureTextEntry
-          onChangeText={text => setSchoolID(text)}
-        />
+          <View style={{ minHeight: 250 }}>
+            <Text category="s1" style={{ marginTop: 10, marginBottom: 5 }}>
+              Pick your school
+            </Text>
+            <GooglePlacesInput placeholder="Search for your school" />
+          </View>
+        </View>
 
         <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
           <Text style={{ textAlign: 'center' }}>
