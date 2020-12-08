@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Layout,
   Text,
@@ -10,7 +11,7 @@ import {
 } from '@ui-kitten/components';
 import { Platform, FlatList, View, Alert } from 'react-native';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { db } from '../../components/FirebaseAuthenticator';
+import { db } from '../../app/AppAuthentication';
 import LottieView from 'lottie-react-native';
 import { District, setupDistrict } from './setupSlice';
 import { useDispatch } from 'react-redux';

@@ -6,15 +6,22 @@ import { ScrollView } from 'react-native-gesture-handler';
 interface DefaultLayoutProps {
   children: ReactNode;
   scrollable?: boolean;
+  backgroundColor?: string;
+  childrenStyle?: any;
 }
 
-const DefaultLayout = ({ children, scrollable = false }: DefaultLayoutProps) =>
+const DefaultLayout = ({
+  children,
+  scrollable = false,
+  backgroundColor = '#FFF',
+  childrenStyle,
+}: DefaultLayoutProps) =>
   scrollable ? (
     <ScrollView
       style={{
         width: '100%',
         flex: 1,
-        backgroundColor: '#FFF',
+        backgroundColor: backgroundColor,
       }}>
       <Layout
         style={{
@@ -39,6 +46,7 @@ const DefaultLayout = ({ children, scrollable = false }: DefaultLayoutProps) =>
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: backgroundColor,
         // paddingHorizontal: 20,
       }}>
       <SafeAreaView style={{ width: '90%', height: '100%' }}>

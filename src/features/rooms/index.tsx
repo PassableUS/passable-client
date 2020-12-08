@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Spinner } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { auth, db } from '../../components/FirebaseAuthenticator';
+import { auth, db } from '../../app/AppAuthentication';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDocumentData, useCollectionData, useCollection } from 'react-firebase-hooks/firestore';
 import { View } from 'react-native';

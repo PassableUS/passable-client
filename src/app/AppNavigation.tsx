@@ -5,7 +5,7 @@ import AuthenticatedNavigation from './AuthenticatedNavigation';
 import LoadingScreen from '../features/loader/LoadingScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from './rootReducer';
-import { auth } from '../components/FirebaseAuthenticator';
+import { auth } from './AppAuthentication';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 type AppStackParamList = {
@@ -22,15 +22,18 @@ const AppNavigation: React.FC = () => {
   // const isLoading = !isFirebaseInitializedAndLoaded || !isProfileInitializedAndLoaded;
   // const isRegistering = !isLoggedIn || !hasCompletedProfile;
 
+  const authState = useSelector((state: RootState) => state.auth);
+  const isIn = authState.status === 'in';
+
   const [user, loading, error] = useAuthState(auth);
-  const { isLoggedIn, isLoading } = useSelector((state: RootState) => state.setup);
+  // const { isLoggedIn, isLoading } = useSelector((state: RootState) => state.setup);
 
   return loading ? (
     <LoadingScreen />
   ) : (
     <Stack.Navigator headerMode="none">
       {/* If we don't have the user object or if the redux state says we are not logged in or if the redux state is loading, show the login screen */}
-      {!user || !isLoggedIn || isLoading ? (
+      {!user || !isIn ? (
         <>
           <Stack.Screen name="Auth" component={AuthNavigation} />
         </>

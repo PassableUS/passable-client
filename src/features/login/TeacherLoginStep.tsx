@@ -1,12 +1,13 @@
 import React from 'react';
 import { Layout, Text, Button, Spinner, Input } from '@ui-kitten/components';
-import { View, Alert } from 'react-native';
+import { View, Image } from 'react-native';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { db, auth } from '../../components/FirebaseAuthenticator';
-import {
-  SchoolDistrictScreenNavigationProp,
-  TeacherLoginScreenNavigationProp,
-} from './LoginNavigation';
+import { db, auth } from '../../app/AppAuthentication';
+import { TeacherLoginScreenNavigationProp } from './LoginNavigation';
+import PrimaryInput from '../../components/PrimaryInput';
+import FancyInput from '../../components/FancyInput';
+import WavyHeader from '../../components/WavyHeader';
+import PrimaryButton from '../../components/PrimaryButton';
 
 interface TeacherLoginStepProps {
   navigation: TeacherLoginScreenNavigationProp;
@@ -68,43 +69,64 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
   );
 
   return (
-    <DefaultLayout>
-      <Text category="h1" style={{ marginTop: 30 }}>
-        Login
-      </Text>
-      <Text category="s1">Enter the email and password as provided by your school district.</Text>
-
-      <Input
-        size="large"
-        style={{ width: '100%', marginTop: 50, marginBottom: 10 }}
-        placeholder="Email Address"
-        caption="Enter the email that you were provided to sign in with. This may be your district email address."
-        value={email}
-        onChangeText={text => setEmail(text)}
-      />
-      <Input
-        size="large"
-        style={{ width: '100%', marginBottom: 20 }}
-        placeholder="Password"
-        caption="Enter the password that you were provided or previously set."
-        value={password}
-        secureTextEntry
-        onChangeText={text => setPassword(text)}
+    <>
+      <WavyHeader
+        customStyles={{ position: 'absolute', width: '100%' }}
+        customHeight={450}
+        customTop={230}
+        customBgColor="#2253ff"
+        customWavePattern="M0,96L48,112C96,128,192,160,288,
+        186.7C384,213,480,235,576,213.3C672,192,768,128,864,
+        128C960,128,1056,192,1152,208C1248,224,1344,192,1392,
+        176L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,
+        0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,
+        0,96,0,48,0L0,0Z"
       />
 
-      <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
-        <Text style={{ textAlign: 'center', marginBottom: 10 }}>
-          By pressing "Next", you agree to our Terms and that you have read our Data Use Policy
+      <DefaultLayout backgroundColor="transparent">
+        <Image
+          style={{ width: 200, height: 50, marginTop: 100 }}
+          source={require('../../assets/white-wordmark.png')}
+        />
+
+        <Text category="h1" style={{ marginTop: 30, color: 'white' }}>
+          Welcome
         </Text>
-        <Button
-          accessoryLeft={isLoading ? LoadingIndicator : null}
-          appearance={isLoading ? 'outline' : 'primary'}
-          onPress={handleNext}
-          size="giant">
-          Sign In
-        </Button>
-      </View>
-    </DefaultLayout>
+        <Text category="s1" style={{ color: 'white' }}>
+          Please enter your district provided credentials.
+        </Text>
+
+        <FancyInput
+          style={{ marginTop: 50, marginBottom: 10 }}
+          placeholder="Username or Email Address"
+          value={email}
+          onChangeText={text => setEmail(text)}
+        />
+
+        <FancyInput
+          style={{ marginTop: 10, marginBottom: 20 }}
+          placeholder="Password"
+          value={password}
+          secureTextEntry
+          onChangeText={text => setPassword(text)}
+        />
+
+        <Text
+          category="s1"
+          style={{ color: 'white', textDecorationLine: 'underline' }}
+          onPress={() => navigation.navigate('RegisterScreen')}>
+          Need to register your school?
+        </Text>
+
+        <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
+          <Text style={{ textAlign: 'center' }}>
+            By pressing "Sign In", you agree to our Terms and that you have read our Data Use Policy
+          </Text>
+
+          <PrimaryButton onPress={handleNext} text="Sign In" icon="login" iconType="AntDesign" />
+        </View>
+      </DefaultLayout>
+    </>
   );
 };
 

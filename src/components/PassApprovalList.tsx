@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/rootReducer';
 import { useCollection, useCollectionData } from 'react-firebase-hooks/firestore';
-import { db } from './FirebaseAuthenticator';
+import { db } from '../app/AppAuthentication';
 import PassList from './PassList';
 import { View } from 'react-native';
 import { Text } from '@ui-kitten/components';

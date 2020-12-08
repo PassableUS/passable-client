@@ -10,7 +10,7 @@ import {
   IndexPath,
 } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { auth, db } from '../../components/FirebaseAuthenticator';
+import { auth, db } from '../../app/AppAuthentication';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { View } from 'react-native';
@@ -28,7 +28,6 @@ function toTitleCase(str: string) {
 }
 
 const ProfileScreen = () => {
-  // TODO: Replace useDispatch with useAppDispatch
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {
@@ -44,21 +43,21 @@ const ProfileScreen = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
   const displayValue = roles[selectedIndex.row];
 
-  React.useEffect(() => {
-    console.log('Fetching Firebase Data: User Profile Information && School Data');
-    const unsubscribe = db
-      .collection('users')
-      .doc(user.uid)
-      .onSnapshot(doc => {
-        const profileData = doc.data();
-        setUserData(profileData);
-        profileData.school
-          .get()
-          .then((doc: firebase.firestore.DocumentSnapshot) => setSchoolData(doc.data()));
-      });
+  // React.useEffect(() => {
+  //   console.log('Fetching Firebase Data: User Profile Information && School Data');
+  //   const unsubscribe = db
+  //     .collection('users')
+  //     .doc(user.uid)
+  //     .onSnapshot(doc => {
+  //       const profileData = doc.data();
+  //       setUserData(profileData);
+  //       profileData.school
+  //         .get()
+  //         .then((doc: firebase.firestore.DocumentSnapshot) => setSchoolData(doc.data()));
+  //     });
 
-    return unsubscribe;
-  }, []);
+  //   return unsubscribe;
+  // }, []);
 
   if (!userData || !schoolData)
     return (
@@ -81,9 +80,9 @@ const ProfileScreen = () => {
         Profile
       </Text>
 
-      <Card header={Header} style={{ marginBottom: 20 }}>
+      {/* <Card header={Header} style={{ marginBottom: 20 }}>
         <Text category="h5">{schoolData.name}</Text>
-      </Card>
+      </Card> */}
 
       <PrimaryButton
         style={{ marginBottom: 10 }}

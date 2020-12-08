@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import { Pass } from '../../../../types/school';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../app/rootReducer';
-import { db } from '../../../../components/FirebaseAuthenticator';
+import { db } from '../../../../app/AppAuthentication';
 
 function joinSentence(array: any, oxford_comma = true) {
   if (array.length > 1) {

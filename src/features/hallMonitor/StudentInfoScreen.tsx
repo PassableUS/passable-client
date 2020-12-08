@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Button, Spinner, Avatar } from '@ui-kitten/components';
 import DefaultLayout from '../../components/layouts/DefaultLayout';
-import { auth, db } from '../../components/FirebaseAuthenticator';
+import { auth, db } from '../../app/AppAuthentication';
 import { useDocumentData, useCollectionData, useCollection } from 'react-firebase-hooks/firestore';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';

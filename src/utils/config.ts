@@ -3,6 +3,7 @@ const config = {
   cloudinaryURL: 'https://api.cloudinary.com/v1_1/dhwrdcwhf/image/upload',
   cloudinaryUploadPreset: 'vjrj8tev',
   timeoutTime: 10000,
+  placesAPIKey: 'AIzaSyC6sgLg7qBdrucbzZ5K8hXtTZ-sBlpM0nw',
 };
 
 export default config;

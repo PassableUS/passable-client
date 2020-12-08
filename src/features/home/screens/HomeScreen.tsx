@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Spinner } from '@ui-kitten/components';
-import { auth, db } from '../../../components/FirebaseAuthenticator';
+import { auth, db } from '../../../app/AppAuthentication';
 import { RootState } from '../../../app/rootReducer';
 import { useSelector } from 'react-redux';
 import firebase from 'firebase';
@@ -15,32 +15,41 @@ import { Pass } from '../../../types/school';
 import StudentLargePassList from '../../../components/StudentLargePassList';
 import PassApprovalList from '../../../components/PassApprovalList';
 import DefaultLayout from '../../../components/layouts/DefaultLayout';
+import { gql, useSubscription } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+
+const GET_SCHOOLS = gql`
+  subscription MyQuery {
+    schools {
+      name
+    }
+  }
+`;
+
+const PassListQuery = () => {
+  const { loading, error, data } = useSubscription(GET_SCHOOLS);
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+  if (error) {
+    console.error(error);
+    return <Text>Error! {JSON.stringify(error)}</Text>;
+  }
+  return <Text>{JSON.stringify(data)}</Text>;
+};
 
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
-  const userUid = useSelector((state: RootState) => state.setup.userUid);
   const [currentTime, _] = React.useState(new Date());
-  const role = useSelector((state: RootState) => state.setup.role);
-
-  const schoolPath = useSelector((state: RootState) => state.setup.school?.documentPath);
-  const studentPath = useSelector(
-    (state: RootState) => state.setup.studentInformation?.documentPath
-  );
-
-  const [userPasses, isUserPassesLoading, userPassesError] = useCollectionData<Pass>(
-    db
-      .doc(schoolPath)
-      .collection('passes')
-      .where('issuingUser', '==', db.collection('users').doc(userUid))
-      .where('endTime', '>=', currentTime),
-    { idField: 'uid' }
-  );
+  const isTeacher = false;
 
   return (
     <>
       <DefaultLayout scrollable>
+        <PassListQuery />
         <Image style={{ height: 100, width: 100 }} source={require('../../../assets/icon.png')} />
 
-        {role === 'student' && studentPath && <StudentLargePassList studentPath={studentPath} />}
+        {/* {role === 'student' && studentPath && <StudentLargePassList studentPath={studentPath} />} */}
 
         <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
           Create Passes
@@ -55,31 +64,18 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
             buttonText="Create"
             onButtonPress={() => navigation.navigate('CreatePass', { context: 'search' })}
           />
-          {role !== 'student' && (
-            <MovingGradientButton
-              buttonHeight={125}
-              customColors={presetColors.blueish}
-              speed={3000}
-              style={{ margin: 5 }}
-              buttonText="Scan"
-              onButtonPress={() => navigation.navigate('CreatePass', { context: 'scan' })}
-            />
-          )}
         </View>
 
         {/* TODO: Hide active passes and show only scheduled passes if student */}
         <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
           Active Passes
         </Text>
-        {userPassesError && <Text>{userPassesError.message}</Text>}
-        {isUserPassesLoading && <Spinner />}
-        {userPasses && (
-          <>
-            <PassList passesData={userPasses} />
-          </>
-        )}
 
-        {role === 'teacher' && (
+        <>
+          <PassList passesData={[]} />
+        </>
+
+        {isTeacher && (
           <>
             <Text category="h1" style={{ marginTop: 30, paddingBottom: 10 }}>
               Pass Requests
