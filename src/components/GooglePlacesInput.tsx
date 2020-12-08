@@ -23,7 +23,6 @@ const GooglePlacesInput = (props: any) => {
         language: 'en',
       }}
       autoFillOnNotFound
-      currentLocation
       enablePoweredByContainer
       requestUrl={{
         useOnPlatform: 'web', // or "all"

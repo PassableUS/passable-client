@@ -8,6 +8,27 @@ import WavyHeader from '../../components/WavyHeader';
 import PrimaryButton from '../../components/PrimaryButton';
 import { RegisterScreenNavigationProp } from './LoginNavigation';
 import GooglePlacesInput from '../../components/GooglePlacesInput';
+import { gql, useMutation } from '@apollo/client';
+
+const ADD_SCHOOL_AND_REGISTER_USER = gql`
+  mutation CreateSchoolAndAdmin(
+    $email: String!
+    $fullName: String!
+    $password: String!
+    $schoolName: String!
+    $schoolPlaceID: String!
+  ) {
+    createSchool(
+      email: $email
+      fullName: $fullName
+      password: $password
+      schoolPlaceID: $schoolPlaceID
+      schoolName: $schoolName
+    ) {
+      userUid
+    }
+  }
+`;
 
 interface RegisterScreenProps {
   navigation: RegisterScreenNavigationProp;
@@ -22,8 +43,15 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const [email, setEmail] = React.useState('');
   const [fullName, setFullName] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [schoolID, setSchoolID] = React.useState('');
+  const [schoolPlaceID, setSchoolPlaceID] = React.useState('');
+  const [schoolName, setSchoolName] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+
+  // Mutation for creating school
+  const [
+    addSchoolAndRegisterAdminUser,
+    { loading: mutationLoading, error: mutationError },
+  ] = useMutation(ADD_SCHOOL_AND_REGISTER_USER);
 
   const handleSignUp = () => {
     // Validation
@@ -34,30 +62,9 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       alert('Please enter a valid email address');
     }
 
-    setIsLoading(true);
-
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(user => {
-        if (user) {
-          console.log('Successfully created user!');
-        }
-      })
-      .catch(err => {
-        const errorCode = err.code;
-        const errorMesage = err.message;
-
-        alert(
-          err.message +
-            ' (Error Code: ' +
-            errorCode +
-            ') \n Please check your responses and try again.'
-        );
-        setIsLoading(false);
-        return;
-      });
-
-    setIsLoading(false);
+    addSchoolAndRegisterAdminUser({
+      variables: { email, fullName, password, schoolName, schoolPlaceID },
+    });
   };
 
   const LoadingIndicator = () => (
@@ -134,11 +141,19 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             onChangeText={text => setFullName(text)}
           />
 
-          <View style={{ minHeight: 250 }}>
+          <View style={{ minHeight: 180 }}>
             <Text category="s1" style={{ marginTop: 10, marginBottom: 5 }}>
               Pick your school
             </Text>
-            <GooglePlacesInput placeholder="Search for your school" />
+            <GooglePlacesInput
+              onPress={(item: any) => {
+                setSchoolName(item?.structured_formatting?.main_text || item?.description);
+                setSchoolPlaceID(item?.place_id);
+              }}
+              placeholder="Search for your school"
+            />
+            <Text>School Full Name: {schoolName || 'School Not Yet Selected'}</Text>
+            <Text>School Place ID: {schoolPlaceID || 'School Not Yet Selected'}</Text>
           </View>
         </View>
 
@@ -147,7 +162,12 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             By pressing "Sign In", you agree to our Terms and that you have read our Data Use Policy
           </Text>
 
-          {isLoading && <LoadingIndicator />}
+          {mutationLoading && <LoadingIndicator />}
+          {mutationError && (
+            <Text category="h4" style={{ color: 'red' }}>
+              {mutationError.name}: {mutationError.message}
+            </Text>
+          )}
 
           <PrimaryButton onPress={handleSignUp} text="Sign In" icon="login" iconType="AntDesign" />
         </View>
