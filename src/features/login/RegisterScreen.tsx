@@ -45,7 +45,6 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const [password, setPassword] = React.useState('');
   const [schoolPlaceID, setSchoolPlaceID] = React.useState('');
   const [schoolName, setSchoolName] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false);
 
   // Mutation for creating school
   const [
@@ -169,7 +168,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             </Text>
           )}
 
-          <PrimaryButton onPress={handleSignUp} text="Sign In" icon="login" iconType="AntDesign" />
+          <PrimaryButton onPress={handleSignUp} text="Sign Up" icon="login" iconType="AntDesign" />
         </View>
       </DefaultLayout>
     </>
