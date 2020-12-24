@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from './store';
+
+// Apollo
+import { gql, useQuery } from '@apollo/client';
 
 // Firebase config
 import firebase from 'firebase/app';
 import { signedIn, signedOut, updateToken } from '../features/login/authSlice';
+import { RootState } from './rootReducer';
 require('firebase/auth');
 require('firebase/firestore');
 
@@ -40,12 +44,13 @@ const AppAuthentication: React.FC = () => {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(async user => {
       if (user) {
+        const uid = user.uid;
         const token = await user.getIdToken();
         const idTokenResult = await user.getIdTokenResult();
         const hasuraClaim = idTokenResult.claims['https://hasura.io/jwt/claims'];
 
         if (hasuraClaim) {
-          dispatch(signedIn({ status: 'in', token }));
+          dispatch(signedIn({ status: 'in', token, uid }));
         } else {
           // Check if refresh is required.
           const claimsRef = firebase.database().ref('claims/' + user.uid + '/refreshTime');
@@ -54,7 +59,7 @@ const AppAuthentication: React.FC = () => {
             if (!data.exists) return;
             // Force refresh to pick up the latest custom claims changes.
             const token = await user.getIdToken(true);
-            dispatch(signedIn({ status: 'in', token }));
+            dispatch(signedIn({ status: 'in', token, uid }));
           });
         }
       } else {
@@ -68,7 +73,7 @@ const AppAuthentication: React.FC = () => {
     });
 
     return unsubscribe;
-  });
+  }, []);
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onIdTokenChanged(async user => {
@@ -89,7 +94,7 @@ const AppAuthentication: React.FC = () => {
     });
 
     return unsubscribe;
-  });
+  }, []);
 
   return null;
 };

@@ -12,15 +12,17 @@ import { gql, useMutation } from '@apollo/client';
 
 const ADD_SCHOOL_AND_REGISTER_USER = gql`
   mutation CreateSchoolAndAdmin(
-    $email: String!
-    $fullName: String!
-    $password: String!
-    $schoolName: String!
     $schoolPlaceID: String!
+    $schoolName: String!
+    $password: String!
+    $lastName: String!
+    $firstName: String!
+    $email: String!
   ) {
     createSchool(
       email: $email
-      fullName: $fullName
+      firstName: $firstName
+      lastName: $lastName
       password: $password
       schoolPlaceID: $schoolPlaceID
       schoolName: $schoolName
@@ -41,7 +43,8 @@ function validateEmail(email: string) {
 
 const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const [email, setEmail] = React.useState('');
-  const [fullName, setFullName] = React.useState('');
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [schoolPlaceID, setSchoolPlaceID] = React.useState('');
   const [schoolName, setSchoolName] = React.useState('');
@@ -62,7 +65,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
     }
 
     addSchoolAndRegisterAdminUser({
-      variables: { email, fullName, password, schoolName, schoolPlaceID },
+      variables: { email, firstName, lastName, password, schoolName, schoolPlaceID },
     });
   };
 
@@ -133,12 +136,20 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
           <Text category="s1" style={{ marginTop: 10, marginBottom: 5 }}>
             Full Name
           </Text>
-          <FancyInput
-            style={{ marginBottom: 10 }}
-            placeholder="Ex: John Smith"
-            value={fullName}
-            onChangeText={text => setFullName(text)}
-          />
+          <View style={{ flexDirection: 'row' }}>
+            <FancyInput
+              style={{ marginBottom: 10, flex: 1 }}
+              placeholder="First Name"
+              value={firstName}
+              onChangeText={text => setFirstName(text)}
+            />
+            <FancyInput
+              style={{ marginBottom: 10, marginLeft: 10, flex: 1 }}
+              placeholder="Last Name"
+              value={lastName}
+              onChangeText={text => setLastName(text)}
+            />
+          </View>
 
           <View style={{ minHeight: 180 }}>
             <Text category="s1" style={{ marginTop: 10, marginBottom: 5 }}>

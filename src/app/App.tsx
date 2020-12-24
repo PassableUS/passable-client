@@ -28,6 +28,7 @@ import { useSelector } from 'react-redux';
 import AppAuthentication from './AppAuthentication';
 import { RootState } from './rootReducer';
 import { getMainDefinition } from '@apollo/client/utilities';
+import ProfileManager from './ProfileManager';
 
 // Firebase Fixdeclare global {const globalAny:any = global;
 if (Platform.OS !== 'web') {
@@ -130,6 +131,7 @@ const App = () => {
     <ApolloProvider client={client}>
       <ApplicationProvider {...eva} theme={eva.light} customMapping={customMapping}>
         <AppAuthentication />
+        <ProfileManager />
         <SafeAreaProvider>
           <NavigationContainer>
             <AppNavigation />

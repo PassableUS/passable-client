@@ -43,14 +43,15 @@ const CreatePassScreen = ({
   const StudentSelector = ({ context }: { context: string }) => {
     // STUDENT CONTEXT: Automatically select the current student if it's a student assigning the role
     React.useEffect(() => {
-      if (role === 'student') {
-        db.doc(studentInformation.documentPath)
-          .get()
-          .then(snap => {
-            setSelectedStudent({ ref: snap.ref, uid: snap.id, ...snap.data() });
-            setStep('selectCategory');
-          });
-      }
+      // if (role === 'student') {
+      //   db.doc(studentInformation.documentPath)
+      //     .get()
+      //     .then(snap => {
+      //       setSelectedStudent({ ref: snap.ref, uid: snap.id, ...snap.data() });
+      //       setStep('selectCategory');
+      //     });
+      // }
+      alert('To be implemented for student');
     }, []);
 
     if (role === 'student') {

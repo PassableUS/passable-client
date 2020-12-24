@@ -10,6 +10,9 @@ import { studentTabBarFunction, getCoreScreens, tabBarFunction } from './Authent
 import { useSelector } from 'react-redux';
 import { RootState } from './rootReducer';
 import KioskNavigation from '../features/kiosk/KioskNavigation';
+import DrawerContent from './DrawerContent';
+import Icon from 'react-native-dynamic-vector-icons';
+import ProfileManager from './ProfileManager';
 
 export type MainHomeParamList = {
   Home: undefined;
@@ -43,40 +46,28 @@ const isLargeScreen = Dimensions.get('window').width > 768;
 
 const MainDrawerNavigation = () => {
   const role = useSelector((state: RootState) => state.setup.role);
-
-  const DrawerContent = ({ navigation, state }: DrawerContentComponentProps) => (
-    <Drawer
-      style={{
-        marginVertical: 30,
-      }}
-      selectedIndex={new IndexPath(state.index)}
-      onSelect={index => navigation.navigate(state.routeNames[index.row])}>
-      {getCoreScreens(role).map(screenItem => (
-        <DrawerItem
-          title={screenItem.name}
-          key={screenItem.name}
-          accessoryLeft={screenItem.accessoryLeft}
-        />
-      ))}
-    </Drawer>
-  );
-
   return (
-    <DrawerNav.Navigator
-      initialRouteName="Home"
-      openByDefault
-      drawerType={isLargeScreen ? 'permanent' : 'back'}
-      drawerStyle={isLargeScreen ? { width: '25%' } : { width: '100%' }}
-      overlayColor="transparent"
-      drawerContent={props => <DrawerContent {...props} />}>
-      {getCoreScreens(role).map(screenItem => (
-        <DrawerNav.Screen
-          name={screenItem.name as any}
-          key={screenItem.name}
-          component={screenItem.component}
-        />
-      ))}
-    </DrawerNav.Navigator>
+    <>
+      <ProfileManager />
+      <DrawerNav.Navigator
+        initialRouteName="Home"
+        openByDefault
+        drawerType={isLargeScreen ? 'permanent' : 'back'}
+        drawerStyle={isLargeScreen ? { width: '30%', backgroundColor: 'white' } : { width: '100%' }}
+        overlayColor="transparent"
+        drawerContent={props => <DrawerContent {...props} />}>
+        {getCoreScreens(role).map((screenItem: any) => (
+          <DrawerNav.Screen
+            name={screenItem.name as any}
+            key={screenItem.name}
+            component={screenItem.component}
+            options={{
+              drawerIcon: ({ focused, size }) => <screenItem.icon focused={focused} />,
+            }}
+          />
+        ))}
+      </DrawerNav.Navigator>
+    </>
   );
 };
 
@@ -84,6 +75,8 @@ const MainDrawerNavigation = () => {
 const MainNavigation = isLargeScreen ? MainDrawerNavigation : MainTabNavigation;
 
 const AuthenticatedNavigation = () => {
+  // If authenticated grab profile information
+
   const appContext = useSelector((state: RootState) => state.setup.appContext);
 
   if (appContext == 'kiosk') return <KioskNavigation />;

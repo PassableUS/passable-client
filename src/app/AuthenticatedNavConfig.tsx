@@ -116,67 +116,35 @@ if (Platform.OS !== 'web') {
 export let getCoreScreens = (role: string) => {
   const coreScreens = [
     {
+      permission: 'all',
       name: 'Home',
       component: HomeScreenNavigation,
-      accessoryLeft: () => (
-        <View style={{ paddingLeft: 10 }}>
-          <HomeSVG color={'black' as any} size={20} />
-        </View>
-      ),
+      icon: () => <HomeSVG color={'black' as any} size={20} />,
     },
     {
+      permission: 'teacher',
       name: 'Hall Monitor',
       component: HallManagementNavigation,
-      accessoryLeft: () => (
-        <View style={{ paddingLeft: 10 }}>
-          <SearchSVG color={'black' as any} size={20} />
-        </View>
-      ),
+      icon: () => <SearchSVG color={'black' as any} size={20} />,
     },
     {
+      permission: 'teacher',
+
       name: 'Rooms',
       component: RoomScreen,
-      accessoryLeft: () => (
-        <View style={{ paddingLeft: 10 }}>
-          <RoomSVG color={'black' as any} size={20} />
-        </View>
-      ),
+      icon: () => <RoomSVG color={'black' as any} size={20} />,
     },
     {
+      permission: 'all',
+
       name: 'Profile',
       component: ProfileScreen,
-      accessoryLeft: () => (
-        <View style={{ paddingLeft: 10 }}>
-          <ProfileSVG color={'black' as any} size={20} />
-        </View>
-      ),
+      icon: () => <ProfileSVG color={'black' as any} size={20} />,
     },
   ];
 
-  const studentCoreScreens = [
-    {
-      name: 'Home',
-      component: HomeScreenNavigation,
-      accessoryLeft: () => (
-        <View style={{ paddingLeft: 10 }}>
-          <HomeSVG color={'black' as any} size={20} />
-        </View>
-      ),
-    },
-    {
-      name: 'Profile',
-      component: ProfileScreen,
-      accessoryLeft: () => (
-        <View style={{ paddingLeft: 10 }}>
-          <ProfileSVG color={'black' as any} size={20} />
-        </View>
-      ),
-    },
-  ];
+  // TODO: Filter based on roles
+  const filteredScreens = coreScreens;
 
-  if (role === 'teacher') {
-    return coreScreens;
-  } else {
-    return studentCoreScreens;
-  }
+  return filteredScreens;
 };
