@@ -122,8 +122,8 @@ const App = () => {
 
   StatusBar.setBarStyle('dark-content', true);
 
-  if (!fontsLoaded) {
-    return <LoadingScreen />;
+  if (!fontsLoaded && Platform.OS != 'web') {
+    return <LoadingScreen context="Loading Fonts..." />;
   }
 
   return (

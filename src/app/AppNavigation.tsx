@@ -29,7 +29,7 @@ const AppNavigation: React.FC = () => {
   // const { isLoggedIn, isLoading } = useSelector((state: RootState) => state.setup);
 
   return loading ? (
-    <LoadingScreen />
+    <LoadingScreen context="Awaiting authentication..." />
   ) : (
     <Stack.Navigator headerMode="none">
       {/* If we don't have the user object or if the redux state says we are not logged in or if the redux state is loading, show the login screen */}

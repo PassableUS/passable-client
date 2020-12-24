@@ -2,15 +2,13 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Spinner } from '@ui-kitten/components';
 
-const LoadingScreen = () => {
+const LoadingScreen = ({ context }: { context?: string }) => {
   return (
     <View style={styles.container}>
-      <Image
-        style={{ height: '25%', width: '25%' }}
-        source={require('../../assets/preloader.gif')}
-      />
+      {/* <Spinner size="lg" /> */}
 
-      <Text style={{ fontWeight: 'bold', fontSize: 32 }}>Syncing...</Text>
+      <Text style={{ fontWeight: 'bold', fontSize: 32 }}>Loading..</Text>
+      <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{context}</Text>
     </View>
   );
 };
