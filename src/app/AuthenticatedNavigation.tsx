@@ -6,7 +6,7 @@ import { Dimensions } from 'react-native';
 import { Drawer, DrawerItem, IndexPath } from '@ui-kitten/components';
 
 import { createDrawerNavigator, DrawerContentComponentProps } from '@react-navigation/drawer';
-import { studentTabBarFunction, getCoreScreens, tabBarFunction } from './AuthenticatedNavConfig';
+import { getTabBarFunction, getCoreScreens } from './AuthenticatedNavConfig';
 import { useSelector } from 'react-redux';
 import { RootState } from './rootReducer';
 import KioskNavigation from '../features/kiosk/KioskNavigation';
@@ -23,12 +23,10 @@ export type MainHomeParamList = {
 const Tab = createBottomTabNavigator<MainHomeParamList>();
 
 const MainTabNavigation = () => {
-  const role = useSelector((state: RootState) => state.setup.role);
+  const userPermissions = useSelector((state: RootState) => state.auth.profile.permissions);
   return (
-    <Tab.Navigator
-      tabBar={role === 'student' ? studentTabBarFunction : tabBarFunction}
-      initialRouteName="Home">
-      {getCoreScreens(role).map(screenItem => (
+    <Tab.Navigator tabBar={getTabBarFunction(userPermissions)} initialRouteName="Home">
+      {getCoreScreens(userPermissions).map(screenItem => (
         <Tab.Screen
           key={screenItem.name}
           name={screenItem.name as any}
@@ -45,7 +43,7 @@ const DrawerNav = createDrawerNavigator<MainHomeParamList>();
 const isLargeScreen = Dimensions.get('window').width > 768;
 
 const MainDrawerNavigation = () => {
-  const role = useSelector((state: RootState) => state.setup.role);
+  const userPermissions = useSelector((state: RootState) => state.auth.profile.permissions);
   return (
     <>
       <ProfileManager />
@@ -56,7 +54,7 @@ const MainDrawerNavigation = () => {
         drawerStyle={isLargeScreen ? { width: '30%', backgroundColor: 'white' } : { width: '100%' }}
         overlayColor="transparent"
         drawerContent={props => <DrawerContent {...props} />}>
-        {getCoreScreens(role).map((screenItem: any) => (
+        {getCoreScreens(userPermissions).map((screenItem: any) => (
           <DrawerNav.Screen
             name={screenItem.name as any}
             key={screenItem.name}

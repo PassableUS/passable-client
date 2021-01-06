@@ -1,5 +1,9 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 
+export interface profileSchool {
+  id: string;
+  name: string;
+}
 export interface AuthenticationState {
   profile?: AuthenticationProfile;
   status: string;
@@ -10,6 +14,8 @@ export interface AuthenticationProfile {
   firstName: string;
   lastName: string;
   permissions: string[];
+  schools: profileSchool[];
+  currentSchool: profileSchool;
 }
 
 const initialState: AuthenticationState = {
@@ -17,6 +23,8 @@ const initialState: AuthenticationState = {
     firstName: null,
     lastName: null,
     permissions: [],
+    schools: [],
+    currentSchool: null,
   },
   status: 'loading',
   token: null,
@@ -52,6 +60,8 @@ const authSlice = createSlice({
         state.profile.permissions = action.payload.permissions;
         state.profile.firstName = action.payload.firstName;
         state.profile.lastName = action.payload.lastName;
+        state.profile.schools = action.payload.schools;
+        state.profile.currentSchool = action.payload.currentSchool;
       }
     );
 

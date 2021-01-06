@@ -7,11 +7,12 @@ import Icon from 'react-native-dynamic-vector-icons';
 import { useSelector } from 'react-redux';
 import { RootState } from './rootReducer';
 import { getCoreScreens } from './AuthenticatedNavConfig';
+import { auth } from './AppAuthentication';
 
 const DrawerContent = (props: any) => {
   const authProfile = useSelector((state: RootState) => state.auth.profile);
 
-  const signOut = () => alert('Sign out mock');
+  const signOut = () => auth.signOut();
 
   return (
     <View style={{ flex: 1 }}>
@@ -27,10 +28,10 @@ const DrawerContent = (props: any) => {
           />
           <View style={{ marginLeft: 15, flexDirection: 'column' }}>
             <Text category="h1">
-              {authProfile.firstName} {authProfile.lastName}
+              {authProfile?.firstName} {authProfile?.lastName}
             </Text>
-            <Text category="s1">Martin County High School</Text>
-            <Text category="s2">{JSON.stringify(authProfile.permissions)}</Text>
+            <Text category="s1">{authProfile?.currentSchool?.name}</Text>
+            <Text category="s2">{JSON.stringify(authProfile?.permissions)}</Text>
           </View>
         </View>
 

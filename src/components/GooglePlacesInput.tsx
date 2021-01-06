@@ -16,7 +16,7 @@ const GooglePlacesInput = (props: any) => {
       placeholder="Search for a place"
       onPress={(data, details = null) => {
         // 'details' is provided when fetchDetails = true
-        console.log(data, details);
+        // console.log(data, details);
       }}
       query={{
         key: config.placesAPIKey,
