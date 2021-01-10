@@ -15,6 +15,9 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
 
+// Magnus
+import { ThemeProvider } from 'react-native-magnus';
+
 import {
   useFonts,
   Inter_800ExtraBold,
@@ -130,13 +133,15 @@ const App = () => {
     // Redux wrappers are found inside the AppAuthenticationWrapper component
     <ApolloProvider client={client}>
       <ApplicationProvider {...eva} theme={eva.light} customMapping={customMapping}>
-        <AppAuthentication />
-        <ProfileManager />
-        <SafeAreaProvider>
-          <NavigationContainer>
-            <AppNavigation />
-          </NavigationContainer>
-        </SafeAreaProvider>
+        <ThemeProvider>
+          <AppAuthentication />
+          <ProfileManager />
+          <SafeAreaProvider>
+            <NavigationContainer>
+              <AppNavigation />
+            </NavigationContainer>
+          </SafeAreaProvider>
+        </ThemeProvider>
       </ApplicationProvider>
     </ApolloProvider>
   );

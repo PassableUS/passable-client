@@ -106,7 +106,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             backgroundColor: 'white',
             padding: 50,
             marginVertical: 50,
-            width: '80%',
+            width: '100%',
             borderRadius: 20,
           }}>
           <Text category="h1">Get Started</Text>

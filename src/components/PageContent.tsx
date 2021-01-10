@@ -8,13 +8,15 @@ interface DefaultLayoutProps {
   scrollable?: boolean;
   backgroundColor?: string;
   childrenStyle?: any;
+  pageContentWidth: string | number;
 }
 
-const DefaultLayout = ({
+const PageContent = ({
   children,
   scrollable = false,
   backgroundColor = '#FFF',
   childrenStyle,
+  pageContentWidth = '90%',
 }: DefaultLayoutProps) =>
   scrollable ? (
     <ScrollView
@@ -30,7 +32,7 @@ const DefaultLayout = ({
           alignItems: 'center',
           // paddingHorizontal: 20,
         }}>
-        <SafeAreaView style={{ width: '100%', height: '100%' }}>
+        <SafeAreaView style={{ width: pageContentWidth, height: '100%' }}>
           <KeyboardAvoidingView
             style={{ height: '100%', width: '100%' }}
             behavior={Platform.select({ ios: 'padding', android: null })}>
@@ -48,7 +50,7 @@ const DefaultLayout = ({
         backgroundColor: backgroundColor,
         // paddingHorizontal: 20,
       }}>
-      <SafeAreaView style={{ width: '100%', height: '100%' }}>
+      <SafeAreaView style={{ width: pageContentWidth, height: '100%' }}>
         <KeyboardAvoidingView
           style={{ height: '100%', width: '100%' }}
           behavior={Platform.select({ ios: 'padding', android: null })}>
@@ -58,4 +60,4 @@ const DefaultLayout = ({
     </Layout>
   );
 
-export default DefaultLayout;
+export default PageContent;

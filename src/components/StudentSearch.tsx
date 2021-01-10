@@ -6,8 +6,7 @@ import { db } from '../app/AppAuthentication';
 import { Spinner, Text } from '@ui-kitten/components';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import StudentSearchResultItem from './StudentSearchResultItem';
-import FancyInput from './FancyInput';
-
+import { Input } from 'react-native-magnus';
 const prepareNameSearch = (inputString: string) => {
   const removedSpacesString = inputString.replace(/\s/g, '');
   const lowercasedString = removedSpacesString.toLowerCase();
@@ -38,7 +37,7 @@ const StudentSearch = ({ handleStudentSelect }: { handleStudentSelect: Function 
 
   return (
     <>
-      <FancyInput
+      <Input
         returnKeyType="done"
         placeholder="Search for a student"
         value={searchText}

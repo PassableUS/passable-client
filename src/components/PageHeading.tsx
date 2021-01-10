@@ -1,24 +1,35 @@
-import React from 'react';
+import React, { ReactChildren } from 'react';
 import { View } from 'react-native';
 import { Text } from '@ui-kitten/components';
+import { Div } from 'react-native-magnus';
 
-const PageHeading = () => {
+interface PageHeadingProps {
+  headingHeight?: number;
+}
+
+const PageHeading: React.FC<PageHeadingProps> = props => {
   return (
-    <View
+    <Div
       style={{
         width: '100%',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 4,
-        },
-        shadowOpacity: 0.32,
-        shadowRadius: 5.46,
-
-        elevation: 9,
+        height: props.headingHeight || 200,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 20,
+        paddingBottom: 60,
       }}>
-      <Text>Example Text</Text>
-    </View>
+      <Div
+        shadow="lg"
+        rounded="xl"
+        style={{
+          flex: 1,
+          height: '100%',
+          backgroundColor: 'white',
+        }}>
+        {props.children}
+      </Div>
+    </Div>
   );
 };
 

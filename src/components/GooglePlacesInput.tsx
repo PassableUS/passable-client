@@ -1,7 +1,6 @@
 import React, { ReactPropTypes, useEffect, useRef } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import config from '../utils/config';
-import FancyInput from './FancyInput';
 
 const GooglePlacesInput = (props: any) => {
   const ref = useRef<any>();

@@ -85,7 +85,7 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
 
       <DefaultLayout backgroundColor="transparent">
         <Image
-          style={{ width: 200, height: 50, marginTop: 100 }}
+          style={{ width: 200, height: 50, marginTop: 50 }}
           source={require('../../assets/white-wordmark.png')}
         />
 
@@ -97,7 +97,7 @@ const TeacherLoginStep = ({ navigation }: TeacherLoginStepProps) => {
         </Text>
 
         <FancyInput
-          style={{ marginTop: 50, marginBottom: 10 }}
+          style={{ marginTop: 20, marginBottom: 10 }}
           placeholder="Username or Email Address"
           value={email}
           onChangeText={text => setEmail(text)}
