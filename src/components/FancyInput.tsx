@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { TextInputProps, Animated } from 'react-native';
 import { TextInput } from 'react-native';
-import { Input } from '@ui-kitten/components';
+import { Input, InputProps } from '@ui-kitten/components';
 
-const FancyInput: React.FC<TextInputProps> = (props: TextInputProps) => {
+const FancyInput: React.FC<InputProps> = (props: InputProps) => {
   return (
     <Input
       placeholderTextColor="#929296"
