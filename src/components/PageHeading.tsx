@@ -17,7 +17,6 @@ const PageHeading: React.FC<PageHeadingProps> = props => {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 20,
-        paddingBottom: 60,
       }}>
       <Div
         shadow="lg"

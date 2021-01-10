@@ -36,7 +36,7 @@ const ProfileManager: React.FC = props => {
   const client = useApolloClient();
 
   const permissionsFlattener = (permissionWrapper: { permission: permission }) =>
-    permissionWrapper.permission.name;
+    permissionWrapper?.permission?.name;
 
   const schoolsFlattener = (schoolsWrapper: { school: profileSchool }) => ({
     name: schoolsWrapper.school.name,

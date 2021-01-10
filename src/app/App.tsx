@@ -13,7 +13,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 
 // UI Kitten
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider } from '@ui-kitten/components';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 
 // Magnus
 import { ThemeProvider } from 'react-native-magnus';
@@ -32,6 +32,7 @@ import AppAuthentication from './AppAuthentication';
 import { RootState } from './rootReducer';
 import { getMainDefinition } from '@apollo/client/utilities';
 import ProfileManager from './ProfileManager';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 // Firebase Fixdeclare global {const globalAny:any = global;
 if (Platform.OS !== 'web') {
@@ -133,6 +134,8 @@ const App = () => {
     // Redux wrappers are found inside the AppAuthenticationWrapper component
     <ApolloProvider client={client}>
       <ApplicationProvider {...eva} theme={eva.light} customMapping={customMapping}>
+        <IconRegistry icons={EvaIconsPack} />
+
         <ThemeProvider>
           <AppAuthentication />
           <ProfileManager />
