@@ -12,12 +12,11 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { AsyncStorage } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 const persistConfig = {
   key: 'root',
-  storage: AsyncStorage,
+  storage,
 };
 
 // Middleware: Redux Persist Persisted Reducer

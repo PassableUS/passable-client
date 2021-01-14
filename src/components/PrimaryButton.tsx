@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 import { Text } from '@ui-kitten/components';
 
@@ -22,7 +22,7 @@ const PrimaryButton = ({
   style,
 }: PrimaryButtonProps) => {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
       style={{ backgroundColor: color, padding: 20, borderRadius: 10, marginTop: 10, ...style }}>
       <View
@@ -55,7 +55,7 @@ const PrimaryButton = ({
           {text}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

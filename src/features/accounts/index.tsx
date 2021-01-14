@@ -162,7 +162,7 @@ const CreateUserModal = ({
       backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       visible={createUserModalVisible}>
       <Card disabled={true}>
-        <Text>Welcome to UI Kitten 😻</Text>
+        <Text category="h1">Create a User</Text>
         <Button onPress={() => setCreateUserModalVisible(false)}>Dismiss</Button>
       </Card>
     </Modal>
@@ -170,7 +170,7 @@ const CreateUserModal = ({
 };
 
 const AccountList = () => {
-  return <Div flex></Div>;
+  return <Div flex={1}></Div>;
 };
 
 export default AccountScreen;
